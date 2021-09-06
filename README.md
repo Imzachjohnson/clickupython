@@ -1,4 +1,4 @@
-# PyPi Packaging Boilerplate
+# clickupy
 
 A client for working with the ClickUp API V2. It can be used to interact with the ClickUp API in your projects.
 
