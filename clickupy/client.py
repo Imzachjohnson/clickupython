@@ -3,13 +3,17 @@ import urllib
 from urllib.parse import urlparse
 import os
 import json
-from clickupy import exceptions
+import ntpath
 from clickupy import helpers
 from clickupy import folder
 from clickupy import list
+from clickupy import attachment
+from clickupy import exceptions
+
 from clickupy.helpers import formatting
 
 API_URL = 'https://api.clickup.com/api/v2/'
+ALLOWED_FILE_TYPES = []
 
 
 class ClickUpClient():
@@ -18,10 +22,13 @@ class ClickUpClient():
         self.api_url = api_url
         self.accesstoken = accesstoken
 
-    @property
-    def _headers(self):
-        headers = {'Authorization': self.accesstoken,
-                   'Content-Type': 'application/json'}
+    def _headers(self, file_upload: bool = False):
+
+        if file_upload:
+            headers = {'Authorization': self.accesstoken}
+        else:
+            headers = {'Authorization': self.accesstoken,
+                       'Content-Type':  'application/json'}
         return headers
 
     # Performs a Get request to the ClickUp API
@@ -36,11 +43,18 @@ class ClickUpClient():
             return response_json
 
     # Performs a Post request to the ClickUp API
-    def _post_request(self, model, data, *additionalpath):
+    def _post_request(self, model, data, upload_files=None, file_upload=False, *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
-        response = requests.post(path, headers=self._headers, data=data)
+
+        if upload_files:
+            response = requests.post(path, headers=self._headers(
+                True), data=data, files=upload_files)
+        else:
+            response = requests.post(
+                path, headers=self._headers(contenttype), data=data)
         response_json = response.json()
-        if response.status_code == 401 or response.status_code == 400:
+
+        if response.status_code == 401 or response.status_code == 400 or response.status_code == 500:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
         if response.ok:
@@ -139,3 +153,21 @@ class ClickUpClient():
         model = "folder/"
         deleted_folder_status = self._delete_request(
             model, folder_id)
+
+    def upload_attachment(self, task_id: str, file_path: str):
+        if os.path.exists(file_path):
+
+            f = open(file_path, 'rb')
+            files = [
+                ('attachment', (f.name, open(
+                    file_path, 'rb')))
+            ]
+            data = {'filename': ntpath.basename(f.name)}
+            model = "task/" + task_id
+            uploaded_attachment = self._post_request(
+                model, data, files, True, "attachment")
+
+            if uploaded_attachment:
+                final_attachment = attachment.build_attachment(
+                    uploaded_attachment)
+            return final_attachment

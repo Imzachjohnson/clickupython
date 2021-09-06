@@ -1,8 +1,8 @@
 from typing import Optional, List, Any
 from pydantic import BaseModel,  ValidationError, validator
 from clickupy.list import SingleList
-from clickupy.http import apirequests
 from clickupy import client
+
 
 class Space(BaseModel):
     id: int = None
