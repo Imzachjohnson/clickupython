@@ -8,7 +8,7 @@ IMPORTANT - If you are creating an application for other's to use, it is highly 
 
 ## Instructions
 ### 1) Installing
-- ```pip install clickupy```
+```pip install clickupy```
 
 ### 2) Library Usage
 Using clickupy in your application takes just a couple quick steps.

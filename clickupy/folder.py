@@ -1,8 +1,8 @@
 from typing import Optional, List, Any
 from pydantic import BaseModel,  ValidationError, validator
 from clickupy.list import SingleList
-
-
+from clickupy.http import apirequests
+from clickupy import client
 
 class Space(BaseModel):
     id: int = None
@@ -23,10 +23,11 @@ class Folder(BaseModel):
     def build_folder(self):
         return Folder(**self)
 
-    # def delete(self):
-    #     model = "folder/"
-    #     deleted_folder_status = clickupy.client.ClickUpClient._delete_request(
-    #         model, self.id)
+    def delete(self, client_instance: client):
+        model = "folder/"
+        deleted_folder_status = client_instance._delete_request(
+            model, self.id)
+
 
 class Folders(BaseModel):
     folders: List[Folder] = None

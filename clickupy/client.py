@@ -8,6 +8,7 @@ from clickupy import helpers
 from clickupy import folder
 from clickupy import list
 from clickupy.helpers import formatting
+
 API_URL = 'https://api.clickup.com/api/v2/'
 
 
@@ -44,7 +45,7 @@ class ClickUpClient():
                 response_json['err'], response.status_code)
         if response.ok:
             return response_json
-    
+
     # Performs a Put request to the ClickUp API
     def _put_request(self, model, data, *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
@@ -138,5 +139,3 @@ class ClickUpClient():
         model = "folder/"
         deleted_folder_status = self._delete_request(
             model, folder_id)
-
-
