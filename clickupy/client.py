@@ -13,8 +13,6 @@ from clickupy import exceptions
 from clickupy.helpers import formatting
 
 API_URL = 'https://api.clickup.com/api/v2/'
-ALLOWED_FILE_TYPES = []
-
 
 class ClickUpClient():
 
