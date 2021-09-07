@@ -40,7 +40,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
+ 
 ### Vim
 # swap
 .sw[a-p]
@@ -58,3 +58,7 @@ tags
 
 ### MacOS FS
 .DS_Store
+
+.vscode/
+
+.cfg
