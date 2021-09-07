@@ -20,7 +20,7 @@ class ClickUpClient():
         self.api_url = api_url
         self.accesstoken = accesstoken
 
-    def _headers(self, file_upload: bool = False):
+    def __headers(self, file_upload: bool = False):
 
         if file_upload:
             headers = {'Authorization': self.accesstoken}
@@ -30,9 +30,9 @@ class ClickUpClient():
         return headers
 
     # Performs a Get request to the ClickUp API
-    def _get_request(self, model, *additionalpath):
+    def __get_request(self, model, *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
-        response = requests.get(path, headers=self._headers)
+        response = requests.get(path, headers=self.__headers())
         response_json = response.json()
         if response.status_code == 401 or response.status_code == 400:
             raise exceptions.ClickupClientError(
@@ -41,15 +41,15 @@ class ClickUpClient():
             return response_json
 
     # Performs a Post request to the ClickUp API
-    def _post_request(self, model, data, upload_files=None, file_upload=False, *additionalpath):
+    def __post_request(self, model, data, upload_files=None, file_upload=False, *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
 
         if upload_files:
-            response = requests.post(path, headers=self._headers(
+            response = requests.post(path, headers=self.__headers(
                 True), data=data, files=upload_files)
         else:
             response = requests.post(
-                path, headers=self._headers(contenttype), data=data)
+                path, headers=self.__headers(), data=data)
         response_json = response.json()
 
         if response.status_code == 401 or response.status_code == 400 or response.status_code == 500:
@@ -59,9 +59,9 @@ class ClickUpClient():
             return response_json
 
     # Performs a Put request to the ClickUp API
-    def _put_request(self, model, data, *additionalpath):
+    def __put_request(self, model, data, *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
-        response = requests.put(path, headers=self._headers, data=data)
+        response = requests.put(path, headers=self._headers(), data=data)
         response_json = response.json()
         if response.status_code == 401 or response.status_code == 400:
             raise exceptions.ClickupClientError(
@@ -70,16 +70,16 @@ class ClickUpClient():
             return response_json
 
     # Performs a Delete request to the ClickUp API
-    def _delete_request(self, model, *additionalpath):
+    def __delete_request(self, model, *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
-        response = requests.delete(path, headers=self._headers)
+        response = requests.delete(path, headers=self._headers())
         if response.ok:
             return response.status_code
 
     # Fetches a single list item from a given list id and returns a List object
     def get_list(self, list_id: str):
         model = "list/"
-        fetched_list = self._get_request(model, list_id)
+        fetched_list = self.__get_request(model, list_id)
         final_list = list.SingleList.build_list(fetched_list)
         if response.ok:
             return final_list
@@ -87,7 +87,7 @@ class ClickUpClient():
     # Fetches all lists from a given folder id and returns a list of List objects
     def get_lists(self, folder_id: str):
         model = "folder/"
-        fetched_lists = self._get_request(model, folder_id)
+        fetched_lists = self.__get_request(model, folder_id)
         final_lists = list.AllLists.build_lists(fetched_lists)
         return final_lists
 
@@ -100,7 +100,7 @@ class ClickUpClient():
             'status': status
         }
         model = "folder/"
-        created_list = self._post_request(
+        created_list = self.__post_request(
             model, json.dumps(data), folder_id, "list")
         if created_list:
             final_list = SingleList.build_list(created_list)
@@ -109,7 +109,7 @@ class ClickUpClient():
     # Fetches a single folder item from a given folder id and returns a Folder object
     def get_folder(self, folder_id: str):
         model = "folder/"
-        fetched_folder = self._get_request(model, folder_id)
+        fetched_folder = self.__get_request(model, folder_id)
         if fetched_folder:
             final_folder = folder.Folder.build_folder(fetched_folder)
             return final_folder
@@ -117,7 +117,7 @@ class ClickUpClient():
     # Fetches all folders from a given space id and returns a list of Folder objects
     def get_folders(self, space_id: str):
         model = "space/"
-        fetched_folders = self._get_request(model, space_id, "folder")
+        fetched_folders = self.__get_request(model, space_id, "folder")
         if fetched_folders:
             final_folders = folder.Folders.build_folders(fetched_folders)
             return final_folders
@@ -128,7 +128,7 @@ class ClickUpClient():
             'name': name,
         }
         model = "space/"
-        created_folder = self._post_request(
+        created_folder = self.__post_request(
             model, json.dumps(data), space_id, "folder")
         if created_folder:
             final_folder = Folder.build_folder(created_folder)
@@ -140,7 +140,7 @@ class ClickUpClient():
             'name': name,
         }
         model = "folder/"
-        updated_folder = self._put_request(
+        updated_folder = self.__put_request(
             model, json.dumps(data), folder_id)
         if updated_folder:
             final_folder = Folder.build_folder(updated_folder)
@@ -149,7 +149,7 @@ class ClickUpClient():
     # Deletes a folder given a folder ID
     def delete_folder(self, folder_id: str):
         model = "folder/"
-        deleted_folder_status = self._delete_request(
+        deleted_folder_status = self.__delete_request(
             model, folder_id)
 
     def upload_attachment(self, task_id: str, file_path: str):
@@ -162,7 +162,7 @@ class ClickUpClient():
             ]
             data = {'filename': ntpath.basename(f.name)}
             model = "task/" + task_id
-            uploaded_attachment = self._post_request(
+            uploaded_attachment = self.__post_request(
                 model, data, files, True, "attachment")
 
             if uploaded_attachment:
