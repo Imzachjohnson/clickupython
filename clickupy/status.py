@@ -1,11 +1,7 @@
-class Status:
+from pydantic import BaseModel,  ValidationError, validator
+
+class Status(BaseModel):
     status: str
     color: str
     orderindex: int
     type: str
-
-    def __init__(self, status: str, color: str, orderindex: int, type: str) -> None:
-        self.status = status
-        self.color = color
-        self.orderindex = orderindex
-        self.type = type

@@ -9,10 +9,12 @@ from clickupy import folder
 from clickupy import list
 from clickupy import attachment
 from clickupy import exceptions
+from clickupy import task
 
 from clickupy.helpers import formatting
 
 API_URL = 'https://api.clickup.com/api/v2/'
+
 
 class ClickUpClient():
 
@@ -31,9 +33,13 @@ class ClickUpClient():
 
     # Performs a Get request to the ClickUp API
     def __get_request(self, model, *additionalpath):
+        
         path = formatting.url_join(API_URL, model, *additionalpath)
         response = requests.get(path, headers=self.__headers())
         response_json = response.json()
+        if response.status_code == 429:
+            raise exceptions.ClickupClientError(
+                "Rate limit exceeded", response.status_code)
         if response.status_code == 401 or response.status_code == 400:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
@@ -41,7 +47,7 @@ class ClickUpClient():
             return response_json
 
     # Performs a Post request to the ClickUp API
-    def __post_request(self, model, data, upload_files=None, file_upload=False, *additionalpath):
+    def _post_request(self, model, data, upload_files=None, file_upload=False, *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
 
         if upload_files:
@@ -100,42 +106,75 @@ class ClickUpClient():
             'status': status
         }
         model = "folder/"
-        created_list = self.__post_request(
+        created_list = self.post_request(
             model, json.dumps(data), folder_id, "list")
         if created_list:
             final_list = SingleList.build_list(created_list)
             return final_list
 
-    # Fetches a single folder item from a given folder id and returns a Folder object
-    def get_folder(self, folder_id: str):
+    
+    def get_folder(self, folder_id: str) -> folder.Folder:
+        """Fetches a single folder item from a given folder id and returns a Folder object.
+
+        Args:
+            folder_id (str): The ID of the ClickUp folder to retrieve.
+
+        Returns:
+            Folder: Returns a single Folder object.
+        """        
         model = "folder/"
         fetched_folder = self.__get_request(model, folder_id)
         if fetched_folder:
             final_folder = folder.Folder.build_folder(fetched_folder)
             return final_folder
 
-    # Fetches all folders from a given space id and returns a list of Folder objects
-    def get_folders(self, space_id: str):
+     
+    def get_folders(self, space_id: str) -> folder.Folders:
+        """Fetches all folders from a given space ID and returns a list of Folder objects.
+
+        Args:
+            space_id (str): The ID of the ClickUp space to retrieve the list of folder from.
+
+        Returns:
+            Folders: Returns a list of Folder objects.
+        """        
         model = "space/"
         fetched_folders = self.__get_request(model, space_id, "folder")
         if fetched_folders:
             final_folders = folder.Folders.build_folders(fetched_folders)
             return final_folders
 
-    # Creates and returns a Folder object in a space from a given space ID
-    def create_folder(self, space_id: str, name: str):
+   
+    def create_folder(self, space_id: str, name: str) -> folder.Folder:
+        """Creates and returns a Folder object in a space from a given space ID.
+
+        Args:
+            space_id (str): The ID of the ClickUp space to create the folder inside.
+            name (str): String value that the created folder will utilize as its name.
+
+        Returns:
+            Folder: Returns the created Folder object.
+        """        
         data = {
             'name': name,
         }
         model = "space/"
-        created_folder = self.__post_request(
+        created_folder = self.post_request(
             model, json.dumps(data), space_id, "folder")
         if created_folder:
             final_folder = Folder.build_folder(created_folder)
             return final_folder
 
-    # Updates the name of a folder given the folder ID
-    def update_folder(self, folder_id: str, name: str):
+    def update_folder(self, folder_id: str, name: str) -> folder.Folder:
+        """Updates the name of a folder given the folder ID.
+
+        Args:
+            folder_id (str): The ID of the ClickUp folder to update.
+            name (str): String that the folder name will be updated to reflect.
+
+        Returns:
+            Folder: Returns the updated Folder as an object.
+        """
         data = {
             'name': name,
         }
@@ -146,13 +185,27 @@ class ClickUpClient():
             final_folder = Folder.build_folder(updated_folder)
             return final_folder
 
-    # Deletes a folder given a folder ID
-    def delete_folder(self, folder_id: str):
+    def delete_folder(self, folder_id: str) -> None:
+        """Deletes a folder from a given folder ID.
+
+        Args:
+            folder_id (str): The ID of the ClickUp folder to delete.
+        """
         model = "folder/"
         deleted_folder_status = self.__delete_request(
             model, folder_id)
 
-    def upload_attachment(self, task_id: str, file_path: str):
+    def upload_attachment(self, task_id: str, file_path: str) -> attachment.Attachment:
+        """Uploads an attachment to a ClickUp task.
+
+        Args:
+            task_id (str): The ID of the task to upload to.
+            file_path (str): The filepath of the file to upload.
+
+        Returns:
+            Attachment: Returns an attachment object.
+        """
+
         if os.path.exists(file_path):
 
             f = open(file_path, 'rb')
@@ -162,10 +215,26 @@ class ClickUpClient():
             ]
             data = {'filename': ntpath.basename(f.name)}
             model = "task/" + task_id
-            uploaded_attachment = self.__post_request(
+            uploaded_attachment = self.post_request(
                 model, data, files, True, "attachment")
 
             if uploaded_attachment:
                 final_attachment = attachment.build_attachment(
                     uploaded_attachment)
             return final_attachment
+
+     
+    def get_task(self, task_id: str) -> task.Task:
+        """Fetches a single ClickUp task item and returns a Task object.
+
+        Args:
+            task_id (str): The ID of the task to return.
+
+        Returns:
+            Task: Returns an object of type Task.
+        """        
+        model = "task/"
+        fetched_task = self.__get_request(model, task_id)
+        final_task = task.Task.build_task(fetched_task)
+        if final_task:
+            return final_task
