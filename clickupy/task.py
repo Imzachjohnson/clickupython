@@ -1,5 +1,5 @@
 from typing import Optional, List, Any
-from pydantic import BaseModel,  ValidationError, validator, Field
+from pydantic import BaseModel, ValidationError, validator, Field
 from clickupy.customfield import CustomField
 from clickupy.status import Status
 from clickupy.creator import Creator
@@ -9,6 +9,7 @@ from clickupy import attachment
 import ntpath
 
 import os
+
 
 class ClickupList(BaseModel):
     id: str = None
@@ -52,22 +53,19 @@ class Task(BaseModel):
     def build_task(self):
         return Task(**self)
 
-    def upload_attachment(self, file_path: str, client_instance:client):
+    def upload_attachment(self, file_path: str, client_instance: client):
         from clickupy import client
         if os.path.exists(file_path):
 
-            f = open(file_path, 'rb')
-            files = [
-                ('attachment', (f.name, open(
-                    file_path, 'rb')))
-            ]
-            data = {'filename': ntpath.basename(f.name)}
-            model = "task/" + self.id
-            uploaded_attachment = client_instance._post_request(
-                model, data, files, True, "attachment")
+            with open(file_path, 'rb') as f:
+                files = [
+                    ('attachment', (f.name, open(
+                        file_path, 'rb')))
+                ]
+                data = {'filename': ntpath.basename(f.name)}
+                model = "task/" + self.id
+                uploaded_attachment = client_instance._post_request(
+                    model, data, files, True, "attachment")
 
-            if uploaded_attachment:
-                final_attachment = attachment.build_attachment(uploaded_attachment)
-            return final_attachment
-
-    
+                if uploaded_attachment:
+                    return attachment.build_attachment(uploaded_attachment)

@@ -24,30 +24,38 @@ class ClickUpClient():
 
     def __headers(self, file_upload: bool = False):
 
-        if file_upload:
-            headers = {'Authorization': self.accesstoken}
-        else:
-            headers = {'Authorization': self.accesstoken,
-                       'Content-Type':  'application/json'}
-        return headers
+        return (
+            {'Authorization': self.accesstoken}
+            if file_upload
+            else {
+                'Authorization': self.accesstoken,
+                'Content-Type': 'application/json',
+            }
+        )
 
     # Performs a Get request to the ClickUp API
     def __get_request(self, model, *additionalpath):
-        
+
         path = formatting.url_join(API_URL, model, *additionalpath)
         response = requests.get(path, headers=self.__headers())
         response_json = response.json()
         if response.status_code == 429:
             raise exceptions.ClickupClientError(
                 "Rate limit exceeded", response.status_code)
-        if response.status_code == 401 or response.status_code == 400:
+        if response.status_code in [401, 400]:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
         if response.ok:
             return response_json
 
     # Performs a Post request to the ClickUp API
-    def _post_request(self, model, data, upload_files=None, file_upload=False, *additionalpath):
+    def _post_request(
+            self,
+            model,
+            data,
+            upload_files=None,
+            file_upload=False,
+            *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
 
         if upload_files:
@@ -58,7 +66,7 @@ class ClickUpClient():
                 path, headers=self.__headers(), data=data)
         response_json = response.json()
 
-        if response.status_code == 401 or response.status_code == 400 or response.status_code == 500:
+        if response.status_code in [401, 400, 500]:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
         if response.ok:
@@ -69,7 +77,7 @@ class ClickUpClient():
         path = formatting.url_join(API_URL, model, *additionalpath)
         response = requests.put(path, headers=self._headers(), data=data)
         response_json = response.json()
-        if response.status_code == 401 or response.status_code == 400:
+        if response.status_code in [401, 400]:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
         if response.ok:
@@ -84,21 +92,26 @@ class ClickUpClient():
 
     # Fetches a single list item from a given list id and returns a List object
     def get_list(self, list_id: str):
-        model = "list/"
-        fetched_list = self.__get_request(model, list_id)
-        final_list = list.SingleList.build_list(fetched_list)
         if response.ok:
-            return final_list
+            model = "list/"
+            fetched_list = self.__get_request(model, list_id)
+            return list.SingleList.build_list(fetched_list)
 
     # Fetches all lists from a given folder id and returns a list of List objects
     def get_lists(self, folder_id: str):
         model = "folder/"
         fetched_lists = self.__get_request(model, folder_id)
-        final_lists = list.AllLists.build_lists(fetched_lists)
-        return final_lists
+        return list.AllLists.build_lists(fetched_lists)
 
     # Creates and returns a List object in a folder from a given folder ID
-    def create_list(self, folder_id: str, name: str, content: str, due_date: str, priority: int, status: str):
+    def create_list(
+            self,
+            folder_id: str,
+            name: str,
+            content: str,
+            due_date: str,
+            priority: int,
+            status: str):
         data = {
             'name': name,
             'content': content,
@@ -109,10 +122,8 @@ class ClickUpClient():
         created_list = self.post_request(
             model, json.dumps(data), folder_id, "list")
         if created_list:
-            final_list = SingleList.build_list(created_list)
-            return final_list
+            return SingleList.build_list(created_list)
 
-    
     def get_folder(self, folder_id: str) -> folder.Folder:
         """Fetches a single folder item from a given folder id and returns a Folder object.
 
@@ -121,14 +132,12 @@ class ClickUpClient():
 
         Returns:
             Folder: Returns a single Folder object.
-        """        
+        """
         model = "folder/"
         fetched_folder = self.__get_request(model, folder_id)
         if fetched_folder:
-            final_folder = folder.Folder.build_folder(fetched_folder)
-            return final_folder
+            return folder.Folder.build_folder(fetched_folder)
 
-     
     def get_folders(self, space_id: str) -> folder.Folders:
         """Fetches all folders from a given space ID and returns a list of Folder objects.
 
@@ -137,14 +146,12 @@ class ClickUpClient():
 
         Returns:
             Folders: Returns a list of Folder objects.
-        """        
+        """
         model = "space/"
         fetched_folders = self.__get_request(model, space_id, "folder")
         if fetched_folders:
-            final_folders = folder.Folders.build_folders(fetched_folders)
-            return final_folders
+            return folder.Folders.build_folders(fetched_folders)
 
-   
     def create_folder(self, space_id: str, name: str) -> folder.Folder:
         """Creates and returns a Folder object in a space from a given space ID.
 
@@ -154,7 +161,7 @@ class ClickUpClient():
 
         Returns:
             Folder: Returns the created Folder object.
-        """        
+        """
         data = {
             'name': name,
         }
@@ -162,8 +169,7 @@ class ClickUpClient():
         created_folder = self.post_request(
             model, json.dumps(data), space_id, "folder")
         if created_folder:
-            final_folder = Folder.build_folder(created_folder)
-            return final_folder
+            return Folder.build_folder(created_folder)
 
     def update_folder(self, folder_id: str, name: str) -> folder.Folder:
         """Updates the name of a folder given the folder ID.
@@ -182,8 +188,7 @@ class ClickUpClient():
         updated_folder = self.__put_request(
             model, json.dumps(data), folder_id)
         if updated_folder:
-            final_folder = Folder.build_folder(updated_folder)
-            return final_folder
+            return Folder.build_folder(updated_folder)
 
     def delete_folder(self, folder_id: str) -> None:
         """Deletes a folder from a given folder ID.
@@ -195,7 +200,10 @@ class ClickUpClient():
         deleted_folder_status = self.__delete_request(
             model, folder_id)
 
-    def upload_attachment(self, task_id: str, file_path: str) -> attachment.Attachment:
+    def upload_attachment(
+            self,
+            task_id: str,
+            file_path: str) -> attachment.Attachment:
         """Uploads an attachment to a ClickUp task.
 
         Args:
@@ -208,22 +216,21 @@ class ClickUpClient():
 
         if os.path.exists(file_path):
 
-            f = open(file_path, 'rb')
-            files = [
-                ('attachment', (f.name, open(
-                    file_path, 'rb')))
-            ]
-            data = {'filename': ntpath.basename(f.name)}
-            model = "task/" + task_id
-            uploaded_attachment = self.post_request(
-                model, data, files, True, "attachment")
+            with open(file_path, 'rb') as f:
+                files = [
+                    ('attachment', (f.name, open(
+                        file_path, 'rb')))
+                ]
+                data = {'filename': ntpath.basename(f.name)}
+                model = "task/" + task_id
+                uploaded_attachment = self.post_request(
+                    model, data, files, True, "attachment")
 
-            if uploaded_attachment:
-                final_attachment = attachment.build_attachment(
-                    uploaded_attachment)
-            return final_attachment
+                if uploaded_attachment:
+                    final_attachment = attachment.build_attachment(
+                        uploaded_attachment)
+                return final_attachment
 
-     
     def get_task(self, task_id: str) -> task.Task:
         """Fetches a single ClickUp task item and returns a Task object.
 
@@ -232,7 +239,7 @@ class ClickUpClient():
 
         Returns:
             Task: Returns an object of type Task.
-        """        
+        """
         model = "task/"
         fetched_task = self.__get_request(model, task_id)
         final_task = task.Task.build_task(fetched_task)
