@@ -19,9 +19,9 @@ class TestClientLists():
     def test_get_list(self):
 
         c = client.ClickUpClient(API_KEY)
-        result = c.get_task("1fjav3g")
-        assert type(result) == task.Task
-        assert result.id == "1fjav3g"
+        result = c.get_list("132237389")
+        assert type(result) == clickuplist.SingleList
+        assert result.id == "132237389"
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     def test_get_lists(self):
@@ -39,10 +39,10 @@ class TestClientLists():
         result = c.create_list("456", "New List Name",
                                "New List Content", "1567780450202", 2361428, "red")
 
-        assert result.id == 124
-        assert result.assignee.id == 183
-        assert result.folder.id == 456
-        assert result.space.id == 789
+        assert result.id == "124"
+        assert result.assignee.id == '183'
+        assert result.folder.id == '456'
+        assert result.space.id == '789'
         assert len(result.statuses) > 0
         assert result.statuses[0].status == "to do"
 
