@@ -40,7 +40,7 @@ class ClickUpClient():
         if response.status_code == 429:
             raise exceptions.ClickupClientError(
                 "Rate limit exceeded", response.status_code)
-        if response.status_code == 401 or response.status_code == 400:
+        if response.status_code in [401, 400]:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
         if response.ok:
