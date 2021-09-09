@@ -39,10 +39,10 @@ class TestClientLists():
         result = c.create_list("456", "New List Name",
                                "New List Content", "1567780450202", 2361428, "red")
 
-        assert result.id == 124
-        assert result.assignee.id == 183
-        assert result.folder.id == 456
-        assert result.space.id == 789
+        assert result.id == "124"
+        assert result.assignee.id == '183'
+        assert result.folder.id == '456'
+        assert result.space.id == '789'
         assert len(result.statuses) > 0
         assert result.statuses[0].status == "to do"
 
