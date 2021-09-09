@@ -5,6 +5,7 @@ from clickupy.status import Status
 from clickupy.creator import Creator
 from clickupy import client
 from clickupy import attachment
+from clickupy.priority import Priority
 
 import ntpath
 
@@ -37,17 +38,26 @@ class Task(BaseModel):
     task_assignees: List[Any] = Field(None, alias="assignees")
     task_checklists: List[Any] = Field(None, alias="checklists")
     task_tags: List[Any] = Field(None, alias="tags")
-    parent: None = None
-    priority: None = None
-    due_date: None = None
-    start_date: None = None
-    time_estimate: None = None
+    parent: str = None
+    priority: Optional[Priority]
+    due_date: str = None
+    start_date: str = None
+    time_estimate: str = None
     time_spent: Optional[str] = None
     custom_fields: List[CustomField] = None
     list: ClickupList
     folder: Folder
     space: Folder
     url: str
+
+    @validator('priority')
+    def check_status(cls, v):
+
+        if v =="":
+            v = 4
+        
+            return v
+
 
     def build_task(self):
         return Task(**self)
@@ -71,3 +81,8 @@ class Task(BaseModel):
             return final_attachment
 
     
+class Tasks(BaseModel):
+    tasks: List[Task] = None
+
+    def build_tasks(self):
+        return Tasks(**self)

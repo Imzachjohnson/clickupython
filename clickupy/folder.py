@@ -1,6 +1,6 @@
 from typing import Optional, List, Any
 from pydantic import BaseModel,  ValidationError, validator
-from clickupy.list import SingleList
+from clickupy.clickuplist import SingleList
 from clickupy import client
 
 
@@ -14,8 +14,8 @@ class Folder(BaseModel):
     id: str = None
     name: str = None
     orderindex: int = None
-    override_statuses: bool = None
-    hidden: bool = None
+    override_statuses: bool = False
+    hidden: bool = False
     space: Optional[Space] = None
     task_count: int = None
     lists: List[SingleList] = []

@@ -1,10 +1,11 @@
-from typing import Optional, List
+from typing import Optional, List, Any
 import json
 from pydantic import BaseModel,  ValidationError, validator
+from clickupy.assignee import Asssignee
 
 
 class Folder(BaseModel):
-    id: int
+    id: str
     name: str
     hidden: Optional[bool]
     access: bool
@@ -22,7 +23,7 @@ class Status(BaseModel):
 
 
 class StatusElement(BaseModel):
-    id: str
+    id: Optional[str]
     status: str
     orderindex: int
     color: str
@@ -30,19 +31,19 @@ class StatusElement(BaseModel):
 
 
 class SingleList(BaseModel):
-    id: int = None
+    id: str = None
     name: str = None
     deleted: bool = None
     archived: bool = None
     orderindex: int = None
     override_statuses: bool = None
     priority: Optional[Priority] = None
-    assignee: None = None
+    assignee: Asssignee = None
     due_date: str = None
     start_date: None
     folder: Folder = None
     space: Folder = None
-    statuses: List[StatusElement] = None
+    statuses: Optional[List[StatusElement]] = None
     inbound_address: str = None
     permission_level: str = None
     content: Optional[str] = None
