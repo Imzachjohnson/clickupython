@@ -31,6 +31,7 @@ class TestClientLists():
 
         assert type(result) == clickuplist.AllLists
 
+    #Work on this test
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     def test_create_list(self):
 
@@ -126,7 +127,6 @@ class TestClientTasks():
         assert result.thumbnail_large == "https://attachments-public.clickup.com/ac434d4e-8b1c-4571-951b-866b6d9f2ee6/logo_small.png"
         assert result.url == "https://attachments-public.clickup.com/ac434d4e-8b1c-4571-951b-866b6d9f2ee6/logo_small.png"
 
-    
     @pytest.mark.tasks
     def test_create_task(self):
 
@@ -146,7 +146,7 @@ class TestClientTasks():
     @pytest.mark.tasks
     def test_update_task(self):
 
-        description="Updated Task description"
+        description = "Updated Task description"
 
         c = client.ClickUpClient(API_KEY)
         result = c.update_task("1g3b7k6", description=description)

@@ -316,7 +316,7 @@ class ClickUpClient():
 
         Returns:
             task.Task: Returns an object of type Task.
-        """        
+        """
         if priority and priority not in range(1, 4):
             raise exceptions.ClickupClientError(
                 "Priority must be in range of 0-4.", "Priority out of range")
