@@ -19,9 +19,9 @@ class TestClientLists():
     def test_get_list(self):
 
         c = client.ClickUpClient(API_KEY)
-        result = c.get_task("1fjav3g")
-        assert type(result) == task.Task
-        assert result.id == "1fjav3g"
+        result = c.get_list("132237389")
+        assert type(result) == clickuplist.SingleList
+        assert result.id == "132237389"
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     def test_get_lists(self):
