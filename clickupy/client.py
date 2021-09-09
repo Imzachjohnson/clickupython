@@ -96,9 +96,8 @@ class ClickUpClient():
         """
         model = "list/"
         fetched_list = self.__get_request(model, list_id)
-        final_list = clickuplist.SingleList.build_list(fetched_list)
-        if response.ok:
-            return final_list
+
+        return clickuplist.SingleList.build_list(fetched_list)
 
     def get_lists(self, folder_id: str) -> clickuplist.AllLists:
         """Fetches all lists from a given folder id and returns a list of List objects.
