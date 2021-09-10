@@ -58,7 +58,7 @@ class ClickUpClient():
                 path, headers=self.__headers(), data=data)
         response_json = response.json()
 
-        #TODO #11 Update this to list
+        # TODO #11 Update this to list
         if response.status_code == 401 or response.status_code == 400 or response.status_code == 500:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
@@ -266,32 +266,6 @@ class ClickUpClient():
         if final_task:
             return final_task
 
-
-    #TODO #14 Finalize create_task function
-    def create_task(self, list_id: str, name: str, description: str = None, priority: int = None, assignees: [] = None, tags: [] = None, 
-    status: str = None, due_date: str = None, start_date: str = None, notify_all: bool = True) -> task.Task:
-
-        if priority and priority not in range(1, 4):
-            raise exceptions.ClickupClientError(
-                "Priority must be in range of 0-4.", "Priority out of range")
-        
-        arguments = {}
-        arguments.update(vars())
-        arguments.pop('self', None)
-        arguments.pop('arguments', None)
-        arguments.pop('list_id', None)
-     
-
-        final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
-
-        model = "list/"
-        created_task = self.__post_request(
-            model, final_dict, None, False, list_id,  "task")
-
-        
-        if created_task:
-            return task.Task.build_task(created_task)
-
     def get_tasks(self, list_id: str) -> task.Tasks:
         """Fetches a list of task items from a given list ID.
 
@@ -305,6 +279,29 @@ class ClickUpClient():
         fetched_tasks = self.__get_request(model, list_id, "task")
 
         return task.Tasks.build_tasks(fetched_tasks)
+
+    def create_task(self, list_id: str, name: str, description: str = None, priority: int = None, assignees: [] = None, tags: [] = None,
+                    status: str = None, due_date: str = None, start_date: str = None, notify_all: bool = True) -> task.Task:
+
+        if priority and priority not in range(1, 4):
+            raise exceptions.ClickupClientError(
+                "Priority must be in range of 0-4.", "Priority out of range")
+
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop('self', None)
+        arguments.pop('arguments', None)
+        arguments.pop('list_id', None)
+
+        final_dict = json.dumps(
+            {k: v for k, v in arguments.items() if v is not None})
+
+        model = "list/"
+        created_task = self.__post_request(
+            model, final_dict, None, False, list_id,  "task")
+
+        if created_task:
+            return task.Task.build_task(created_task)
 
     def update_task(self, task_id, name: str = None, description: str = None, status: str = None, priority: int = None, time_estimate: int = None,
                     archived: bool = None, add_assignees: List[str] = None, remove_assignees: List[int] = None) -> task.Task:
@@ -355,3 +352,14 @@ class ClickUpClient():
             model, final_dict, task_id)
         if updated_task:
             return task.Task.build_task(updated_task)
+
+    def delete_task(self, task_id: str) -> None:
+        """Deletes a task from a given task ID.
+
+        Args:
+            folder_id (str): The ID of the ClickUp task to delete.
+        """
+        model = "task/"
+        deleted_task_status = self.__delete_request(
+            model, task_id)
+        return(True)
