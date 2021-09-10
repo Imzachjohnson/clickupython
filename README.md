@@ -1,6 +1,6 @@
-.. image:: https://readthedocs.org/projects/clickupy/badge/?version=latest
-:target: https://clickupy.readthedocs.io/en/latest/?badge=latest
-:alt: Documentation Status
+<a href='https://clickupy.readthedocs.io/en/latest/?badge=latest'>
+    <img src='https://readthedocs.org/projects/clickupy/badge/?version=latest' alt='Documentation Status' />
+</a>
 
 # clickupy
 
