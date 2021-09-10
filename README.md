@@ -1,3 +1,7 @@
+.. image:: https://readthedocs.org/projects/clickupy/badge/?version=latest
+:target: https://clickupy.readthedocs.io/en/latest/?badge=latest
+:alt: Documentation Status
+
 # clickupy
 
 A client for working with the ClickUp API V2. It can be used to interact with the ClickUp API in your projects.
