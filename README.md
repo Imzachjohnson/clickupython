@@ -38,7 +38,11 @@ for folder in folders:
 
 ## Current ClickUpClient Functions
 
-### Account
+### Task
+* `get_task(task_id)`
+* `get_tasks(list_id)`
+* `create_task(list_id, name, name, description, priority, assignees, tags, status, due_date, start_date, notify_all)`
+* `update_task(task_id, name, description, status, priority, time_estimate, archived, add_assignees,remove_assignees)`
 
 
 ### List
@@ -52,3 +56,6 @@ for folder in folders:
 * `create_folder(space_id, name)`
 * `update_folder(folder_id, name)`
 * `delete_folder(folder_id)`
+
+### Attachments
+`upload_attachment(task_id, file_path)`

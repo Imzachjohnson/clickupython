@@ -58,6 +58,7 @@ class ClickUpClient():
                 path, headers=self.__headers(), data=data)
         response_json = response.json()
 
+        #TODO #11 Update this to list
         if response.status_code == 401 or response.status_code == 400 or response.status_code == 500:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
@@ -265,19 +266,29 @@ class ClickUpClient():
         if final_task:
             return final_task
 
-    def create_task(self, list_id: str, name: str, description: str = "", task_priority: str = "", assignees: [] = [], tags: [] = [], status: str = "Open", due_date: str = "", start_date: str = "", notify_all: bool = True, **kwargs) -> task.Task:
 
-        data = {
-            "name": "New Tasksad Nameasdsds",
-            "description": "New Task Descriptionsdsdsd",
+    #TODO #14 Finalize create_task function
+    def create_task(self, list_id: str, name: str, description: str = None, priority: int = None, assignees: [] = None, tags: [] = None, 
+    status: str = None, due_date: str = None, start_date: str = None, notify_all: bool = True) -> task.Task:
 
-        }
+        if priority and priority not in range(1, 4):
+            raise exceptions.ClickupClientError(
+                "Priority must be in range of 0-4.", "Priority out of range")
+        
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop('self', None)
+        arguments.pop('arguments', None)
+        arguments.pop('list_id', None)
+     
+
+        final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
 
         model = "list/"
         created_task = self.__post_request(
-            model, json.dumps(data), None, False, list_id,  "task")
+            model, final_dict, None, False, list_id,  "task")
 
-        print(created_task)
+        
         if created_task:
             return task.Task.build_task(created_task)
 
