@@ -42,7 +42,7 @@ for folder in folders:
 
 
 ### List
-* `get_list((list_id)`
+* `get_list(list_id)`
 * `get_lists(folder_id)`
 * `create_list(folder_id, name, content, due_date, priority, status)`
 
@@ -50,5 +50,5 @@ for folder in folders:
 * `get_folder(folder_id)`
 * `get_folders(space_id)`
 * `create_folder(space_id, name)`
-* `update_folder(folder_id: str, name: str)`
+* `update_folder(folder_id, name)`
 * `delete_folder(folder_id)`
