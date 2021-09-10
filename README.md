@@ -21,14 +21,14 @@ To use the client for a personal account context (no actions on behalf of anothe
 
 ```python
 
-from clickupy import ClickupClient
+from clickupy import ClickUpClient
 
 API_KEY = 'YOUR API KEY'
 
-client = ClickupClient(API_KEY)
+client = ClickUpClient(API_KEY)
 
 # Example request
-folders = client.get_folders(folder_id)
+folders = client.get_folders(space_id)
 for folder in folders:
     print(folder.name)
 
@@ -36,7 +36,7 @@ for folder in folders:
 
 
 
-## ClickupClient Functions
+## Current ClickUpClient Functions
 
 ### Account
 
