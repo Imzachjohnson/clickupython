@@ -68,3 +68,9 @@ tags
 
 ### PyTest ###
 .pytest_cache
+make.bat
+Makefile
+modules.rst
+clickupy.rst
+conf.py
+_source
