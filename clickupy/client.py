@@ -11,7 +11,9 @@ from clickupy import attachment
 from clickupy import exceptions
 from clickupy import task
 from typing import List
+from clickupy.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
 from clickupy.helpers import formatting
+
 
 API_URL = 'https://api.clickup.com/api/v2/'
 
@@ -286,7 +288,10 @@ class ClickUpClient():
         if priority and priority not in range(1, 4):
             raise exceptions.ClickupClientError(
                 "Priority must be in range of 0-4.", "Priority out of range")
-
+        if due_date:
+            due_date = fuzzy_time_to_unix(due_date)
+            
+        print(due_date)
         arguments = {}
         arguments.update(vars())
         arguments.pop('self', None)
