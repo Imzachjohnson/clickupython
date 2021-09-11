@@ -11,7 +11,9 @@ from clickupy import attachment
 from clickupy import exceptions
 from clickupy import task
 from typing import List
+from clickupy.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
 from clickupy.helpers import formatting
+
 
 API_URL = 'https://api.clickup.com/api/v2/'
 
@@ -58,6 +60,7 @@ class ClickUpClient():
                 path, headers=self.__headers(), data=data)
         response_json = response.json()
 
+        # TODO #11 Update this to list
         if response.status_code == 401 or response.status_code == 400 or response.status_code == 500:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
@@ -265,22 +268,6 @@ class ClickUpClient():
         if final_task:
             return final_task
 
-    def create_task(self, list_id: str, name: str, description: str = "", task_priority: str = "", assignees: [] = [], tags: [] = [], status: str = "Open", due_date: str = "", start_date: str = "", notify_all: bool = True, **kwargs) -> task.Task:
-
-        data = {
-            "name": "New Tasksad Nameasdsds",
-            "description": "New Task Descriptionsdsdsd",
-
-        }
-
-        model = "list/"
-        created_task = self.__post_request(
-            model, json.dumps(data), None, False, list_id,  "task")
-
-        print(created_task)
-        if created_task:
-            return task.Task.build_task(created_task)
-
     def get_tasks(self, list_id: str) -> task.Tasks:
         """Fetches a list of task items from a given list ID.
 
@@ -294,6 +281,32 @@ class ClickUpClient():
         fetched_tasks = self.__get_request(model, list_id, "task")
 
         return task.Tasks.build_tasks(fetched_tasks)
+
+    def create_task(self, list_id: str, name: str, description: str = None, priority: int = None, assignees: [] = None, tags: [] = None,
+                    status: str = None, due_date: str = None, start_date: str = None, notify_all: bool = True) -> task.Task:
+
+        if priority and priority not in range(1, 4):
+            raise exceptions.ClickupClientError(
+                "Priority must be in range of 0-4.", "Priority out of range")
+        if due_date:
+            due_date = fuzzy_time_to_unix(due_date)
+            
+        print(due_date)
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop('self', None)
+        arguments.pop('arguments', None)
+        arguments.pop('list_id', None)
+
+        final_dict = json.dumps(
+            {k: v for k, v in arguments.items() if v is not None})
+
+        model = "list/"
+        created_task = self.__post_request(
+            model, final_dict, None, False, list_id,  "task")
+
+        if created_task:
+            return task.Task.build_task(created_task)
 
     def update_task(self, task_id, name: str = None, description: str = None, status: str = None, priority: int = None, time_estimate: int = None,
                     archived: bool = None, add_assignees: List[str] = None, remove_assignees: List[int] = None) -> task.Task:
@@ -344,3 +357,14 @@ class ClickUpClient():
             model, final_dict, task_id)
         if updated_task:
             return task.Task.build_task(updated_task)
+
+    def delete_task(self, task_id: str) -> None:
+        """Deletes a task from a given task ID.
+
+        Args:
+            folder_id (str): The ID of the ClickUp task to delete.
+        """
+        model = "task/"
+        deleted_task_status = self.__delete_request(
+            model, task_id)
+        return(True)

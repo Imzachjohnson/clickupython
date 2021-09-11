@@ -16,3 +16,47 @@ IMPORTANT - If you are creating an application for other's to use, it is highly 
 
 ### 2) Library Usage
 Using clickupy in your application takes just a couple quick steps.
+
+To use the client for a personal account context (no actions on behalf of another user)
+
+```python
+
+from clickupy import ClickUpClient
+
+API_KEY = 'YOUR API KEY'
+
+client = ClickUpClient(API_KEY)
+
+# Example request
+c = client.ClickUpClient("pk_6341704_8OV9MRRLXIK2VO3XV3FNKKLY9IMQAXB3")
+t = c.create_task("132216026", name="Test task", due_date="march 2 2021")
+
+print(t.name)
+
+```
+
+
+
+## Current ClickUpClient Functions
+
+### Task
+* `get_task(task_id)`
+* `get_tasks(list_id)`
+* `create_task(list_id, name, name, description, priority, assignees, tags, status, due_date, start_date, notify_all)`
+* `update_task(task_id, name, description, status, priority, time_estimate, archived, add_assignees,remove_assignees)`
+
+
+### List
+* `get_list(list_id)`
+* `get_lists(folder_id)`
+* `create_list(folder_id, name, content, due_date, priority, status)`
+
+### Folder
+* `get_folder(folder_id)`
+* `get_folders(space_id)`
+* `create_folder(space_id, name)`
+* `update_folder(folder_id, name)`
+* `delete_folder(folder_id)`
+
+### Attachments
+`upload_attachment(task_id, file_path)`

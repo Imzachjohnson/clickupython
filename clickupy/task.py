@@ -58,6 +58,9 @@ class Task(BaseModel):
         
             return v
 
+    def delete_task(self):
+        client.ClickUpClient.delete_task(self, self.id)
+
 
     def build_task(self):
         return Task(**self)
