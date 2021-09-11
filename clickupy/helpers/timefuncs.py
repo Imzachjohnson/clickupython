@@ -1,6 +1,7 @@
 import pendulum as time
 from word2number import w2n
 from timefhuman import timefhuman
+from datetime import datetime
 
 SCALES = {
     'min': 60,
@@ -30,8 +31,9 @@ def fuzzy_time_to_unix(text: str) -> time.datetime:
     """
     try:
         now = time.now()
-        return timefhuman(text, now=now).timestamp()
-    except AttributeError:
+        timestamp = datetime.timestamp(timefhuman(text, now))
+        return str(int(timestamp * 1000))
+    except:
         print('\nThe date you entered was not convertable to a Unix timestamp. Check the format and spelling.')
         raise
 
@@ -63,6 +65,6 @@ def fuzzy_time_to_seconds(text: str) -> int:
 
     # 4 return time in seconds
 
-
-if __name__ == "__main__":
-    fuzzy_time_to_seconds('1 hour')
+# if __name__ == "__main__":
+#     print(fuzzy_time_to_seconds('36 hours'))
+#     print(fuzzy_time_to_unix("december 1st"))
