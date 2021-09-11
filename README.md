@@ -28,9 +28,10 @@ API_KEY = 'YOUR API KEY'
 client = ClickUpClient(API_KEY)
 
 # Example request
-folders = client.get_folders(space_id)
-for folder in folders:
-    print(folder.name)
+c = client.ClickUpClient("pk_6341704_8OV9MRRLXIK2VO3XV3FNKKLY9IMQAXB3")
+t = c.create_task("132216026", name="Test task", due_date="march 2 2021")
+
+print(t.name)
 
 ```
 
