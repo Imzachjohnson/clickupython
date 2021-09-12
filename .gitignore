@@ -75,3 +75,4 @@ clickupy.rst
 conf.py
 _source
 test.py
+pyvenv.cfg

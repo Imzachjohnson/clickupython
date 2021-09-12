@@ -1,4 +1,8 @@
 # tests/tests_clickup.py
+import os, sys
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(CURRENT_DIR))
+
 import pytest
 from clickupy import client
 from clickupy import clickuplist
