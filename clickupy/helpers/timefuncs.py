@@ -1,8 +1,8 @@
-import pendulum as time
 from word2number import w2n
 from timefhuman import timefhuman
 from datetime import datetime
-from helpers import exceptions
+from clickupy import exceptions
+import pendulum as time
 
 SCALES = {
     'min': 60,
@@ -22,7 +22,7 @@ SCALES = {
 }
 
 
-def fuzzy_time_to_unix(text: str) -> time.datetime:
+def fuzzy_time_to_unix(text: str):
     """
     Converts a human readable time and date to a Unix timestamp
 
