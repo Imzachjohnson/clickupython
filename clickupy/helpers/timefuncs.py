@@ -1,12 +1,8 @@
-import os, sys
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(CURRENT_DIR))
-
-import pendulum as time
 from word2number import w2n
 from timefhuman import timefhuman
 from datetime import datetime
-
+from clickupy import exceptions
+import pendulum as time
 
 SCALES = {
     'min': 60,
@@ -26,7 +22,7 @@ SCALES = {
 }
 
 
-def fuzzy_time_to_unix(text: str) -> time.datetime:
+def fuzzy_time_to_unix(text: str):
     """
     Converts a human readable time and date to a Unix timestamp
 
@@ -40,7 +36,7 @@ def fuzzy_time_to_unix(text: str) -> time.datetime:
         return str(int(timestamp * 1000))
     except:
         print('\n')
-        raise error.exceptions.ClickupClientError(
+        raise exceptions.ClickupClientError(
                 "The date you entered was not convertable to a Unix timestamp. Check the format and spelling.", "Time conversion error")
 
 

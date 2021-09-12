@@ -33,7 +33,7 @@ setuptools.setup(
     
     packages=setuptools.find_packages(),
     python_requires='>=3.9',
-    install_requires=[_parse_requirements('requirements.txt')],
+    install_requires=['pydantic==1.8.2','typing-extensions==3.10.0.2'],
     #extras_require='requirements.txt',
     # entry_points={
     #     'console_scripts': [  # This can provide executable scripts

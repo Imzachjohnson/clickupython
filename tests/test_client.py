@@ -156,6 +156,3 @@ class TestClientTasks():
         result = c.update_task("1g3b7k6", description=description)
         assert type(result) == task.Task
         assert result.description == description
-
-
-#TODO #13 Add tests for fuzzy time functions @imzachjohnson
