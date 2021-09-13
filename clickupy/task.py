@@ -11,6 +11,7 @@ import ntpath
 
 import os
 
+
 class ClickupList(BaseModel):
     id: str = None
 
@@ -53,37 +54,32 @@ class Task(BaseModel):
     @validator('priority')
     def check_status(cls, v):
 
-        if v =="":
+        if v == "":
             v = 4
-        
+
             return v
-
-    def delete_task(self):
-        client.ClickUpClient.delete_task(self, self.id)
-
 
     def build_task(self):
         return Task(**self)
 
-    def upload_attachment(self, file_path: str, client_instance:client):
-        from clickupy import client
-        if os.path.exists(file_path):
+    def delete(self):
+        client.ClickUpClient.delete_task(self, self.id)
 
-            f = open(file_path, 'rb')
-            files = [
-                ('attachment', (f.name, open(
-                    file_path, 'rb')))
-            ]
-            data = {'filename': ntpath.basename(f.name)}
-            model = "task/" + self.id
-            uploaded_attachment = client_instance._post_request(
-                model, data, files, True, "attachment")
+    def upload_attachment(self, client_instance: client, file_path: str):
+        return client_instance.upload_attachment(self.id, file_path)
 
-            if uploaded_attachment:
-                final_attachment = attachment.build_attachment(uploaded_attachment)
-            return final_attachment
+    def update(self, client_instance: client,  name: str = None, description: str = None, status: str = None, priority: int = None, time_estimate: int = None,
+               archived: bool = None, add_assignees: List[str] = None, remove_assignees: List[int] = None):
 
-    
+        return client_instance.update_task(self.id, name, description, status, priority, time_estimate, archived, add_assignees, remove_assignees)
+
+    def add_comment(self, client_instance: client, comment_text: str, assignee: str = None, notify_all: bool = True):
+        return client_instance.create_task_comment(self.id, comment_text, assignee, notify_all)
+
+    def get_comments(self, client_instance):
+        return client_instance.get_task_comments(self.id)
+
+
 class Tasks(BaseModel):
     tasks: List[Task] = None
 
