@@ -42,7 +42,7 @@ print(t.name)
 ### Task
 * `get_task(task_id)`
 * `get_tasks(list_id)`
-* `create_task(list_id, name, name, description, priority, assignees, tags, status, due_date, start_date, notify_all)`
+* `create_task(list_id, name, description, priority, assignees, tags, status, due_date, start_date, notify_all)`
 * `update_task(task_id, name, description, status, priority, time_estimate, archived, add_assignees,remove_assignees)`
 
 

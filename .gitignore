@@ -77,3 +77,4 @@ _source
 test.py
 pyvenv.cfg
 Include
+Scripts
