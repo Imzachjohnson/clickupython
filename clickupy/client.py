@@ -9,6 +9,7 @@ from clickupy import folder
 from clickupy import clickuplist
 from clickupy import attachment
 from clickupy import exceptions
+from clickupy import comment
 from clickupy import task
 from typing import List
 from clickupy.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
@@ -225,6 +226,8 @@ class ClickUpClient():
             model, folder_id)
         return(True)
 
+    # Tasks
+
     def upload_attachment(self, task_id: str, file_path: str) -> attachment.Attachment:
         """Uploads an attachment to a ClickUp task.
 
@@ -290,7 +293,7 @@ class ClickUpClient():
                 "Priority must be in range of 0-4.", "Priority out of range")
         if due_date:
             due_date = fuzzy_time_to_unix(due_date)
-            
+
         print(due_date)
         arguments = {}
         arguments.update(vars())
@@ -368,3 +371,74 @@ class ClickUpClient():
         deleted_task_status = self.__delete_request(
             model, task_id)
         return(True)
+
+    # Comments
+    def get_task_comments(self, task_id: str):
+
+        model = "task/"
+        fetched_comments = self.__get_request(model, task_id, "comment")
+        final_comments = comment.Comments.build_comments(fetched_comments)
+        if final_comments:
+            return final_comments
+
+    def get_list_comments(self, list_id: str):
+
+        model = "list/"
+        fetched_comments = self.__get_request(model, list_id, "comment")
+        final_comments = comment.Comments.build_comments(fetched_comments)
+        if final_comments:
+            return final_comments
+
+    def get_chat_comments(self, view_id: str):
+
+        model = "view/"
+        fetched_comments = self.__get_request(model, view_id, "comment")
+        final_comments = comment.Comments.build_comments(fetched_comments)
+        if final_comments:
+            return final_comments
+
+    def update_comment(self, comment_id: str, comment_text: str = None, assignee:str = None, resolved: bool = None) -> comment.Comment:
+      
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop('self', None)
+        arguments.pop('arguments', None)
+        arguments.pop('comment_id', None)
+
+        model = "comment/"
+
+        final_dict = json.dumps(
+            {k: v for k, v in arguments.items() if v is not None})
+
+        updated_comment = self.__put_request(
+            model, final_dict, comment_id)
+        if updated_comment:
+            return True
+
+    def delete_comment(self, comment_id: str) -> bool:
+       
+        model = "comment/"
+        deleted_comment_status = self.__delete_request(
+            model, comment_id)
+        return(True)
+
+
+    def create_task_comment(self, task_id: str, comment_text: str, assignee:str = None, notify_all: bool = True) -> comment.Comment:
+      
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop('self', None)
+        arguments.pop('arguments', None)
+        arguments.pop('task_id', None)
+
+        model = "task/"
+
+        final_dict = json.dumps(
+            {k: v for k, v in arguments.items() if v is not None})
+
+        created_comment = self.__post_request(
+            model, final_dict, None, False, task_id, "comment")
+    
+        final_comment = comment.Comment.build_comment(created_comment)
+        if final_comment:
+            return final_comment

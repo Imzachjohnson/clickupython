@@ -60,3 +60,11 @@ print(t.name)
 
 ### Attachments
 `upload_attachment(task_id, file_path)`
+
+### Comments
+* `get_task_comments(task_id)`
+* `get_list_comments(list_id)`
+* `get_chat_comments(view_id)`
+* `update_comment(comment_id)`
+* `delete_comment(comment_id)`
+* `create_task_comment(task_id)`
