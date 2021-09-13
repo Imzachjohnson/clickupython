@@ -1,17 +1,19 @@
 # tests/tests_clickup.py
-import os, sys
+from unittest import mock
+from typing import List
+from clickupy import comment
+from clickupy import attachment
+from clickupy import folder
+from clickupy import customfield
+from clickupy import task
+from clickupy import clickuplist
+from clickupy import client
+import pytest
+import os
+import sys
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(CURRENT_DIR))
 
-import pytest
-from clickupy import client
-from clickupy import clickuplist
-from clickupy import task
-from clickupy import customfield
-from clickupy import folder
-from clickupy import attachment
-from typing import List
-from unittest import mock
 
 API_KEY = "pk_6341704_8OV9MRRLXIK2VO3XV3FNKKLY9IMQAXB3"
 MOCK_API_URL = "https://private-anon-3a942619a6-clickup20.apiary-mock.com/api/v2/"
@@ -35,7 +37,7 @@ class TestClientLists():
 
         assert type(result) == clickuplist.AllLists
 
-    #Work on this test
+    # Work on this test
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     def test_create_list(self):
 
@@ -156,3 +158,13 @@ class TestClientTasks():
         result = c.update_task("1g3b7k6", description=description)
         assert type(result) == task.Task
         assert result.description == description
+
+
+class TestClientComments():
+    @pytest.mark.comments
+    def test_get_task_comments(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.get_task_comments("1gexdjy")
+
+        for c in result:
+            assert c.user.id == "6341704"
