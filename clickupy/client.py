@@ -11,7 +11,9 @@ from clickupy import attachment
 from clickupy import exceptions
 from clickupy import comment
 from clickupy import task
+from clickupy import teams
 from typing import List
+
 from clickupy.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
 from clickupy.helpers import formatting
 
@@ -88,7 +90,8 @@ class ClickUpClient():
         else:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
-
+    
+    # Lists
     def get_list(self, list_id: str) -> clickuplist.SingleList:
         """Fetches a single list item from a given list id and returns a List object.
 
@@ -117,7 +120,6 @@ class ClickUpClient():
         final_lists = clickuplist.AllLists.build_lists(fetched_lists)
         return final_lists
 
-    # Creates and returns a List object in a folder from a given folder ID
     def create_list(self, folder_id: str, name: str, content: str, due_date: str, priority: int, status: str) -> clickuplist.SingleList:
         """Creates and returns a List object in a folder from a given folder ID.
 
@@ -144,7 +146,8 @@ class ClickUpClient():
         if created_list:
             final_list = clickuplist.SingleList.build_list(created_list)
             return final_list
-
+    
+    # Folders
     def get_folder(self, folder_id: str) -> folder.Folder:
         """Fetches a single folder item from a given folder id and returns a Folder object.
 
@@ -440,3 +443,12 @@ class ClickUpClient():
         final_comment = comment.Comment.build_comment(created_comment)
         if final_comment:
             return final_comment
+    
+    # Teams
+    def get_teams(self):
+
+        model = "team/"
+        fetched_teams = self.__get_request(model)
+        final_teams = teams.Teams.build_teams(fetched_teams)
+        if final_teams:
+            return final_teams
