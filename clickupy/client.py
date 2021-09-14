@@ -12,6 +12,7 @@ from clickupy import exceptions
 from clickupy import comment
 from clickupy import task
 from clickupy import teams
+from clickupy import checklists
 from typing import List
 
 from clickupy.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
@@ -452,3 +453,15 @@ class ClickUpClient():
         final_teams = teams.Teams.build_teams(fetched_teams)
         if final_teams:
             return final_teams
+
+    # Checklists
+    def create_checklist(self, task_id: str, name: str):
+   
+        data = {
+            'name': name,
+        }
+
+        model = "task/"
+        created_checklist = self.__post_request(
+            model, json.dumps(data), None, False, task_id,  "checklist")
+        return checklists.Checklists.build_checklist(created_checklist)
