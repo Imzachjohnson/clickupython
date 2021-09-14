@@ -28,12 +28,15 @@ class Comment(BaseModel):
     date: str = None
 
 
+
     def build_comment(self):
         return Comment(**self)
 
 
 class Comments(BaseModel):
     comments: List[Comment] = None
+
+
 
     def __iter__(self):
         return iter(self.comments)

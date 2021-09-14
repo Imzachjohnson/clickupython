@@ -11,7 +11,10 @@ from clickupy import attachment
 from clickupy import exceptions
 from clickupy import comment
 from clickupy import task
+from clickupy import teams
+from clickupy import checklists
 from typing import List
+
 from clickupy.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
 from clickupy.helpers import formatting
 
@@ -52,7 +55,7 @@ class ClickUpClient():
     # Performs a Post request to the ClickUp API
     def __post_request(self, model, data, upload_files=None, file_upload=False, *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
-        print(path)
+
         if upload_files:
             response = requests.post(path, headers=self.__headers(
                 True), data=data, files=upload_files)
@@ -88,7 +91,8 @@ class ClickUpClient():
         else:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
-
+    
+    # Lists
     def get_list(self, list_id: str) -> clickuplist.SingleList:
         """Fetches a single list item from a given list id and returns a List object.
 
@@ -117,7 +121,6 @@ class ClickUpClient():
         final_lists = clickuplist.AllLists.build_lists(fetched_lists)
         return final_lists
 
-    # Creates and returns a List object in a folder from a given folder ID
     def create_list(self, folder_id: str, name: str, content: str, due_date: str, priority: int, status: str) -> clickuplist.SingleList:
         """Creates and returns a List object in a folder from a given folder ID.
 
@@ -144,7 +147,8 @@ class ClickUpClient():
         if created_list:
             final_list = clickuplist.SingleList.build_list(created_list)
             return final_list
-
+    
+    # Folders
     def get_folder(self, folder_id: str) -> folder.Folder:
         """Fetches a single folder item from a given folder id and returns a Folder object.
 
@@ -294,7 +298,6 @@ class ClickUpClient():
         if due_date:
             due_date = fuzzy_time_to_unix(due_date)
 
-        print(due_date)
         arguments = {}
         arguments.update(vars())
         arguments.pop('self', None)
@@ -397,8 +400,8 @@ class ClickUpClient():
         if final_comments:
             return final_comments
 
-    def update_comment(self, comment_id: str, comment_text: str = None, assignee:str = None, resolved: bool = None) -> comment.Comment:
-      
+    def update_comment(self, comment_id: str, comment_text: str = None, assignee: str = None, resolved: bool = None) -> comment.Comment:
+
         arguments = {}
         arguments.update(vars())
         arguments.pop('self', None)
@@ -416,15 +419,14 @@ class ClickUpClient():
             return True
 
     def delete_comment(self, comment_id: str) -> bool:
-       
+
         model = "comment/"
         deleted_comment_status = self.__delete_request(
             model, comment_id)
         return(True)
 
+    def create_task_comment(self, task_id: str, comment_text: str, assignee: str = None, notify_all: bool = True) -> comment.Comment:
 
-    def create_task_comment(self, task_id: str, comment_text: str, assignee:str = None, notify_all: bool = True) -> comment.Comment:
-      
         arguments = {}
         arguments.update(vars())
         arguments.pop('self', None)
@@ -438,7 +440,48 @@ class ClickUpClient():
 
         created_comment = self.__post_request(
             model, final_dict, None, False, task_id, "comment")
-    
+
         final_comment = comment.Comment.build_comment(created_comment)
         if final_comment:
             return final_comment
+    
+    # Teams
+    def get_teams(self):
+
+        model = "team/"
+        fetched_teams = self.__get_request(model)
+        final_teams = teams.Teams.build_teams(fetched_teams)
+        if final_teams:
+            return final_teams
+
+    # Checklists
+    def create_checklist(self, task_id: str, name: str):
+   
+        data = {
+            'name': name,
+        }
+
+        model = "task/"
+        created_checklist = self.__post_request(
+            model, json.dumps(data), None, False, task_id,  "checklist")
+        return checklists.Checklists.build_checklist(created_checklist)
+     
+    def create_checklist_item(self, checklist_id: str, name: str, assignee:str = None):
+        
+        data = {}
+
+        if assignee:
+            data = {
+                'name': name,
+                'assignee':assignee
+            }
+        else:
+            data = {
+                'name': name
+            }
+
+        model = "checklist/"
+        created_checklist = self.__post_request(
+            model, json.dumps(data), None, False, checklist_id,  "checklist_item")
+        return checklists.Checklists.build_checklist(created_checklist)
+
