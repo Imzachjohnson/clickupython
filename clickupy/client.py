@@ -465,3 +465,23 @@ class ClickUpClient():
         created_checklist = self.__post_request(
             model, json.dumps(data), None, False, task_id,  "checklist")
         return checklists.Checklists.build_checklist(created_checklist)
+     
+    def create_checklist_item(self, checklist_id: str, name: str, assignee:str = None):
+        
+        data = {}
+
+        if assignee:
+            data = {
+                'name': name,
+                'assignee':assignee
+            }
+        else:
+            data = {
+                'name': name
+            }
+
+        model = "checklist/"
+        created_checklist = self.__post_request(
+            model, json.dumps(data), None, False, checklist_id,  "checklist_item")
+        return checklists.Checklists.build_checklist(created_checklist)
+
