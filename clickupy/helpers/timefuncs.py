@@ -34,13 +34,14 @@ def fuzzy_time_to_unix(text: str):
         now = time.now()
         timestamp = datetime.timestamp(timefhuman(text, now))
         return str(int(timestamp * 1000))
-    except:
+    except BaseException:
         print('\n')
         raise exceptions.ClickupClientError(
-                "The date you entered was not convertable to a Unix timestamp. Check the format and spelling.", "Time conversion error")
+            "The date you entered was not convertable to a Unix timestamp. Check the format and spelling.",
+            "Time conversion error")
 
 
-def fuzzy_time_to_seconds(text: str) -> int:
+def fuzzy_time_to_seconds(text: any) -> int:
     """
     Converts a human readable duration of time into seconds
 
@@ -49,24 +50,27 @@ def fuzzy_time_to_seconds(text: str) -> int:
     Returns: seconds of the duration as an int
     """
 
-    # 1. Split string at conjunctive points
-    # 2. Separate each  point into it's number and scale
-    # 3. Apply scale to number
-    text = text.lower()
-    pairs = []
-    for word in text.split():
-        if word in SCALES:
-            value = text[:text.find(word)]
-            try:
-                pairs.append((int(value), SCALES[word]))
-            except ValueError:
-                pairs.append((w2n.word_to_num(value), SCALES[word]))
-                text = text[text.find(word):]
+    # Check if the input is a timestamp
+    try:
+        return float(text)
 
-    return sum(pair[0] * pair[1] for pair in pairs)
+    # Not a timestamp, so let's interpret the fuzzy string
+    except ValueError:
+        text = text.lower()
+        pairs = []
+        for word in text.split():
+            if word in SCALES:
+                value = text[:text.find(word)]
+                try:
+                    pairs.append((int(value), SCALES[word]))
+                except ValueError:
+                    pairs.append((w2n.word_to_num(value), SCALES[word]))
+                    text = text[text.find(word):]
 
-    # 4 return time in seconds
+        return sum(pair[0] * pair[1] for pair in pairs)
 
-# if __name__ == "__main__":
-#     print(fuzzy_time_to_seconds('36 hours'))
-#     print(fuzzy_time_to_unix("december 1st"))
+
+if __name__ == "__main__":
+    print(fuzzy_time_to_seconds('36 hours'))
+    print(fuzzy_time_to_unix("december 1st"))
+    print(fuzzy_time_to_seconds('3333029384'))
