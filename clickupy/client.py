@@ -106,7 +106,7 @@ class ClickUpClient():
         model = "list/"
         fetched_list = self.__get_request(model, list_id)
 
-        return clickuplist.SingleList.build_list(fetched_list)
+        return models.SingleList.build_list(fetched_list)
 
     def get_lists(self, folder_id: str) -> models.AllLists:
         """Fetches all lists from a given folder id and returns a list of List objects.
@@ -119,7 +119,7 @@ class ClickUpClient():
         """
         model = "folder/"
         fetched_lists = self.__get_request(model, folder_id)
-        return clickuplist.AllLists.build_lists(fetched_lists)
+        return models.AllLists.build_lists(fetched_lists)
 
     def create_list(
             self,
@@ -152,7 +152,7 @@ class ClickUpClient():
         created_list = self.__post_request(
             model, json.dumps(data), None, False, folder_id, "list")
         if created_list:
-            return clickuplist.SingleList.build_list(created_list)
+            return models.SingleList.build_list(created_list)
 
     # Folders
     def get_folder(self, folder_id: str) -> models.Folder:
@@ -261,7 +261,7 @@ class ClickUpClient():
                     model, data, files, True, "attachment")
 
                 if uploaded_attachment:
-                    final_attachment = attachment.build_attachment(
+                    final_attachment = models.Attachment.build_attachment(
                         uploaded_attachment)
                 return final_attachment
 
@@ -292,7 +292,7 @@ class ClickUpClient():
         model = "list/"
         fetched_tasks = self.__get_request(model, list_id, "task")
 
-        return task.Tasks.build_tasks(fetched_tasks)
+        return models.Tasks.build_tasks(fetched_tasks)
 
     def create_task(
             self,
@@ -327,7 +327,7 @@ class ClickUpClient():
             model, final_dict, None, False, list_id, "task")
 
         if created_task:
-            return task.Task.build_task(created_task)
+            return models.Task.build_task(created_task)
 
     def update_task(
             self,
@@ -386,7 +386,7 @@ class ClickUpClient():
         updated_task = self.__put_request(
             model, final_dict, task_id)
         if updated_task:
-            return task.Task.build_task(updated_task)
+            return models.Task.build_task(updated_task)
 
     def delete_task(self, task_id: str) -> None:
         """Deletes a task from a given task ID.
@@ -475,7 +475,7 @@ class ClickUpClient():
         created_comment = self.__post_request(
             model, final_dict, None, False, task_id, "comment")
 
-        final_comment = comment.Comment.build_comment(created_comment)
+        final_comment = models.Comment.build_comment(created_comment)
         if final_comment:
             return final_comment
 
@@ -498,7 +498,7 @@ class ClickUpClient():
         model = "task/"
         created_checklist = self.__post_request(
             model, json.dumps(data), None, False, task_id, "checklist")
-        return checklists.Checklists.build_checklist(created_checklist)
+        return models.Checklists.build_checklist(created_checklist)
 
     def create_checklist_item(
             self,
@@ -517,4 +517,4 @@ class ClickUpClient():
         model = "checklist/"
         created_checklist = self.__post_request(
             model, json.dumps(data), None, False, checklist_id, "checklist_item")
-        return checklists.Checklists.build_checklist(created_checklist)
+        return models.Checklists.build_checklist(created_checklist)
