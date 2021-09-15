@@ -2,6 +2,8 @@
     <img src='https://readthedocs.org/projects/clickupy/badge/?version=latest' alt='Documentation Status' />
 </a>
 
+<a href="https://www.codefactor.io/repository/github/imzachjohnson/clickupy"><img src="https://www.codefactor.io/repository/github/imzachjohnson/clickupy/badge" alt="CodeFactor" /></a>
+
 # clickupy
 
 A client for working with the ClickUp API V2. It can be used to interact with the ClickUp API in your projects.
