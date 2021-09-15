@@ -1,19 +1,11 @@
 # tests/tests_clickup.py
 from unittest import mock
-from typing import List
-from clickupy import comment
-from clickupy import attachment
-from clickupy import folder
-from clickupy import customfield
-from clickupy import task
-from clickupy import clickuplist
-from clickupy import client
+from clickupy.models import Folders,AssignedBy, Task, Comment, AllLists, SingleList, Tasks, Asssignee
 import pytest
 import os
 import sys
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(CURRENT_DIR))
 
+from clickupy import client
 
 API_KEY = "pk_6341704_8OV9MRRLXIK2VO3XV3FNKKLY9IMQAXB3"
 MOCK_API_URL = "https://private-anon-3a942619a6-clickup20.apiary-mock.com/api/v2/"
@@ -26,7 +18,7 @@ class TestClientLists():
 
         c = client.ClickUpClient(API_KEY)
         result = c.get_list("132237389")
-        assert type(result) == clickuplist.SingleList
+        assert type(result) == SingleList
         assert result.id == "132237389"
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)

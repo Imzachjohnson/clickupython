@@ -4,19 +4,12 @@ from urllib.parse import urlparse
 import os
 import json
 import ntpath
-from clickupy import helpers
-from clickupy import folder
-from clickupy import clickuplist
-from clickupy import attachment
-from clickupy import exceptions
-from clickupy import comment
-from clickupy import task
-from clickupy import teams
-from clickupy import checklists
-from typing import List
+from typing import List, Optional
+
 
 from clickupy.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
 from clickupy.helpers import formatting
+from clickupy import models
 
 
 API_URL = 'https://api.clickup.com/api/v2/'
@@ -101,7 +94,7 @@ class ClickUpClient():
                 response_json['err'], response.status_code)
 
     # Lists
-    def get_list(self, list_id: str) -> clickuplist.SingleList:
+    def get_list(self, list_id: str) -> models.SingleList:
         """Fetches a single list item from a given list id and returns a List object.
 
         Args:
@@ -115,7 +108,7 @@ class ClickUpClient():
 
         return clickuplist.SingleList.build_list(fetched_list)
 
-    def get_lists(self, folder_id: str) -> clickuplist.AllLists:
+    def get_lists(self, folder_id: str) -> models.AllLists:
         """Fetches all lists from a given folder id and returns a list of List objects.
 
         Args:
@@ -135,7 +128,7 @@ class ClickUpClient():
             content: str,
             due_date: str,
             priority: int,
-            status: str) -> clickuplist.SingleList:
+            status: str) -> models.SingleList:
         """Creates and returns a List object in a folder from a given folder ID.
 
         Args:
@@ -162,7 +155,7 @@ class ClickUpClient():
             return clickuplist.SingleList.build_list(created_list)
 
     # Folders
-    def get_folder(self, folder_id: str) -> folder.Folder:
+    def get_folder(self, folder_id: str) -> models.Folder:
         """Fetches a single folder item from a given folder id and returns a Folder object.
 
         Args:
@@ -174,9 +167,9 @@ class ClickUpClient():
         model = "folder/"
         fetched_folder = self.__get_request(model, folder_id)
         if fetched_folder:
-            return folder.Folder.build_folder(fetched_folder)
+            return models.Folder.build_folder(fetched_folder)
 
-    def get_folders(self, space_id: str) -> folder.Folders:
+    def get_folders(self, space_id: str) -> models.Folders:
         """Fetches all folders from a given space ID and returns a list of Folder objects.
 
         Args:
@@ -190,7 +183,7 @@ class ClickUpClient():
         if fetched_folders:
             return folder.Folders.build_folders(fetched_folders)
 
-    def create_folder(self, space_id: str, name: str) -> folder.Folder:
+    def create_folder(self, space_id: str, name: str) -> models.Folder:
         """Creates and returns a Folder object in a space from a given space ID.
 
         Args:
@@ -209,7 +202,7 @@ class ClickUpClient():
         if created_folder:
             return folder.Folder.build_folder(created_folder)
 
-    def update_folder(self, folder_id: str, name: str) -> folder.Folder:
+    def update_folder(self, folder_id: str, name: str) -> models.Folder:
         """Updates the name of a folder given the folder ID.
 
         Args:
@@ -244,7 +237,7 @@ class ClickUpClient():
     def upload_attachment(
             self,
             task_id: str,
-            file_path: str) -> attachment.Attachment:
+            file_path: str) -> models.Attachment:
         """Uploads an attachment to a ClickUp task.
 
         Args:
@@ -272,7 +265,7 @@ class ClickUpClient():
                         uploaded_attachment)
                 return final_attachment
 
-    def get_task(self, task_id: str) -> task.Task:
+    def get_task(self, task_id: str) -> models.Task:
         """Fetches a single ClickUp task item and returns a Task object.
 
         Args:
@@ -283,11 +276,11 @@ class ClickUpClient():
         """
         model = "task/"
         fetched_task = self.__get_request(model, task_id)
-        final_task = task.Task.build_task(fetched_task)
+        final_task = models.Task.build_task(fetched_task)
         if final_task:
             return final_task
 
-    def get_tasks(self, list_id: str) -> task.Tasks:
+    def get_tasks(self, list_id: str) -> models.Tasks:
         """Fetches a list of task items from a given list ID.
 
         Args:
@@ -312,7 +305,7 @@ class ClickUpClient():
             status: str = None,
             due_date: str = None,
             start_date: str = None,
-            notify_all: bool = True) -> task.Task:
+            notify_all: bool = True) -> models.Task:
 
         if priority and priority not in range(1, 4):
             raise exceptions.ClickupClientError(
@@ -346,7 +339,7 @@ class ClickUpClient():
             time_estimate: int = None,
             archived: bool = None,
             add_assignees: List[str] = None,
-            remove_assignees: List[int] = None) -> task.Task:
+            remove_assignees: List[int] = None) -> models.Task:
         """[summary]
 
         Args:
@@ -411,7 +404,7 @@ class ClickUpClient():
 
         model = "task/"
         fetched_comments = self.__get_request(model, task_id, "comment")
-        final_comments = comment.Comments.build_comments(fetched_comments)
+        final_comments = models.Comments.build_comments(fetched_comments)
         if final_comments:
             return final_comments
 
@@ -419,7 +412,7 @@ class ClickUpClient():
 
         model = "list/"
         fetched_comments = self.__get_request(model, list_id, "comment")
-        final_comments = comment.Comments.build_comments(fetched_comments)
+        final_comments = models.Comments.build_comments(fetched_comments)
         if final_comments:
             return final_comments
 
@@ -427,7 +420,7 @@ class ClickUpClient():
 
         model = "view/"
         fetched_comments = self.__get_request(model, view_id, "comment")
-        final_comments = comment.Comments.build_comments(fetched_comments)
+        final_comments = models.Comments.build_comments(fetched_comments)
         if final_comments:
             return final_comments
 
@@ -436,7 +429,7 @@ class ClickUpClient():
             comment_id: str,
             comment_text: str = None,
             assignee: str = None,
-            resolved: bool = None) -> comment.Comment:
+            resolved: bool = None) -> models.Comment:
 
         arguments = {}
         arguments.update(vars())
@@ -466,7 +459,7 @@ class ClickUpClient():
             task_id: str,
             comment_text: str,
             assignee: str = None,
-            notify_all: bool = True) -> comment.Comment:
+            notify_all: bool = True) -> models.Comment:
 
         arguments = {}
         arguments.update(vars())
