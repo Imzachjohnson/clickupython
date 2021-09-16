@@ -2,8 +2,6 @@
 from unittest import mock
 from clickupy.models import Folders, AssignedBy, Task, Comment, AllLists, SingleList, Tasks, Asssignee
 import pytest
-import os
-import sys
 
 from clickupy import client
 from clickupy import models
