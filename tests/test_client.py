@@ -1,19 +1,12 @@
 # tests/tests_clickup.py
 from unittest import mock
-from typing import List
-from clickupy import comment
-from clickupy import attachment
-from clickupy import folder
-from clickupy import customfield
-from clickupy import task
-from clickupy import clickuplist
-from clickupy import client
+from clickupy.models import Folders,AssignedBy, Task, Comment, AllLists, SingleList, Tasks, Asssignee
 import pytest
 import os
 import sys
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(CURRENT_DIR))
 
+from clickupy import client
+from clickupy import models
 
 API_KEY = "pk_6341704_8OV9MRRLXIK2VO3XV3FNKKLY9IMQAXB3"
 MOCK_API_URL = "https://private-anon-3a942619a6-clickup20.apiary-mock.com/api/v2/"
@@ -26,7 +19,7 @@ class TestClientLists():
 
         c = client.ClickUpClient(API_KEY)
         result = c.get_list("132237389")
-        assert type(result) == clickuplist.SingleList
+        assert type(result) == SingleList
         assert result.id == "132237389"
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
@@ -35,7 +28,7 @@ class TestClientLists():
         c = client.ClickUpClient(API_KEY)
         result = c.get_lists("456")
 
-        assert type(result) == clickuplist.AllLists
+        assert isinstance(result, models.AllLists)
 
     # Work on this test
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
@@ -52,7 +45,7 @@ class TestClientLists():
         assert len(result.statuses) > 0
         assert result.statuses[0].status == "to do"
 
-        assert type(result) == clickuplist.SingleList
+        assert isinstance(result, models.SingleList)
 
 
 class TestClientFolders():
@@ -65,7 +58,7 @@ class TestClientFolders():
         assert result.id == "457"
         assert result.name == "Updated Folder Name"
         assert result.task_count == 0
-        assert type(result) == folder.Folder
+        assert isinstance(result, models.Folder)
 
     @pytest.mark.folders
     def test_get_folders(self):
@@ -74,7 +67,7 @@ class TestClientFolders():
         result = c.get_folders("30067535")
         assert len(result.folders) > 0
         assert result.folders[0].id == "72245695"
-        assert type(result) == folder.Folders
+        assert isinstance(result, models.Folders)
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
@@ -88,7 +81,9 @@ class TestClientFolders():
         assert result.hidden == False
         assert result.space.id == 789
         assert result.task_count == 0
-        assert type(result) == folder.Folder
+        assert isinstance(result, models.Folder)
+        
+
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
@@ -102,7 +97,7 @@ class TestClientFolders():
         assert result.hidden == False
         assert result.space.id == 789
         assert result.task_count == 0
-        assert type(result) == folder.Folder
+        assert isinstance(result, models.Folder)
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
@@ -126,7 +121,7 @@ class TestClientTasks():
         assert result.id == "ac434d4e-8b1c-4571-951b-866b6d9f2ee6.png"
         assert result.version == 0
         assert result.date == "1569988578766"
-        assert type(result) == attachment.Attachment
+        assert type(result) == models.Attachment
         assert result.title == "image.png"
         assert result.extension == "png"
         assert result.thumbnail_small == "https://attachments-public.clickup.com/ac434d4e-8b1c-4571-951b-866b6d9f2ee6/logo_small.png"
@@ -140,14 +135,14 @@ class TestClientTasks():
         result = c.create_task(
             "132235954", "New Task Name", "New Task Description")
 
-        assert type(result) == task.Task
+        assert isinstance(result, models.Task)
 
     @pytest.mark.tasks
     def test_get_tasks(self):
 
         c = client.ClickUpClient(API_KEY)
         result = c.get_tasks("132211116")
-        assert type(result) == task.Tasks
+        assert isinstance(result, models.Tasks)
 
     @pytest.mark.tasks
     def test_update_task(self):
@@ -156,7 +151,7 @@ class TestClientTasks():
 
         c = client.ClickUpClient(API_KEY)
         result = c.update_task("1g3b7k6", description=description)
-        assert type(result) == task.Task
+        assert type(result) == models.Task
         assert result.description == description
 
 
