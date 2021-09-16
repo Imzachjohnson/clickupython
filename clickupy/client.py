@@ -544,13 +544,19 @@ class ClickUpClient():
         return(True)
 
     def delete_checklist_item(self, checklist_id: str, checklist_item_id: str) -> None:
+        """test summary
 
+        Args:
+            checklist_id (str): [description]
+            checklist_item_id (str): [description]
+        """        
         model = "checklist/"
         self.__delete_request(
             model, checklist_id, "checklist_item", checklist_item_id)
         return(True)
 
     def update_checklist_item(self, checklist_id: str, checklist_item_id: str, name: str = None, resolved: bool = None, parent:str = None):
+        
 
         arguments = {}
         arguments.update(vars())
@@ -570,3 +576,5 @@ class ClickUpClient():
         final_update = models.Checklists.build_checklist(item_update)
         if final_update:
             return final_update
+
+
