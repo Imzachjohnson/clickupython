@@ -58,7 +58,7 @@ class TestClientFolders():
         assert result.id == "457"
         assert result.name == "Updated Folder Name"
         assert result.task_count == 0
-        assert type(result) == folder.Folder
+        assert type(result) == models.Folder
 
     @pytest.mark.folders
     def test_get_folders(self):
@@ -67,7 +67,7 @@ class TestClientFolders():
         result = c.get_folders("30067535")
         assert len(result.folders) > 0
         assert result.folders[0].id == "72245695"
-        assert type(result) == folder.Folders
+        assert type(result) == models.Folders
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders

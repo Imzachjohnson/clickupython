@@ -181,7 +181,7 @@ class ClickUpClient():
         model = "space/"
         fetched_folders = self.__get_request(model, space_id, "folder")
         if fetched_folders:
-            return folder.Folders.build_folders(fetched_folders)
+            return models.Folders.build_folders(fetched_folders)
 
     def create_folder(self, space_id: str, name: str) -> models.Folder:
         """Creates and returns a Folder object in a space from a given space ID.
@@ -200,7 +200,7 @@ class ClickUpClient():
         created_folder = self.__post_request(
             model, json.dumps(data), None, False, space_id, "folder")
         if created_folder:
-            return folder.Folder.build_folder(created_folder)
+            return models.Folder.build_folder(created_folder)
 
     def update_folder(self, folder_id: str, name: str) -> models.Folder:
         """Updates the name of a folder given the folder ID.
@@ -219,7 +219,7 @@ class ClickUpClient():
         updated_folder = self.__put_request(
             model, json.dumps(data), folder_id)
         if updated_folder:
-            return folder.Folder.build_folder(updated_folder)
+            return models.Folder.build_folder(updated_folder)
 
     def delete_folder(self, folder_id: str) -> None:
         """Deletes a folder from a given folder ID.
