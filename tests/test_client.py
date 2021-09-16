@@ -28,7 +28,7 @@ class TestClientLists():
         c = client.ClickUpClient(API_KEY)
         result = c.get_lists("456")
 
-        assert type(result) == models.AllLists
+        assert isinstance(result, models.AllLists)
 
     # Work on this test
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
@@ -45,7 +45,7 @@ class TestClientLists():
         assert len(result.statuses) > 0
         assert result.statuses[0].status == "to do"
 
-        assert type(result) == models.SingleList
+        assert isinstance(result, models.SingleList)
 
 
 class TestClientFolders():
@@ -58,7 +58,7 @@ class TestClientFolders():
         assert result.id == "457"
         assert result.name == "Updated Folder Name"
         assert result.task_count == 0
-        assert type(result) == folder.Folder
+        assert isinstance(result, models.Folder)
 
     @pytest.mark.folders
     def test_get_folders(self):
@@ -67,7 +67,7 @@ class TestClientFolders():
         result = c.get_folders("30067535")
         assert len(result.folders) > 0
         assert result.folders[0].id == "72245695"
-        assert type(result) == folder.Folders
+        assert isinstance(result, models.Folders)
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
@@ -81,7 +81,9 @@ class TestClientFolders():
         assert result.hidden == False
         assert result.space.id == 789
         assert result.task_count == 0
-        assert type(result) == models.Folder
+        assert isinstance(result, models.Folder)
+        
+
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
@@ -95,7 +97,7 @@ class TestClientFolders():
         assert result.hidden == False
         assert result.space.id == 789
         assert result.task_count == 0
-        assert type(result) == models.Folder
+        assert isinstance(result, models.Folder)
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
@@ -133,14 +135,14 @@ class TestClientTasks():
         result = c.create_task(
             "132235954", "New Task Name", "New Task Description")
 
-        assert type(result) == models.Task
+        assert isinstance(result, models.Task)
 
     @pytest.mark.tasks
     def test_get_tasks(self):
 
         c = client.ClickUpClient(API_KEY)
         result = c.get_tasks("132211116")
-        assert type(result) == models.Tasks
+        assert isinstance(result, models.Tasks)
 
     @pytest.mark.tasks
     def test_update_task(self):

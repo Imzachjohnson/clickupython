@@ -3,11 +3,7 @@ from pydantic import BaseModel,  ValidationError, validator, Field
 
 
 
-class Folder(BaseModel):
-    id: str
-    name: str
-    hidden: Optional[bool]
-    access: bool
+
 
 
 class Priority(BaseModel):
@@ -35,6 +31,14 @@ class Asssignee(BaseModel):
     initials: str
     profilePicture: str
 
+
+class ListFolder(BaseModel):
+    id: str
+    name: str
+    hidden: Optional[bool]
+    access: bool
+
+
 class SingleList(BaseModel):
     id: str = None
     name: str = None
@@ -46,8 +50,8 @@ class SingleList(BaseModel):
     assignee: Asssignee = None
     due_date: str = None
     start_date: None
-    folder: Folder = None
-    space: Folder = None
+    folder: ListFolder = None
+    space: ListFolder = None
     statuses: Optional[List[StatusElement]] = None
     inbound_address: str = None
     permission_level: str = None
@@ -85,7 +89,7 @@ class Checklist(BaseModel):
     resolved: int = None
     unresolved: int = None
     items: List[ChecklistItem] = None
-    
+
     def add_item(self, client_instance, name: str, assignee:str = None):
          return client_instance.create_checklist_item(self.id, name = name, assignee = assignee)
 
@@ -239,8 +243,8 @@ class ClickupList(BaseModel):
     id: str = None
 
 
-class Folder(BaseModel):
-    id: str = None
+# class Folder(BaseModel):
+#     id: str = None
 
 
 class Space(BaseModel):
