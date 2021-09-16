@@ -517,3 +517,56 @@ class ClickUpClient():
         created_checklist = self.__post_request(
             model, json.dumps(data), None, False, checklist_id, "checklist_item")
         return models.Checklists.build_checklist(created_checklist)
+
+    def update_checklist(self, checklist_id: str, name: str = None, postion: int = None):
+
+        if not name and not postion:
+            return
+
+        data = {}
+
+        if name:
+            data.update({'name': name})
+        if postion:
+            data.update({'postition': position})
+
+        model = "checklist/"
+        updated_checklist = self.__put_request(
+            model, json.dumps(data), checklist_id)
+        if updated_checklist:
+            return models.Checklists.build_checklist(updated_checklist)
+
+    def delete_checklist(self, checklist_id: str) -> None:
+
+        model = "checklist/"
+        self.__delete_request(
+            model, checklist_id)
+        return(True)
+
+    def delete_checklist_item(self, checklist_id: str, checklist_item_id: str) -> None:
+
+        model = "checklist/"
+        self.__delete_request(
+            model, checklist_id, "checklist_item", checklist_item_id)
+        return(True)
+
+    def update_checklist_item(self, checklist_id: str, checklist_item_id: str, name: str = None, resolved: bool = None, parent:str = None):
+
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop('self', None)
+        arguments.pop('arguments', None)
+        arguments.pop('checklist_id', None)
+        arguments.pop('checklist_item_id', None)
+
+        model = "checklist/"
+
+        final_dict = json.dumps(
+            {k: v for k, v in arguments.items() if v is not None})
+
+        item_update = self.__put_request(
+            model, final_dict, checklist_id, "checklist_item", checklist_item_id)
+
+        final_update = models.Checklists.build_checklist(item_update)
+        if final_update:
+            return final_update
