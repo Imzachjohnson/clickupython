@@ -65,7 +65,6 @@ class ClickUpClient():
                 path, headers=self.__headers(), data=data)
         response_json = response.json()
 
-        # TODO #11 Update this to list
         if response.status_code in [401, 400, 500]:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)

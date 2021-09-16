@@ -70,3 +70,10 @@ print(t.name)
 * `update_comment(comment_id)`
 * `delete_comment(comment_id)`
 * `create_task_comment(task_id)`
+
+### Teams
+* `get_teams()`
+
+### Checklists
+* `create_checklist(task_id, name):`
+* `create_checklist_item(checklist_id, name, assignee):`
