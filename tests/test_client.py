@@ -1,9 +1,7 @@
 # tests/tests_clickup.py
 from unittest import mock
-from clickupy.models import Folders,AssignedBy, Task, Comment, AllLists, SingleList, Tasks, Asssignee
+from clickupy.models import Folders, AssignedBy, Task, Comment, AllLists, SingleList, Tasks, Asssignee
 import pytest
-import os
-import sys
 
 from clickupy import client
 from clickupy import models
@@ -82,8 +80,6 @@ class TestClientFolders():
         assert result.space.id == 789
         assert result.task_count == 0
         assert isinstance(result, models.Folder)
-        
-
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
@@ -163,3 +159,47 @@ class TestClientComments():
 
         for c in result:
             assert c.user.id == "6341704"
+
+
+class TestClientChecklists():
+
+    @pytest.mark.checklists
+    def test_update_checklist(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.create_checklist("1gu4f5g", "Test Checklist")
+        assert isinstance(result, models.Checklist)
+        result2 = c.update_checklist(result.id, name="Updated Checklist Title")
+        assert result2.name == "Updated Checklist Title"
+
+    @pytest.mark.checklists
+    def test_delete_checklist(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.create_checklist("1gu4f5g", "Test Checklist")
+        assert isinstance(result, models.Checklist)
+        assert c.delete_checklist(result.id)
+
+    @pytest.mark.checklists
+    def test_delete_checklist_item(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.create_checklist("1gu4f5g", "Test Checklist")
+        checklist_with_item = c.create_checklist_item(
+            result.id, "Test Checklist item")
+
+        assert isinstance(checklist_with_item, models.Checklist)
+
+        assert c.delete_checklist_item(
+            checklist_with_item.id, checklist_with_item.items[0].id)
+
+    @pytest.mark.checklists
+    def test_update_checklist_item(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.create_checklist("1gu4f5g", "Test Checklist")
+        checklist_with_item = c.create_checklist_item(
+            result.id, "Test Checklist item")
+
+        assert isinstance(checklist_with_item, models.Checklist)
+
+        result2 = c.update_checklist_item(
+            checklist_with_item.id, checklist_with_item.items[0].id, name="it worked")
+
+        assert result2.items[0].name == "it worked"
