@@ -78,5 +78,3 @@ test.py
 pyvenv.cfg
 Include
 Scripts
-docs/source
-docs/make.bat
