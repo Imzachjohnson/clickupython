@@ -18,8 +18,8 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'clickupy'
-copyright = '2021, Zach Johnson'
-author = 'Zach Johnson'
+copyright = '2021, Zach Johnson & Robert Mullis'
+author = 'Zach Johnson & Robert Mullis'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'
