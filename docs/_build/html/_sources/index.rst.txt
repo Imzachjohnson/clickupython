@@ -43,6 +43,8 @@ There you will see a an API token. Copy this and save it. You will use this to a
    :caption: Contents:
 
    modules
+   examples
+   functions
 
 Indices and tables
 ==================

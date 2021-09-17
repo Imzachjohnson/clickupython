@@ -1,4 +1,4 @@
-clickupy
+Clickupy Overview
 ========
 
 .. toctree::
