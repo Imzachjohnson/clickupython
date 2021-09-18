@@ -34,21 +34,16 @@ Method 1: API Key (Fastest)
 Sign in to ClickUp and navigate to Settings > Apps.
 There you will see a an API token. Copy this and save it. You will use this to authenticate the clickupy client with ClickUp's API.
 
+::
 
+    $ from clickupy import ClickUpClient
 
+      API_KEY = 'YOUR API KEY'
+      client = ClickUpClient(API_KEY)
 
+      # Example request | Creating a task in a list
+      c = client.ClickUpClient(API_KEY)
+      task = c.create_task("list_id", name="Test task", due_date="march 2 2021")
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   modules
-   examples
-   functions
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+      if task:
+         print(task.id)
