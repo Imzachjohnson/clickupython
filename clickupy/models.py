@@ -398,7 +398,6 @@ class Goal(BaseModel):
 class Goals(BaseModel):
     goal: Goal
 
-
     def build_goals(self):
         built_goal = Goals(**self)
         return built_goal.goal
