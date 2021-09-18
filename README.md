@@ -1,12 +1,5 @@
-.. image:: https://readthedocs.org/projects/clickupy/badge/?version=latest
-   :target: https://clickupy.readthedocs.io/en/latest/?badge=latest
-   :alt: Documentation Status
-
-
-.. image:: https://www.codefactor.io/repository/github/imzachjohnson/clickupy/badge
-   :target: https://www.codefactor.io/repository/github/imzachjohnson/clickupy
-   :alt: CodeFactor
-
+[![Documentation Status](https://readthedocs.org/projects/clickupy/badge/?version=latest)](https://clickupy.readthedocs.io/en/latest/?badge=latest)
+[![CodeFactor](https://www.codefactor.io/repository/github/imzachjohnson/clickupy/badge)](https://www.codefactor.io/repository/github/imzachjohnson/clickupy)
 
 
 # clickupy
