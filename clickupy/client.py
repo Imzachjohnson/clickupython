@@ -598,7 +598,7 @@ class ClickUpClient():
         return models.Members.build_members(task_members)
 
     # Goals
-    
+
     def create_goal(
             self,
             team_id,
@@ -608,15 +608,14 @@ class ClickUpClient():
             multiple_owners: bool = True,
             owners: List[int] = None,
             color: str = None,
-            ):
-    
+    ):
+
         arguments = {}
         arguments.update(vars())
         arguments.pop('self', None)
         arguments.pop('arguments', None)
         arguments.pop('team_id', None)
         arguments.pop('owners', None)
-
 
         if multiple_owners and owners:
             arguments.update(
@@ -632,3 +631,20 @@ class ClickUpClient():
             model, final_dict, None, False, team_id, "goal")
         if created_goal:
             return models.Goals.build_goals(created_goal)
+
+    def update_goal(self, goal_id: str, name: str = None, due_date: str = None, description: str = None, rem_owners: List[str] = None, add_owners: List[str] = None, color: str = None):
+
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop('self', None)
+        arguments.pop('arguments', None)
+        arguments.pop('goal_id', None)
+
+        final_dict = json.dumps(
+            {k: v for k, v in arguments.items() if v is not None})
+
+        model = "goal/"
+        updated_goal = self.__put_request(
+            model, final_dict, goal_id)
+        if updated_goal:
+            return models.Goals.build_goals(updated_goal)
