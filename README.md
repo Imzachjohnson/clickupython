@@ -1,8 +1,13 @@
-<a href='https://clickupy.readthedocs.io/en/latest/?badge=latest'>
-    <img src='https://readthedocs.org/projects/clickupy/badge/?version=latest' alt='Documentation Status' />
-</a>
+.. image:: https://readthedocs.org/projects/clickupy/badge/?version=latest
+   :target: https://clickupy.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
 
-<a href="https://www.codefactor.io/repository/github/imzachjohnson/clickupy"><img src="https://www.codefactor.io/repository/github/imzachjohnson/clickupy/badge" alt="CodeFactor" /></a>
+
+.. image:: https://www.codefactor.io/repository/github/imzachjohnson/clickupy/badge
+   :target: https://www.codefactor.io/repository/github/imzachjohnson/clickupy
+   :alt: CodeFactor
+
+
 
 # clickupy
 

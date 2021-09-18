@@ -10,6 +10,7 @@ from typing import List, Optional
 from clickupy.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
 from clickupy.helpers import formatting
 from clickupy import models
+from clickupy import exceptions
 
 
 API_URL = 'https://api.clickup.com/api/v2/'
@@ -578,3 +579,25 @@ class ClickUpClient():
             return final_update
 
 
+    # Members
+    def get_task_members(
+            self,
+            task_id: str):
+
+        model = "task/"
+        
+        task_members = self.__get_request(model, task_id, "member")
+        return models.Members.build_members(task_members)
+
+    def get_list_members(
+            self,
+            list_id: str):
+            
+        model = "list/"
+        
+        task_members = self.__get_request(model, list_id, "member")
+        return models.Members.build_members(task_members)
+
+    # Tags
+
+    
