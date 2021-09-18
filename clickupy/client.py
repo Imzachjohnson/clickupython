@@ -655,3 +655,11 @@ class ClickUpClient():
         self.__delete_request(
             model, goal_id)
         return(True)
+
+    def get_goal(self, goal_id: str) -> models.Goal:
+   
+        model = "goal/"
+        fetched_goal = self.__get_request(model, goal_id)
+        final_goal = models.Goals.build_goals(fetched_goal)
+        if final_goal:
+            return final_goal
