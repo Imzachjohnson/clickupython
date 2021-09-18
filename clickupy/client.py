@@ -648,3 +648,10 @@ class ClickUpClient():
             model, final_dict, goal_id)
         if updated_goal:
             return models.Goals.build_goals(updated_goal)
+
+    def delete_goal(self, goal_id: str):
+       
+        model = "goal/"
+        self.__delete_request(
+            model, goal_id)
+        return(True)
