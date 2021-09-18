@@ -2,10 +2,6 @@ from typing import Optional, List, Any
 from pydantic import BaseModel,  ValidationError, validator, Field
 
 
-
-
-
-
 class Priority(BaseModel):
     priority: str
     color: str
@@ -23,6 +19,7 @@ class StatusElement(BaseModel):
     orderindex: int
     color: str
     type: str
+
 
 class Asssignee(BaseModel):
     id: str
@@ -74,12 +71,12 @@ class AllLists(BaseModel):
         return AllLists(**self)
 
 
-
 class ChecklistItem(BaseModel):
     id: str = None
     name: str = None
     orderindex: int = None
     assignee: Optional[Asssignee]
+
 
 class Checklist(BaseModel):
     id: Optional[str]
@@ -90,8 +87,9 @@ class Checklist(BaseModel):
     unresolved: int = None
     items: List[ChecklistItem] = None
 
-    def add_item(self, client_instance, name: str, assignee:str = None):
-         return client_instance.create_checklist_item(self.id, name = name, assignee = assignee)
+    def add_item(self, client_instance, name: str, assignee: str = None):
+        return client_instance.create_checklist_item(self.id, name=name, assignee=assignee)
+
 
 class Checklists(BaseModel):
     checklist: Checklist
@@ -99,6 +97,7 @@ class Checklists(BaseModel):
     def build_checklist(self):
         final_checklist = Checklists(**self)
         return final_checklist.checklist
+
 
 class Attachment(BaseModel):
 
@@ -111,10 +110,8 @@ class Attachment(BaseModel):
     thumbnail_large: str
     url: str
 
-
     def build_attachment(self):
         return Attachment(**self)
-
 
 
 class User(BaseModel):
@@ -156,8 +153,6 @@ class Comment(BaseModel):
     reactions: List[Any] = None
     date: str = None
 
-
-
     def build_comment(self):
         return Comment(**self)
 
@@ -165,13 +160,12 @@ class Comment(BaseModel):
 class Comments(BaseModel):
     comments: List[Comment] = None
 
-
-
     def __iter__(self):
         return iter(self.comments)
 
     def build_comments(self):
         return Comments(**self)
+
 
 class Creator(BaseModel):
     id: int = None
@@ -184,6 +178,7 @@ class TypeConfig(BaseModel):
     include_guests: Optional[bool]
     include_team_members: Optional[bool]
 
+
 class CustomField(BaseModel):
     id: str
     name: str
@@ -193,6 +188,7 @@ class CustomField(BaseModel):
     hide_from_guests: bool
     value: Optional[str]
     required: bool
+
 
 class Space(BaseModel):
     id: int = None
@@ -224,6 +220,7 @@ class Folders(BaseModel):
 
     def build_folders(self):
         return Folders(**self)
+
 
 class Priority(BaseModel):
     id: int = None
@@ -261,7 +258,7 @@ class Task(BaseModel):
     orderindex: str = None
     date_created: str = None
     date_updated: str = None
-    date_closed: None = None
+    date_closed: str = None
     creator: Creator = None
     task_assignees: List[Any] = Field(None, alias="assignees")
     task_checklists: List[Any] = Field(None, alias="checklists")
@@ -310,8 +307,12 @@ class Task(BaseModel):
 class Tasks(BaseModel):
     tasks: List[Task] = None
 
+    def __iter__(self):
+        return iter(self.tasks)
+
     def build_tasks(self):
         return Tasks(**self)
+
 
 class User(BaseModel):
     id: str = None
@@ -341,6 +342,7 @@ class Member(BaseModel):
     user: User
     invited_by: Optional[InvitedBy] = None
 
+
 class Members(BaseModel):
     members: List[User] = None
 
@@ -349,6 +351,7 @@ class Members(BaseModel):
 
     def build_members(self):
         return Members(**self)
+
 
 class Team(BaseModel):
     id: str = None
@@ -366,3 +369,47 @@ class Teams(BaseModel):
 
     def build_teams(self):
         return Teams(**self)
+
+
+class Goal(BaseModel):
+    id: str = None
+    name: str = None
+    team_id: int = None
+    date_created: str = None
+    start_date: str = None
+    due_date: str = None
+    description: str = None
+    private: bool = None
+    archived: bool = None
+    creator: int = None
+    color: str = None
+    pretty_id: int = None
+    multiple_owners: bool = None
+    folder_id: str = None
+    members: List[User] = None
+    owners: List[User] = None
+    key_results: List[Any] = None
+    percent_completed: int = None
+    history: List[Any] = None
+    pretty_url: str = None
+
+    def build_goal(self):
+        return Goal(**self)
+
+
+class Goals(BaseModel):
+    goal: Goal
+
+    def build_goals(self):
+        built_goal = Goals(**self)
+        return built_goal.goal
+
+
+class GoalsList(BaseModel):
+    goals: List[Goal] = None
+
+    def __iter__(self):
+        return iter(self.goals)
+
+    def build_goals(self):
+        return GoalsList(**self)

@@ -1,5 +1,6 @@
 import requests
 import urllib
+import urllib.parse
 from urllib.parse import urlparse
 import os
 import json
@@ -21,8 +22,17 @@ class ClickUpClient():
     def __init__(self, accesstoken: str, api_url: str = API_URL):
         self.api_url = api_url
         self.accesstoken = accesstoken
+        self.request_count = 0
+
+    # Generates headers for use in GET, POST, DELETE, PUT requests
 
     def __headers(self, file_upload: bool = False):
+
+        """Internal method to generate headers for HTTP requests. Generates headers for use in GET, POST, DELETE and PUT requests.
+
+        Returns:
+            dict: Returns headers for HTTP requests
+        """        
 
         return (
             {'Authorization': self.accesstoken}
@@ -33,16 +43,20 @@ class ClickUpClient():
             }
         )
 
-    # Performs a Get request to the ClickUp API
-    def __get_request(self, model, *additionalpath):
-
+    
+    def __get_request(self, model, *additionalpath) -> json:
+        
+        """Performs a Get request to the ClickUp API
+        """        
         path = formatting.url_join(API_URL, model, *additionalpath)
+        print(path)
         response = requests.get(path, headers=self.__headers())
+        self.request_count +=1
         response_json = response.json()
         if response.status_code == 429:
             raise exceptions.ClickupClientError(
                 "Rate limit exceeded", response.status_code)
-        if response.status_code in [401, 400]:
+        if response.status_code in [401, 400, 404]:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
         if response.ok:
@@ -61,11 +75,13 @@ class ClickUpClient():
         if upload_files:
             response = requests.post(path, headers=self.__headers(
                 True), data=data, files=upload_files)
+            self.request_count +=1    
         else:
             response = requests.post(
                 path, headers=self.__headers(), data=data)
+            self.request_count +=1
         response_json = response.json()
-
+        
         if response.status_code in [401, 400, 500]:
             raise exceptions.ClickupClientError(
                 response_json['err'], response.status_code)
@@ -76,6 +92,7 @@ class ClickUpClient():
     def __put_request(self, model, data, *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
         response = requests.put(path, headers=self.__headers(), data=data)
+        self.request_count +=1
         response_json = response.json()
         if response.status_code in [401, 400]:
             raise exceptions.ClickupClientError(
@@ -87,6 +104,7 @@ class ClickUpClient():
     def __delete_request(self, model, *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
         response = requests.delete(path, headers=self.__headers())
+        self.request_count +=1
         if response.ok:
             return response.status_code
         else:
@@ -233,7 +251,6 @@ class ClickUpClient():
         return(True)
 
     # Tasks
-
     def upload_attachment(
             self,
             task_id: str,
@@ -280,19 +297,73 @@ class ClickUpClient():
         if final_task:
             return final_task
 
-    def get_tasks(self, list_id: str) -> models.Tasks:
-        """Fetches a list of task items from a given list ID.
+    def get_tasks(self, list_id: str, archived: bool = False, page: int = 0, order_by: str = "created", reverse: bool = False, subtasks: bool = False, statuses: List[str] = None,
+                  include_closed: bool = False, assignees: List[str] = None, due_date_gt: str = None, due_date_lt: str = None, date_created_gt: str = None,
+                  date_created_lt: str = None,  date_updated_gt: str = None, date_updated_lt: str = None) -> models.Tasks:
+        """The maximum number of tasks returned in this response is 100. When you are paging this request, 
+            you should check list limit against the length of each response to determine if you are on the last page.
+
 
         Args:
-            list_id (str): The ID of the ClickUp list to fetch tasks from.
+            list_id (str): The ID of the list to retrieve tasks from.
+            archived (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.
+            page (int, optional): Page to fetch (starts at 0). Defaults to 0.
+            order_by (str, optional): Order by field, defaults to "created". Options: id, created, updated, due_date.
+            reverse (bool, optional): Reverse the order of the returned tasks. Defaults to False.
+            subtasks (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.
+            statuses (List[str], optional): Only retrive tasks with the supplied status. Defaults to None.
+            include_closed (bool, optional): Include closed tasks in the query. Defaults to False.
+            assignees (List[str], optional): Retrieve tasks for specific assignees only. Defaults to None.
+            due_date_gt (str, optional): Retrieve tasks with a due date greater than the supplied date. Defaults to None.
+            due_date_lt (str, optional): Retrieve tasks with a due date less than the supplied date. Defaults to None.
+            date_created_gt (str, optional): Retrieve tasks with a creation date greater than the supplied date. Defaults to None.
+            date_created_lt (str, optional): Retrieve tasks with a creation date less than the supplied date. Defaults to None.
+            date_updated_gt (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
+            date_updated_lt (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
+
+        Raises:
+            exceptions.ClickupClientError: Invalid order_by value
 
         Returns:
-            task.Tasks: Returns an object of type Tasks.
+            models.Tasks: Returns a list of item Task.
         """
-        model = "list/"
-        fetched_tasks = self.__get_request(model, list_id, "task")
 
-        return models.Tasks.build_tasks(fetched_tasks)
+        if order_by not in ["id", "created", "updated", "due_date"]:
+            raise exceptions.ClickupClientError(
+                "Options are: id, created, updated, due_date", "Invalid order_by value")
+
+        supplied_values = [f"archived={str(archived).lower()}", f"page={page}", f"order_by={order_by}",
+                           f"reverse={str(reverse).lower()}", f"include_closed={str(include_closed).lower()}"]
+
+        if statuses:
+            supplied_values.append(
+                f"{urllib.parse.quote_plus('statuses[]')}={','.join(statuses)}")
+        if assignees:
+            supplied_values.append(
+                f"{urllib.parse.quote_plus('assignees[]')}={','.join(assignees)}")
+        if due_date_gt:
+            supplied_values.append(
+                f"due_date_gt={fuzzy_time_to_unix(due_date_gt)}")
+        if due_date_lt:
+            supplied_values.append(
+                f"due_date_lt={fuzzy_time_to_unix(due_date_lt)}")
+        if date_created_gt:
+            supplied_values.append(f"date_created_gt={date_created_gt}")
+        if date_created_lt:
+            supplied_values.append(f"date_created_lt={date_created_lt}")
+        if date_updated_gt:
+            supplied_values.append(f"date_updated_gt={date_updated_gt}")
+        if date_updated_lt:
+            supplied_values.append(f"date_updated_lt={date_updated_lt}")
+        if subtasks:
+            supplied_values.append(f"subtasks=true")
+
+        joined_url = f"task?{'&'.join(supplied_values)}"
+
+        model = "list/"
+        fetched_tasks = self.__get_request(model, list_id, joined_url)
+        if fetched_tasks:
+            return models.Tasks.build_tasks(fetched_tasks)
 
     def create_task(
             self,
@@ -484,7 +555,7 @@ class ClickUpClient():
 
         model = "team/"
         fetched_teams = self.__get_request(model)
-        final_teams = teams.Teams.build_teams(fetched_teams)
+        final_teams = models.Teams.build_teams(fetched_teams)
         if final_teams:
             return final_teams
 
@@ -550,14 +621,13 @@ class ClickUpClient():
         Args:
             checklist_id (str): [description]
             checklist_item_id (str): [description]
-        """        
+        """
         model = "checklist/"
         self.__delete_request(
             model, checklist_id, "checklist_item", checklist_item_id)
         return(True)
 
-    def update_checklist_item(self, checklist_id: str, checklist_item_id: str, name: str = None, resolved: bool = None, parent:str = None):
-        
+    def update_checklist_item(self, checklist_id: str, checklist_item_id: str, name: str = None, resolved: bool = None, parent: str = None):
 
         arguments = {}
         arguments.update(vars())
@@ -578,26 +648,104 @@ class ClickUpClient():
         if final_update:
             return final_update
 
-
     # Members
+
     def get_task_members(
             self,
             task_id: str):
 
         model = "task/"
-        
+
         task_members = self.__get_request(model, task_id, "member")
         return models.Members.build_members(task_members)
 
     def get_list_members(
             self,
             list_id: str):
-            
+
         model = "list/"
-        
+
         task_members = self.__get_request(model, list_id, "member")
         return models.Members.build_members(task_members)
 
-    # Tags
+    # Goals
 
-    
+    def create_goal(
+            self,
+            team_id,
+            name: str = None,
+            due_date: str = None,
+            description: str = None,
+            multiple_owners: bool = True,
+            owners: List[int] = None,
+            color: str = None,
+    ):
+
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop('self', None)
+        arguments.pop('arguments', None)
+        arguments.pop('team_id', None)
+        arguments.pop('owners', None)
+
+        if multiple_owners and owners:
+            arguments.update(
+                {'owners': owners})
+
+        final_dict = json.dumps(
+            {k: v for k, v in arguments.items() if v is not None})
+
+        print(final_dict)
+
+        model = "team/"
+        created_goal = self.__post_request(
+            model, final_dict, None, False, team_id, "goal")
+        if created_goal:
+            return models.Goals.build_goals(created_goal)
+
+    def update_goal(self, goal_id: str, name: str = None, due_date: str = None, description: str = None, rem_owners: List[str] = None, add_owners: List[str] = None, color: str = None):
+
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop('self', None)
+        arguments.pop('arguments', None)
+        arguments.pop('goal_id', None)
+
+        final_dict = json.dumps(
+            {k: v for k, v in arguments.items() if v is not None})
+
+        model = "goal/"
+        updated_goal = self.__put_request(
+            model, final_dict, goal_id)
+        if updated_goal:
+            return models.Goals.build_goals(updated_goal)
+
+    def delete_goal(self, goal_id: str):
+
+        model = "goal/"
+        self.__delete_request(
+            model, goal_id)
+        return(True)
+
+    def get_goal(self, goal_id: str) -> models.Goal:
+
+        model = "goal/"
+        fetched_goal = self.__get_request(model, goal_id)
+        final_goal = models.Goals.build_goals(fetched_goal)
+        if final_goal:
+            return final_goal
+
+    def get_goals(self, team_id: str, include_completed: bool = False):
+
+        model = "team/"
+
+        if include_completed:
+            fetched_goals = self.__get_request(
+                model, team_id, "goal?include_completed=true")
+        else:
+            fetched_goals = self.__get_request(
+                model, team_id, "goal?include_completed=false")
+
+        final_goals = models.GoalsList.build_goals(fetched_goals)
+        if final_goals:
+            return final_goals
