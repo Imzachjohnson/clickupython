@@ -341,6 +341,14 @@ class Member(BaseModel):
     user: User
     invited_by: Optional[InvitedBy] = None
 
+class Members(BaseModel):
+    members: List[User] = None
+
+    def __iter__(self):
+        return iter(self.members)
+
+    def build_members(self):
+        return Members(**self)
 
 class Team(BaseModel):
     id: str = None
