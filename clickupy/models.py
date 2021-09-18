@@ -401,3 +401,14 @@ class Goals(BaseModel):
     def build_goals(self):
         built_goal = Goals(**self)
         return built_goal.goal
+
+class GoalsList(BaseModel):
+    goals: List[Goal] = None
+
+    def __iter__(self):
+        return iter(self.goals)  
+
+    def build_goals(self):
+        return GoalsList(**self)
+
+      
