@@ -366,3 +366,39 @@ class Teams(BaseModel):
 
     def build_teams(self):
         return Teams(**self)
+
+
+
+class Goal(BaseModel):
+    id: str = None
+    name: str = None
+    team_id: int = None
+    date_created: str = None
+    start_date: str = None
+    due_date: str = None
+    description: str = None
+    private: bool = None
+    archived: bool = None
+    creator: int = None
+    color: str = None
+    pretty_id: int = None
+    multiple_owners: bool = None
+    folder_id: str = None
+    members: List[User] = None
+    owners: List[User] = None
+    key_results: List[Any] = None
+    percent_completed: int = None
+    history: List[Any] = None
+    pretty_url: str = None
+
+    def build_goal(self):
+        return Goal(**self)
+    
+
+class Goals(BaseModel):
+    goal: Goal
+
+
+    def build_goals(self):
+        built_goal = Goals(**self)
+        return built_goal.goal
