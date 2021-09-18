@@ -550,14 +550,13 @@ class ClickUpClient():
         Args:
             checklist_id (str): [description]
             checklist_item_id (str): [description]
-        """        
+        """
         model = "checklist/"
         self.__delete_request(
             model, checklist_id, "checklist_item", checklist_item_id)
         return(True)
 
-    def update_checklist_item(self, checklist_id: str, checklist_item_id: str, name: str = None, resolved: bool = None, parent:str = None):
-        
+    def update_checklist_item(self, checklist_id: str, checklist_item_id: str, name: str = None, resolved: bool = None, parent: str = None):
 
         arguments = {}
         arguments.update(vars())
@@ -578,26 +577,58 @@ class ClickUpClient():
         if final_update:
             return final_update
 
-
     # Members
+
     def get_task_members(
             self,
             task_id: str):
 
         model = "task/"
-        
+
         task_members = self.__get_request(model, task_id, "member")
         return models.Members.build_members(task_members)
 
     def get_list_members(
             self,
             list_id: str):
-            
+
         model = "list/"
-        
+
         task_members = self.__get_request(model, list_id, "member")
         return models.Members.build_members(task_members)
 
-    # Tags
-
+    # Goals
     
+    def create_goal(
+            self,
+            team_id,
+            name: str = None,
+            due_date: str = None,
+            description: str = None,
+            multiple_owners: bool = True,
+            owners: List[int] = None,
+            color: str = None,
+            ):
+    
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop('self', None)
+        arguments.pop('arguments', None)
+        arguments.pop('team_id', None)
+        arguments.pop('owners', None)
+
+
+        if multiple_owners and owners:
+            arguments.update(
+                {'owners': owners})
+
+        final_dict = json.dumps(
+            {k: v for k, v in arguments.items() if v is not None})
+
+        print(final_dict)
+
+        model = "team/"
+        created_goal = self.__post_request(
+            model, final_dict, None, False, team_id, "goal")
+        if created_goal:
+            return models.Goals.build_goals(created_goal)
