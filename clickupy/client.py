@@ -484,7 +484,7 @@ class ClickUpClient():
 
         model = "team/"
         fetched_teams = self.__get_request(model)
-        final_teams = teams.Teams.build_teams(fetched_teams)
+        final_teams = models.Teams.build_teams(fetched_teams)
         if final_teams:
             return final_teams
 
@@ -650,16 +650,31 @@ class ClickUpClient():
             return models.Goals.build_goals(updated_goal)
 
     def delete_goal(self, goal_id: str):
-       
+
         model = "goal/"
         self.__delete_request(
             model, goal_id)
         return(True)
 
     def get_goal(self, goal_id: str) -> models.Goal:
-   
+
         model = "goal/"
         fetched_goal = self.__get_request(model, goal_id)
         final_goal = models.Goals.build_goals(fetched_goal)
         if final_goal:
             return final_goal
+
+    def get_goals(self, team_id: str, include_completed: bool = False):
+
+        model = "team/"
+
+        if include_completed:
+            fetched_goals = self.__get_request(
+                model, team_id, "goal?include_completed=true")
+        else:
+            fetched_goals = self.__get_request(
+                model, team_id, "goal?include_completed=false")
+
+        final_goals = models.GoalsList.build_goals(fetched_goals)
+        if final_goals:
+            return final_goals
