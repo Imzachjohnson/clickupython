@@ -49,7 +49,6 @@ class ClickUpClient():
         """Performs a Get request to the ClickUp API
         """        
         path = formatting.url_join(API_URL, model, *additionalpath)
-        print(path)
         response = requests.get(path, headers=self.__headers())
         self.request_count +=1
         response_json = response.json()
@@ -311,7 +310,7 @@ class ClickUpClient():
             order_by (str, optional): Order by field, defaults to "created". Options: id, created, updated, due_date.
             reverse (bool, optional): Reverse the order of the returned tasks. Defaults to False.
             subtasks (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.
-            statuses (List[str], optional): Only retrive tasks with the supplied status. Defaults to None.
+            statuses (List[str], optional): Only retrieve tasks with the supplied status. Defaults to None.
             include_closed (bool, optional): Include closed tasks in the query. Defaults to False.
             assignees (List[str], optional): Retrieve tasks for specific assignees only. Defaults to None.
             due_date_gt (str, optional): Retrieve tasks with a due date greater than the supplied date. Defaults to None.

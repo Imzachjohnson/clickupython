@@ -34,13 +34,8 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Clickupy Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="functions.html">Functions</a></li>
-</ul>
-
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
         </div>
       </div>
     </nav>
@@ -77,6 +72,7 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
@@ -100,8 +96,12 @@
 </li>
       <li><a href="clickupy.html#clickupy.models.AllLists">AllLists (class in clickupy.models)</a>
 </li>
-      <li><a href="clickupy.html#clickupy.models.SingleList.archived">archived (clickupy.models.SingleList attribute)</a>
+      <li><a href="clickupy.html#clickupy.models.Goal.archived">archived (clickupy.models.Goal attribute)</a>
+
+      <ul>
+        <li><a href="clickupy.html#clickupy.models.SingleList.archived">(clickupy.models.SingleList attribute)</a>
 </li>
+      </ul></li>
       <li><a href="clickupy.html#clickupy.models.Comment.assigned_by">assigned_by (clickupy.models.Comment attribute)</a>
 </li>
   </ul></td>
@@ -138,13 +138,23 @@
 </li>
       <li><a href="clickupy.html#clickupy.models.Folder.build_folder">build_folder() (clickupy.models.Folder method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="clickupy.html#clickupy.models.Folders.build_folders">build_folders() (clickupy.models.Folders method)</a>
 </li>
+      <li><a href="clickupy.html#clickupy.models.Goal.build_goal">build_goal() (clickupy.models.Goal method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="clickupy.html#clickupy.models.Goals.build_goals">build_goals() (clickupy.models.Goals method)</a>
+
+      <ul>
+        <li><a href="clickupy.html#clickupy.models.GoalsList.build_goals">(clickupy.models.GoalsList method)</a>
+</li>
+      </ul></li>
       <li><a href="clickupy.html#clickupy.models.SingleList.build_list">build_list() (clickupy.models.SingleList method)</a>
 </li>
       <li><a href="clickupy.html#clickupy.models.AllLists.build_lists">build_lists() (clickupy.models.AllLists method)</a>
+</li>
+      <li><a href="clickupy.html#clickupy.models.Members.build_members">build_members() (clickupy.models.Members method)</a>
 </li>
       <li><a href="clickupy.html#clickupy.models.Task.build_task">build_task() (clickupy.models.Task method)</a>
 </li>
@@ -230,6 +240,8 @@
 </li>
         <li><a href="clickupy.html#clickupy.models.Creator.color">(clickupy.models.Creator attribute)</a>
 </li>
+        <li><a href="clickupy.html#clickupy.models.Goal.color">(clickupy.models.Goal attribute)</a>
+</li>
         <li><a href="clickupy.html#clickupy.models.InvitedBy.color">(clickupy.models.InvitedBy attribute)</a>
 </li>
         <li><a href="clickupy.html#clickupy.models.Priority.color">(clickupy.models.Priority attribute)</a>
@@ -265,6 +277,8 @@
 </li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.create_folder">create_folder() (clickupy.client.ClickUpClient method)</a>
 </li>
+      <li><a href="clickupy.html#clickupy.client.ClickUpClient.create_goal">create_goal() (clickupy.client.ClickUpClient method)</a>
+</li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.create_list">create_list() (clickupy.client.ClickUpClient method)</a>
 </li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.create_task">create_task() (clickupy.client.ClickUpClient method)</a>
@@ -273,8 +287,12 @@
 </li>
       <li><a href="clickupy.html#clickupy.models.Creator">Creator (class in clickupy.models)</a>
 </li>
-      <li><a href="clickupy.html#clickupy.models.Task.creator">creator (clickupy.models.Task attribute)</a>
+      <li><a href="clickupy.html#clickupy.models.Goal.creator">creator (clickupy.models.Goal attribute)</a>
+
+      <ul>
+        <li><a href="clickupy.html#clickupy.models.Task.creator">(clickupy.models.Task attribute)</a>
 </li>
+      </ul></li>
       <li><a href="clickupy.html#clickupy.models.Task.custom_fields">custom_fields (clickupy.models.Task attribute)</a>
 </li>
       <li><a href="clickupy.html#clickupy.models.Task.custom_id">custom_id (clickupy.models.Task attribute)</a>
@@ -300,6 +318,8 @@
       <li><a href="clickupy.html#clickupy.models.CustomField.date_created">date_created (clickupy.models.CustomField attribute)</a>
 
       <ul>
+        <li><a href="clickupy.html#clickupy.models.Goal.date_created">(clickupy.models.Goal attribute)</a>
+</li>
         <li><a href="clickupy.html#clickupy.models.Task.date_created">(clickupy.models.Task attribute)</a>
 </li>
       </ul></li>
@@ -315,25 +335,33 @@
         <li><a href="clickupy.html#clickupy.models.Task.delete">(clickupy.models.Task method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.delete_checklist">delete_checklist() (clickupy.client.ClickUpClient method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.delete_checklist_item">delete_checklist_item() (clickupy.client.ClickUpClient method)</a>
 </li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.delete_comment">delete_comment() (clickupy.client.ClickUpClient method)</a>
 </li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.delete_folder">delete_folder() (clickupy.client.ClickUpClient method)</a>
 </li>
+      <li><a href="clickupy.html#clickupy.client.ClickUpClient.delete_goal">delete_goal() (clickupy.client.ClickUpClient method)</a>
+</li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.delete_task">delete_task() (clickupy.client.ClickUpClient method)</a>
 </li>
       <li><a href="clickupy.html#clickupy.models.SingleList.deleted">deleted (clickupy.models.SingleList attribute)</a>
 </li>
-      <li><a href="clickupy.html#clickupy.models.Task.description">description (clickupy.models.Task attribute)</a>
-</li>
-      <li><a href="clickupy.html#clickupy.models.SingleList.due_date">due_date (clickupy.models.SingleList attribute)</a>
+      <li><a href="clickupy.html#clickupy.models.Goal.description">description (clickupy.models.Goal attribute)</a>
 
       <ul>
+        <li><a href="clickupy.html#clickupy.models.Task.description">(clickupy.models.Task attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="clickupy.html#clickupy.models.Goal.due_date">due_date (clickupy.models.Goal attribute)</a>
+
+      <ul>
+        <li><a href="clickupy.html#clickupy.models.SingleList.due_date">(clickupy.models.SingleList attribute)</a>
+</li>
         <li><a href="clickupy.html#clickupy.models.Task.due_date">(clickupy.models.Task attribute)</a>
 </li>
       </ul></li>
@@ -371,6 +399,8 @@
         <li><a href="clickupy.html#clickupy.models.Task.folder">(clickupy.models.Task attribute)</a>
 </li>
       </ul></li>
+      <li><a href="clickupy.html#clickupy.models.Goal.folder_id">folder_id (clickupy.models.Goal attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="clickupy.html#clickupy.models.Folders">Folders (class in clickupy.models)</a>
@@ -395,21 +425,39 @@
 </li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.get_folders">get_folders() (clickupy.client.ClickUpClient method)</a>
 </li>
+      <li><a href="clickupy.html#clickupy.client.ClickUpClient.get_goal">get_goal() (clickupy.client.ClickUpClient method)</a>
+</li>
+      <li><a href="clickupy.html#clickupy.client.ClickUpClient.get_goals">get_goals() (clickupy.client.ClickUpClient method)</a>
+</li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.get_list">get_list() (clickupy.client.ClickUpClient method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.get_list_comments">get_list_comments() (clickupy.client.ClickUpClient method)</a>
+</li>
+      <li><a href="clickupy.html#clickupy.client.ClickUpClient.get_list_members">get_list_members() (clickupy.client.ClickUpClient method)</a>
 </li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.get_lists">get_lists() (clickupy.client.ClickUpClient method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.get_task">get_task() (clickupy.client.ClickUpClient method)</a>
 </li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.get_task_comments">get_task_comments() (clickupy.client.ClickUpClient method)</a>
 </li>
+      <li><a href="clickupy.html#clickupy.client.ClickUpClient.get_task_members">get_task_members() (clickupy.client.ClickUpClient method)</a>
+</li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.get_tasks">get_tasks() (clickupy.client.ClickUpClient method)</a>
 </li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.get_teams">get_teams() (clickupy.client.ClickUpClient method)</a>
+</li>
+      <li><a href="clickupy.html#clickupy.models.Goal">Goal (class in clickupy.models)</a>
+</li>
+      <li><a href="clickupy.html#clickupy.models.Goals.goal">goal (clickupy.models.Goals attribute)</a>
+</li>
+      <li><a href="clickupy.html#clickupy.models.Goals">Goals (class in clickupy.models)</a>
+</li>
+      <li><a href="clickupy.html#clickupy.models.GoalsList.goals">goals (clickupy.models.GoalsList attribute)</a>
+</li>
+      <li><a href="clickupy.html#clickupy.models.GoalsList">GoalsList (class in clickupy.models)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -426,6 +474,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="clickupy.html#clickupy.models.CustomField.hide_from_guests">hide_from_guests (clickupy.models.CustomField attribute)</a>
+</li>
+      <li><a href="clickupy.html#clickupy.models.Goal.history">history (clickupy.models.Goal attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -453,6 +503,8 @@
         <li><a href="clickupy.html#clickupy.models.CustomField.id">(clickupy.models.CustomField attribute)</a>
 </li>
         <li><a href="clickupy.html#clickupy.models.Folder.id">(clickupy.models.Folder attribute)</a>
+</li>
+        <li><a href="clickupy.html#clickupy.models.Goal.id">(clickupy.models.Goal attribute)</a>
 </li>
         <li><a href="clickupy.html#clickupy.models.InvitedBy.id">(clickupy.models.InvitedBy attribute)</a>
 </li>
@@ -500,6 +552,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="clickupy.html#clickupy.models.Goal.key_results">key_results (clickupy.models.Goal attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -525,8 +585,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="clickupy.html#clickupy.models.Member">Member (class in clickupy.models)</a>
 </li>
-      <li><a href="clickupy.html#clickupy.models.Team.members">members (clickupy.models.Team attribute)</a>
+      <li><a href="clickupy.html#clickupy.models.Members">Members (class in clickupy.models)</a>
 </li>
+      <li><a href="clickupy.html#clickupy.models.Goal.members">members (clickupy.models.Goal attribute)</a>
+
+      <ul>
+        <li><a href="clickupy.html#clickupy.models.Members.members">(clickupy.models.Members attribute)</a>
+</li>
+        <li><a href="clickupy.html#clickupy.models.Team.members">(clickupy.models.Team attribute)</a>
+</li>
+      </ul></li>
       <li>
     module
 
@@ -547,6 +615,10 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="clickupy.html#clickupy.models.Goal.multiple_owners">multiple_owners (clickupy.models.Goal attribute)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="N">N</h2>
@@ -560,6 +632,8 @@
         <li><a href="clickupy.html#clickupy.models.CustomField.name">(clickupy.models.CustomField attribute)</a>
 </li>
         <li><a href="clickupy.html#clickupy.models.Folder.name">(clickupy.models.Folder attribute)</a>
+</li>
+        <li><a href="clickupy.html#clickupy.models.Goal.name">(clickupy.models.Goal attribute)</a>
 </li>
         <li><a href="clickupy.html#clickupy.models.ListFolder.name">(clickupy.models.ListFolder attribute)</a>
 </li>
@@ -602,6 +676,8 @@
         <li><a href="clickupy.html#clickupy.models.SingleList.override_statuses">(clickupy.models.SingleList attribute)</a>
 </li>
       </ul></li>
+      <li><a href="clickupy.html#clickupy.models.Goal.owners">owners (clickupy.models.Goal attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -610,7 +686,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="clickupy.html#clickupy.models.Task.parent">parent (clickupy.models.Task attribute)</a>
 </li>
+      <li><a href="clickupy.html#clickupy.models.Goal.percent_completed">percent_completed (clickupy.models.Goal attribute)</a>
+</li>
       <li><a href="clickupy.html#clickupy.models.SingleList.permission_level">permission_level (clickupy.models.SingleList attribute)</a>
+</li>
+      <li><a href="clickupy.html#clickupy.models.Goal.pretty_id">pretty_id (clickupy.models.Goal attribute)</a>
+</li>
+      <li><a href="clickupy.html#clickupy.models.Goal.pretty_url">pretty_url (clickupy.models.Goal attribute)</a>
 </li>
       <li><a href="clickupy.html#clickupy.models.Priority">Priority (class in clickupy.models)</a>
 </li>
@@ -624,6 +706,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="clickupy.html#clickupy.models.Goal.private">private (clickupy.models.Goal attribute)</a>
+</li>
       <li><a href="clickupy.html#clickupy.models.AssignedBy.profile_picture">profile_picture (clickupy.models.AssignedBy attribute)</a>
 
       <ul>
@@ -676,9 +760,11 @@
         <li><a href="clickupy.html#clickupy.models.Task.space">(clickupy.models.Task attribute)</a>
 </li>
       </ul></li>
-      <li><a href="clickupy.html#clickupy.models.SingleList.start_date">start_date (clickupy.models.SingleList attribute)</a>
+      <li><a href="clickupy.html#clickupy.models.Goal.start_date">start_date (clickupy.models.Goal attribute)</a>
 
       <ul>
+        <li><a href="clickupy.html#clickupy.models.SingleList.start_date">(clickupy.models.SingleList attribute)</a>
+</li>
         <li><a href="clickupy.html#clickupy.models.Task.start_date">(clickupy.models.Task attribute)</a>
 </li>
       </ul></li>
@@ -730,12 +816,14 @@
 </li>
       <li><a href="clickupy.html#clickupy.models.Team">Team (class in clickupy.models)</a>
 </li>
-      <li><a href="clickupy.html#clickupy.models.Teams">Teams (class in clickupy.models)</a>
+      <li><a href="clickupy.html#clickupy.models.Goal.team_id">team_id (clickupy.models.Goal attribute)</a>
 </li>
-      <li><a href="clickupy.html#clickupy.models.Teams.teams">teams (clickupy.models.Teams attribute)</a>
+      <li><a href="clickupy.html#clickupy.models.Teams">Teams (class in clickupy.models)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="clickupy.html#clickupy.models.Teams.teams">teams (clickupy.models.Teams attribute)</a>
+</li>
       <li><a href="clickupy.html#clickupy.models.CommentComment.text">text (clickupy.models.CommentComment attribute)</a>
 </li>
       <li><a href="clickupy.html#clickupy.models.Task.text_content">text_content (clickupy.models.Task attribute)</a>
@@ -780,6 +868,8 @@
 </li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.update_folder">update_folder() (clickupy.client.ClickUpClient method)</a>
 </li>
+      <li><a href="clickupy.html#clickupy.client.ClickUpClient.update_goal">update_goal() (clickupy.client.ClickUpClient method)</a>
+</li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.update_task">update_task() (clickupy.client.ClickUpClient method)</a>
 </li>
       <li><a href="clickupy.html#clickupy.client.ClickUpClient.upload_attachment">upload_attachment() (clickupy.client.ClickUpClient method)</a>
@@ -788,14 +878,14 @@
         <li><a href="clickupy.html#clickupy.models.Task.upload_attachment">(clickupy.models.Task method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="clickupy.html#clickupy.models.Attachment.url">url (clickupy.models.Attachment attribute)</a>
 
       <ul>
         <li><a href="clickupy.html#clickupy.models.Task.url">(clickupy.models.Task attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="clickupy.helpers.html#clickupy.helpers.formatting.url_join">url_join() (in module clickupy.helpers.formatting)</a>
 </li>
       <li><a href="clickupy.html#clickupy.models.User">User (class in clickupy.models)</a>
