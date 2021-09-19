@@ -43,7 +43,29 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#tasks">Tasks</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#creating-a-task">Creating a Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fetching-a-single-task">Fetching a Single Task</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fetching-all-tasks-from-a-list">Fetching all Tasks from a List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filtering-tasks">Filtering Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#working-with-tasks">Working With Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-tasks-associated-with-a-list-object">Getting Tasks Associated with a List Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#task-methods">Task Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#get-tasks">get_tasks()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-task">get_task()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-task">create_task()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#update-task">update_task()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#delete-task">delete_task()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-task-comments">get_task_comments()</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#lists">Lists</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#list-methods">List Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#get-list">get_list()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-lists">get_lists()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-list">create_list()</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -77,10 +99,180 @@
              
   <section id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h1>
-<p>Clickupy is a Python client for the ClickUp API and can be used to interact with the ClickUp API in your projects. ClickUp’s API exposes the entire ClickUp infrastructure via a standardized programmatic interface. Using ClickUp’s API, you can do just about anything you can do on clickup.com.</p>
+<p>Clickupy is a Python client for the ClickUp API and can be used to interact with the ClickUp API in your projects. Below are some examples to get you started with clickupy.</p>
 <section id="tasks">
 <h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline"></a></h2>
-<section id="creating-a-task">
+<dl class="py class">
+<dt class="sig sig-object py" id="clickupy.models.Task">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">clickupy.models.</span></span><span class="sig-name descname"><span class="pre">Task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">None</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_content</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="clickupy.html#clickupy.models.Status" title="clickupy.models.Status"><span class="pre">clickupy.models.Status</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orderindex</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_created</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_updated</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_closed</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">creator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="clickupy.html#clickupy.models.Creator" title="clickupy.models.Creator"><span class="pre">clickupy.models.Creator</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assignees</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checklists</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="clickupy.html#clickupy.models.Priority" title="clickupy.models.Priority"><span class="pre">clickupy.models.Priority</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_estimate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_spent</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_fields</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="clickupy.html#clickupy.models.CustomField" title="clickupy.models.CustomField"><span class="pre">clickupy.models.CustomField</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="clickupy.html#clickupy.models.ClickupList" title="clickupy.models.ClickupList"><span class="pre">clickupy.models.ClickupList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="clickupy.html#clickupy.models.Folder" title="clickupy.models.Folder"><span class="pre">clickupy.models.Folder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">space</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="clickupy.html#clickupy.models.Folder" title="clickupy.models.Folder"><span class="pre">clickupy.models.Folder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clickupy.models.Task" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.main.BaseModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.models.Task.add_comment">
+<span class="sig-name descname"><span class="pre">add_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assignee</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notify_all</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clickupy.models.Task.add_comment" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.models.Task.build_task">
+<span class="sig-name descname"><span class="pre">build_task</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clickupy.models.Task.build_task" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.models.Task.check_status">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">check_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clickupy.models.Task.check_status" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.creator">
+<span class="sig-name descname"><span class="pre">creator</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="clickupy.html#clickupy.models.Creator" title="clickupy.models.Creator"><span class="pre">clickupy.models.Creator</span></a></em><a class="headerlink" href="#clickupy.models.Task.creator" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.custom_fields">
+<span class="sig-name descname"><span class="pre">custom_fields</span></span><em class="property"><span class="pre">:</span> <span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="clickupy.html#clickupy.models.CustomField" title="clickupy.models.CustomField"><span class="pre">clickupy.models.CustomField</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.Task.custom_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.custom_id">
+<span class="sig-name descname"><span class="pre">custom_id</span></span><em class="property"><span class="pre">:</span> <span class="pre">None</span></em><a class="headerlink" href="#clickupy.models.Task.custom_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.date_closed">
+<span class="sig-name descname"><span class="pre">date_closed</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.date_closed" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.date_created">
+<span class="sig-name descname"><span class="pre">date_created</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.date_created" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.date_updated">
+<span class="sig-name descname"><span class="pre">date_updated</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.date_updated" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.models.Task.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clickupy.models.Task.delete" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.description" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.due_date">
+<span class="sig-name descname"><span class="pre">due_date</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.due_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.folder">
+<span class="sig-name descname"><span class="pre">folder</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="clickupy.html#clickupy.models.Folder" title="clickupy.models.Folder"><span class="pre">clickupy.models.Folder</span></a></em><a class="headerlink" href="#clickupy.models.Task.folder" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.models.Task.get_comments">
+<span class="sig-name descname"><span class="pre">get_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_instance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clickupy.models.Task.get_comments" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.list">
+<span class="sig-name descname"><span class="pre">list</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="clickupy.html#clickupy.models.ClickupList" title="clickupy.models.ClickupList"><span class="pre">clickupy.models.ClickupList</span></a></em><a class="headerlink" href="#clickupy.models.Task.list" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.orderindex">
+<span class="sig-name descname"><span class="pre">orderindex</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.orderindex" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.parent">
+<span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.parent" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.priority">
+<span class="sig-name descname"><span class="pre">priority</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="clickupy.html#clickupy.models.Priority" title="clickupy.models.Priority"><span class="pre">clickupy.models.Priority</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.Task.priority" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.space">
+<span class="sig-name descname"><span class="pre">space</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="clickupy.html#clickupy.models.Folder" title="clickupy.models.Folder"><span class="pre">clickupy.models.Folder</span></a></em><a class="headerlink" href="#clickupy.models.Task.space" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.start_date">
+<span class="sig-name descname"><span class="pre">start_date</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.start_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.status">
+<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="clickupy.html#clickupy.models.Status" title="clickupy.models.Status"><span class="pre">clickupy.models.Status</span></a></em><a class="headerlink" href="#clickupy.models.Task.status" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.task_assignees">
+<span class="sig-name descname"><span class="pre">task_assignees</span></span><em class="property"><span class="pre">:</span> <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.Task.task_assignees" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.task_checklists">
+<span class="sig-name descname"><span class="pre">task_checklists</span></span><em class="property"><span class="pre">:</span> <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.Task.task_checklists" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.task_tags">
+<span class="sig-name descname"><span class="pre">task_tags</span></span><em class="property"><span class="pre">:</span> <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.Task.task_tags" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.text_content">
+<span class="sig-name descname"><span class="pre">text_content</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.text_content" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.time_estimate">
+<span class="sig-name descname"><span class="pre">time_estimate</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.time_estimate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.time_spent">
+<span class="sig-name descname"><span class="pre">time_spent</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.Task.time_spent" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.models.Task.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_estimate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">archived</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_assignees</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_assignees</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clickupy.models.Task.update" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.models.Task.upload_attachment">
+<span class="sig-name descname"><span class="pre">upload_attachment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clickupy.models.Task.upload_attachment" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.Task.url">
+<span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.Task.url" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<hr><section id="creating-a-task">
 <h3>Creating a Task<a class="headerlink" href="#creating-a-task" title="Permalink to this headline"></a></h3>
 <p>Here’s how to create a new ClickupClient instance and validate a personal API key with the ClickUp API and create a new task with a
 due date. When creating a new task, the only required arguments are list_id and name. Name will be the title of your list on ClickUp.</p>
@@ -90,14 +282,553 @@ due date. When creating a new task, the only required arguments are list_id and 
 </pre></div>
 </div>
 </section>
+<section id="fetching-a-single-task">
+<h3>Fetching a Single Task<a class="headerlink" href="#fetching-a-single-task" title="Permalink to this headline"></a></h3>
+<p>Example: Lookup via ClickUpClient:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">ClickUpClient</span><span class="p">(</span><span class="s2">&quot;YOUR_API_KEY&quot;</span><span class="p">)</span>
+<span class="n">task</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_task</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 <section id="fetching-all-tasks-from-a-list">
 <h3>Fetching all Tasks from a List<a class="headerlink" href="#fetching-all-tasks-from-a-list" title="Permalink to this headline"></a></h3>
 <p>You can quickly get all tasks for a given list via the list id:</p>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">ClickUpClient</span><span class="p">(</span><span class="s2">&quot;YOUR_API_KEY&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="s2">&quot;132211116&quot;</span><span class="p">)</span>
+<span class="n">tasks</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="s2">&quot;list_id&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
+<section id="filtering-tasks">
+<h3>Filtering Tasks<a class="headerlink" href="#filtering-tasks" title="Permalink to this headline"></a></h3>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">ClickUpClient</span><span class="p">(</span><span class="s2">&quot;YOUR_API_KEY&quot;</span><span class="p">)</span>
+<span class="n">tasks</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="s2">&quot;list_id&quot;</span><span class="p">,</span> <span class="n">date_updated_gt</span><span class="o">=</span><span class="s2">&quot;august 1 2021&quot;</span><span class="p">,</span>
+       <span class="n">assignees</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;4523&quot;</span><span class="p">,</span><span class="s2">&quot;4562&quot;</span><span class="p">,</span><span class="s2">&quot;5871&quot;</span><span class="p">],</span> <span class="n">include_closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This example will return all tasks that have been updated after August 1st, 2021 and are assigned to users with the ids of 4523, 4562, and 5871.
+This request will also include tasks that have been marked as “closed.”</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">ClickUpClient</span><span class="p">(</span><span class="s2">&quot;YOUR_API_KEY&quot;</span><span class="p">)</span>
+<span class="n">tasks</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="s2">&quot;list_id&quot;</span><span class="p">,</span> <span class="n">subtasks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">statuses</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;todo&quot;</span><span class="p">,</span> <span class="s2">&quot;in progress&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This example will return all tasks and subtasks that are marked as “Todo” and “In Progress”. These values can be changed depending on the statuses you have available in your list.</p>
+<p>You can extend the calls above by passing any of the arguments to the <code class="docutils literal notranslate"><span class="pre">get_tasks</span></code> method. You can use as many or as few as you would like.</p>
+</section>
+<section id="working-with-tasks">
+<h3>Working With Tasks<a class="headerlink" href="#working-with-tasks" title="Permalink to this headline"></a></h3>
+<p>Now that you have a list of <code class="docutils literal notranslate"><span class="pre">Task</span></code> objects you can access the attributes of each task in a number of ways:</p>
+<p>Example: Loop:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">ClickUpClient</span><span class="p">(</span><span class="s2">&quot;YOUR_API_KEY&quot;</span><span class="p">)</span>
+<span class="n">tasks</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="n">list_id</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
+   <span class="nb">print</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Example: Direct Access via an Index:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">ClickUpClient</span><span class="p">(</span><span class="s2">&quot;YOUR_API_KEY&quot;</span><span class="p">)</span>
+<span class="n">tasks</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="n">list_id</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="getting-tasks-associated-with-a-list-object">
+<h3>Getting Tasks Associated with a List Object<a class="headerlink" href="#getting-tasks-associated-with-a-list-object" title="Permalink to this headline"></a></h3>
+<p>Certain calls can be made directly from a parent object. We can access a single <code class="docutils literal notranslate"><span class="pre">Task</span></code> or all <code class="docutils literal notranslate"><span class="pre">Tasks</span></code> associated with a <code class="docutils literal notranslate"><span class="pre">List</span></code> with the following
+methods.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>IMPORTANT - When calling a method from a parent object you must pass in a reference to the ClickUpClient object as the first argument.</p>
+</div>
+<p>Example: Lookup Tasks via a List Object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">ClickUpClient</span><span class="p">(</span><span class="s2">&quot;YOUR_API_KEY&quot;</span><span class="p">)</span>
+<span class="nb">list</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_list</span><span class="p">(</span><span class="n">list_id</span><span class="p">)</span>
+<span class="n">tasks</span> <span class="o">=</span> <span class="nb">list</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">filtered_tasks</span> <span class="o">=</span> <span class="nb">list</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">subtasks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">statuses</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;todo&quot;</span><span class="p">,</span> <span class="s2">&quot;in progress&quot;</span><span class="p">])</span>
+<span class="n">task</span> <span class="o">=</span> <span class="nb">list</span><span class="o">.</span><span class="n">get_task</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">task_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<hr></section>
+<section id="task-methods">
+<h3>Task Methods<a class="headerlink" href="#task-methods" title="Permalink to this headline"></a></h3>
+<section id="get-tasks">
+<h4>get_tasks()<a class="headerlink" href="#get-tasks" title="Permalink to this headline"></a></h4>
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.client.ClickUpClient.get_tasks">
+<span class="sig-prename descclassname"><span class="pre">ClickUpClient.</span></span><span class="sig-name descname"><span class="pre">get_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">archived</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_by</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'created'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtasks</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statuses</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_closed</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assignees</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date_gt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date_lt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_created_gt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_created_lt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_updated_gt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_updated_lt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="clickupy.html#clickupy.models.Tasks" title="clickupy.models.Tasks"><span class="pre">clickupy.models.Tasks</span></a></span></span><a class="headerlink" href="#clickupy.client.ClickUpClient.get_tasks" title="Permalink to this definition"></a></dt>
+<dd><p>The maximum number of tasks returned in this response is 100. When you are paging this request, you should check list limit against the length of each response to determine if you are on the last page.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">list_id (str)</dt>
+<dd class="field-odd"><p>The ID of the list to retrieve tasks from.</p>
+</dd>
+<dt class="field-even">archived (bool, optional)</dt>
+<dd class="field-even"><p>Include archived tasks in the retrieved tasks. Defaults to False.</p>
+</dd>
+<dt class="field-odd">page (int, optional)</dt>
+<dd class="field-odd"><p>Page to fetch (starts at 0). Defaults to 0.</p>
+</dd>
+<dt class="field-even">order_by (str, optional)</dt>
+<dd class="field-even"><p>Order by field, defaults to “created”. Options: id, created, updated, due_date.</p>
+</dd>
+<dt class="field-odd">reverse (bool, optional)</dt>
+<dd class="field-odd"><p>Reverse the order of the returned tasks. Defaults to False.</p>
+</dd>
+<dt class="field-even">subtasks (bool, optional)</dt>
+<dd class="field-even"><p>Include archived tasks in the retrieved tasks. Defaults to False.</p>
+</dd>
+<dt class="field-odd">statuses (List[str], optional)</dt>
+<dd class="field-odd"><p>Only retrieve tasks with the supplied status. Defaults to None.</p>
+</dd>
+<dt class="field-even">include_closed (bool, optional)</dt>
+<dd class="field-even"><p>Include closed tasks in the query. Defaults to False.</p>
+</dd>
+<dt class="field-odd">assignees (List[str], optional)</dt>
+<dd class="field-odd"><p>Retrieve tasks for specific assignees only. Defaults to None.</p>
+</dd>
+<dt class="field-even">due_date_gt (str, optional)</dt>
+<dd class="field-even"><p>Retrieve tasks with a due date greater than the supplied date. Defaults to None.</p>
+</dd>
+<dt class="field-odd">due_date_lt (str, optional)</dt>
+<dd class="field-odd"><p>Retrieve tasks with a due date less than the supplied date. Defaults to None.</p>
+</dd>
+<dt class="field-even">date_created_gt (str, optional)</dt>
+<dd class="field-even"><p>Retrieve tasks with a creation date greater than the supplied date. Defaults to None.</p>
+</dd>
+<dt class="field-odd">date_created_lt (str, optional)</dt>
+<dd class="field-odd"><p>Retrieve tasks with a creation date less than the supplied date. Defaults to None.</p>
+</dd>
+<dt class="field-even">date_updated_gt (str, optional)</dt>
+<dd class="field-even"><p>Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.</p>
+</dd>
+<dt class="field-odd">date_updated_lt (str, optional)</dt>
+<dd class="field-odd"><p>Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">exceptions.ClickupClientError</dt>
+<dd class="field-odd"><p>Invalid order_by value</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">models.Tasks</dt>
+<dd class="field-odd"><p>Returns a list of item Task.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<hr></section>
+<section id="get-task">
+<h4>get_task()<a class="headerlink" href="#get-task" title="Permalink to this headline"></a></h4>
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.client.ClickUpClient.get_task">
+<span class="sig-prename descclassname"><span class="pre">ClickUpClient.</span></span><span class="sig-name descname"><span class="pre">get_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#clickupy.models.Task" title="clickupy.models.Task"><span class="pre">clickupy.models.Task</span></a></span></span><a class="headerlink" href="#clickupy.client.ClickUpClient.get_task" title="Permalink to this definition"></a></dt>
+<dd><p>Fetches a single ClickUp task item and returns a Task object.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">task_id (str)</dt>
+<dd class="field-odd"><p>The ID of the task to return.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">Task</dt>
+<dd class="field-odd"><p>Returns an object of type Task.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr></section>
+<section id="create-task">
+<h4>create_task()<a class="headerlink" href="#create-task" title="Permalink to this headline"></a></h4>
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.client.ClickUpClient.create_task">
+<span class="sig-prename descclassname"><span class="pre">ClickUpClient.</span></span><span class="sig-name descname"><span class="pre">create_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assignees</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notify_all</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#clickupy.models.Task" title="clickupy.models.Task"><span class="pre">clickupy.models.Task</span></a></span></span><a class="headerlink" href="#clickupy.client.ClickUpClient.create_task" title="Permalink to this definition"></a></dt>
+<dd><p>[summary]</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">list_id (str)</dt>
+<dd class="field-odd"><p>[description]</p>
+</dd>
+<dt class="field-even">name (str)</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">description (str, optional)</dt>
+<dd class="field-odd"><p>[description]. Defaults to None.</p>
+</dd>
+<dt class="field-even">priority (int, optional)</dt>
+<dd class="field-even"><p>[description]. Defaults to None.</p>
+</dd>
+<dt class="field-odd">assignees ([type], optional)</dt>
+<dd class="field-odd"><p>[description]. Defaults to None.</p>
+</dd>
+<dt class="field-even">tags ([type], optional)</dt>
+<dd class="field-even"><p>[description]. Defaults to None.</p>
+</dd>
+<dt class="field-odd">status (str, optional)</dt>
+<dd class="field-odd"><p>[description]. Defaults to None.</p>
+</dd>
+<dt class="field-even">due_date (str, optional)</dt>
+<dd class="field-even"><p>[description]. Defaults to None.</p>
+</dd>
+<dt class="field-odd">start_date (str, optional)</dt>
+<dd class="field-odd"><p>[description]. Defaults to None.</p>
+</dd>
+<dt class="field-even">notify_all (bool, optional)</dt>
+<dd class="field-even"><p>[description]. Defaults to True.</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">exceptions.ClickupClientError</dt>
+<dd class="field-odd"><p>[description]</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">models.Task</dt>
+<dd class="field-odd"><p>[description]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<hr></section>
+<section id="update-task">
+<h4>update_task()<a class="headerlink" href="#update-task" title="Permalink to this headline"></a></h4>
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.client.ClickUpClient.update_task">
+<span class="sig-prename descclassname"><span class="pre">ClickUpClient.</span></span><span class="sig-name descname"><span class="pre">update_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_estimate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">archived</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_assignees</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_assignees</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#clickupy.models.Task" title="clickupy.models.Task"><span class="pre">clickupy.models.Task</span></a></span></span><a class="headerlink" href="#clickupy.client.ClickUpClient.update_task" title="Permalink to this definition"></a></dt>
+<dd><p>[summary]</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">task_id ([type])</dt>
+<dd class="field-odd"><p>The ID of the ClickUp task to update.</p>
+</dd>
+<dt class="field-even">name (str, optional)</dt>
+<dd class="field-even"><p>Sting value to update the task name to. Defaults to None.</p>
+</dd>
+<dt class="field-odd">description (str, optional)</dt>
+<dd class="field-odd"><p>Sting value to update the task description to. Defaults to None.</p>
+</dd>
+<dt class="field-even">status (str, optional)</dt>
+<dd class="field-even"><p>String value of the tasks status. Defaults to None.</p>
+</dd>
+<dt class="field-odd">priority (int, optional)</dt>
+<dd class="field-odd"><p>Priority of the task. Range 1-4. Defaults to None.</p>
+</dd>
+<dt class="field-even">time_estimate (int, optional)</dt>
+<dd class="field-even"><p>Time estimate of the task. Defaults to None.</p>
+</dd>
+<dt class="field-odd">archived (bool, optional)</dt>
+<dd class="field-odd"><p>Whether the task should be archived or not. Defaults to None.</p>
+</dd>
+<dt class="field-even">add_assignees (List[str], optional)</dt>
+<dd class="field-even"><p>List of assignee IDs to add to the task. Defaults to None.</p>
+</dd>
+<dt class="field-odd">remove_assignees (List[int], optional)</dt>
+<dd class="field-odd"><p>List of assignee IDs to remove from the task. Defaults to None.</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">exceptions.ClickupClientError</dt>
+<dd class="field-odd"><p>Raises “Priority out of range” exception for invalid priority range.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">task.Task</dt>
+<dd class="field-odd"><p>Returns an object of type Task.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<hr></section>
+<section id="delete-task">
+<h4>delete_task()<a class="headerlink" href="#delete-task" title="Permalink to this headline"></a></h4>
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.client.ClickUpClient.delete_task">
+<span class="sig-prename descclassname"><span class="pre">ClickUpClient.</span></span><span class="sig-name descname"><span class="pre">delete_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#clickupy.client.ClickUpClient.delete_task" title="Permalink to this definition"></a></dt>
+<dd><p>Deletes a task from a given task ID.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>folder_id (str): The ID of the ClickUp task to delete.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<hr></section>
+<section id="get-task-comments">
+<h4>get_task_comments()<a class="headerlink" href="#get-task-comments" title="Permalink to this headline"></a></h4>
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.client.ClickUpClient.get_task_comments">
+<span class="sig-prename descclassname"><span class="pre">ClickUpClient.</span></span><span class="sig-name descname"><span class="pre">get_task_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clickupy.client.ClickUpClient.get_task_comments" title="Permalink to this definition"></a></dt>
+<dd><p>Get all the comments for a task from a given Task id.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">task_id (str)</dt>
+<dd class="field-odd"><p>[description]</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>[type]: [description]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<hr></section>
+</section>
+</section>
+<section id="lists">
+<h2>Lists<a class="headerlink" href="#lists" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="clickupy.models.SingleList">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">clickupy.models.</span></span><span class="sig-name descname"><span class="pre">SingleList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deleted</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">archived</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orderindex</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">override_statuses</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="clickupy.html#clickupy.models.Priority" title="clickupy.models.Priority"><span class="pre">clickupy.models.Priority</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assignee</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="clickupy.html#clickupy.models.Asssignee" title="clickupy.models.Asssignee"><span class="pre">clickupy.models.Asssignee</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="clickupy.html#clickupy.models.ListFolder" title="clickupy.models.ListFolder"><span class="pre">clickupy.models.ListFolder</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="clickupy.html#clickupy.models.ListFolder" title="clickupy.models.ListFolder"><span class="pre">clickupy.models.ListFolder</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statuses</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="clickupy.html#clickupy.models.StatusElement" title="clickupy.models.StatusElement"><span class="pre">clickupy.models.StatusElement</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inbound_address</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permission_level</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="clickupy.html#clickupy.models.Status" title="clickupy.models.Status"><span class="pre">clickupy.models.Status</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_count</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clickupy.models.SingleList" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.main.BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.archived">
+<span class="sig-name descname"><span class="pre">archived</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#clickupy.models.SingleList.archived" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.assignee">
+<span class="sig-name descname"><span class="pre">assignee</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="clickupy.html#clickupy.models.Asssignee" title="clickupy.models.Asssignee"><span class="pre">clickupy.models.Asssignee</span></a></em><a class="headerlink" href="#clickupy.models.SingleList.assignee" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.build_list">
+<span class="sig-name descname"><span class="pre">build_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clickupy.models.SingleList.build_list" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.content">
+<span class="sig-name descname"><span class="pre">content</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.SingleList.content" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.deleted">
+<span class="sig-name descname"><span class="pre">deleted</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#clickupy.models.SingleList.deleted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.due_date">
+<span class="sig-name descname"><span class="pre">due_date</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.SingleList.due_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.due_date_time">
+<span class="sig-name descname"><span class="pre">due_date_time</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.SingleList.due_date_time" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.folder">
+<span class="sig-name descname"><span class="pre">folder</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="clickupy.html#clickupy.models.ListFolder" title="clickupy.models.ListFolder"><span class="pre">clickupy.models.ListFolder</span></a></em><a class="headerlink" href="#clickupy.models.SingleList.folder" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.SingleList.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.inbound_address">
+<span class="sig-name descname"><span class="pre">inbound_address</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.SingleList.inbound_address" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.SingleList.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.orderindex">
+<span class="sig-name descname"><span class="pre">orderindex</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#clickupy.models.SingleList.orderindex" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.override_statuses">
+<span class="sig-name descname"><span class="pre">override_statuses</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#clickupy.models.SingleList.override_statuses" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.permission_level">
+<span class="sig-name descname"><span class="pre">permission_level</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.SingleList.permission_level" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.priority">
+<span class="sig-name descname"><span class="pre">priority</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="clickupy.html#clickupy.models.Priority" title="clickupy.models.Priority"><span class="pre">clickupy.models.Priority</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.SingleList.priority" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.space">
+<span class="sig-name descname"><span class="pre">space</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="clickupy.html#clickupy.models.ListFolder" title="clickupy.models.ListFolder"><span class="pre">clickupy.models.ListFolder</span></a></em><a class="headerlink" href="#clickupy.models.SingleList.space" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.start_date">
+<span class="sig-name descname"><span class="pre">start_date</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#clickupy.models.SingleList.start_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.start_date_time">
+<span class="sig-name descname"><span class="pre">start_date_time</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.SingleList.start_date_time" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.status">
+<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="clickupy.html#clickupy.models.Status" title="clickupy.models.Status"><span class="pre">clickupy.models.Status</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.SingleList.status" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.statuses">
+<span class="sig-name descname"><span class="pre">statuses</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="clickupy.html#clickupy.models.StatusElement" title="clickupy.models.StatusElement"><span class="pre">clickupy.models.StatusElement</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.SingleList.statuses" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clickupy.models.SingleList.task_count">
+<span class="sig-name descname"><span class="pre">task_count</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clickupy.models.SingleList.task_count" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<hr><section id="list-methods">
+<h3>List Methods<a class="headerlink" href="#list-methods" title="Permalink to this headline"></a></h3>
+<section id="get-list">
+<h4>get_list()<a class="headerlink" href="#get-list" title="Permalink to this headline"></a></h4>
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.client.ClickUpClient.get_list">
+<span class="sig-prename descclassname"><span class="pre">ClickUpClient.</span></span><span class="sig-name descname"><span class="pre">get_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#clickupy.models.SingleList" title="clickupy.models.SingleList"><span class="pre">clickupy.models.SingleList</span></a></span></span><a class="headerlink" href="#clickupy.client.ClickUpClient.get_list" title="Permalink to this definition"></a></dt>
+<dd><p>Fetches a single list item from a given list id and returns a List object.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>list_id (str): The id of the ClickUp list.</p>
+</dd>
+<dt>Returns:</dt><dd><p>models.SingleList: Returns an object of type List.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<hr></section>
+<section id="get-lists">
+<h4>get_lists()<a class="headerlink" href="#get-lists" title="Permalink to this headline"></a></h4>
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.client.ClickUpClient.get_lists">
+<span class="sig-prename descclassname"><span class="pre">ClickUpClient.</span></span><span class="sig-name descname"><span class="pre">get_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="clickupy.html#clickupy.models.AllLists" title="clickupy.models.AllLists"><span class="pre">clickupy.models.AllLists</span></a></span></span><a class="headerlink" href="#clickupy.client.ClickUpClient.get_lists" title="Permalink to this definition"></a></dt>
+<dd><p>Fetches all lists from a given folder id and returns a list of List objects.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">folder_id (str)</dt>
+<dd class="field-odd"><p>The ID of the ClickUp folder to be returned.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">list.AllLists</dt>
+<dd class="field-odd"><p>Returns a list of type AllLists.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<hr></section>
+<section id="create-list">
+<h4>create_list()<a class="headerlink" href="#create-list" title="Permalink to this headline"></a></h4>
+<dl class="py method">
+<dt class="sig sig-object py" id="clickupy.client.ClickUpClient.create_list">
+<span class="sig-prename descclassname"><span class="pre">ClickUpClient.</span></span><span class="sig-name descname"><span class="pre">create_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#clickupy.models.SingleList" title="clickupy.models.SingleList"><span class="pre">clickupy.models.SingleList</span></a></span></span><a class="headerlink" href="#clickupy.client.ClickUpClient.create_list" title="Permalink to this definition"></a></dt>
+<dd><p>Creates and returns a List object in a folder from a given folder ID.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">folder_id (str)</dt>
+<dd class="field-odd"><p>The ID of the ClickUp folder.</p>
+</dd>
+<dt class="field-even">name (str)</dt>
+<dd class="field-even"><p>The name of the created list.</p>
+</dd>
+<dt class="field-odd">content (str)</dt>
+<dd class="field-odd"><p>The description content of the created list.</p>
+</dd>
+<dt class="field-even">due_date (str)</dt>
+<dd class="field-even"><p>The due date of the created list.</p>
+</dd>
+<dt class="field-odd">priority (int)</dt>
+<dd class="field-odd"><p>An integer 1 : Urgent, 2 : High, 3 : Normal, 4 : Low.</p>
+</dd>
+<dt class="field-even">status (str)</dt>
+<dd class="field-even"><p>Refers to the List color rather than the task Statuses available in the List.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="field-list simple">
+<dt class="field-odd">list.SingleList</dt>
+<dd class="field-odd"><p>Returns an object of type SingleList.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<hr></section>
 </section>
 </section>
 </section>

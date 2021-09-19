@@ -89,6 +89,19 @@ highly recommended that you use the OAuth2 flow.</p>
 <h3>Method 1: API Key (Fastest)<a class="headerlink" href="#method-1-api-key-fastest" title="Permalink to this headline"></a></h3>
 <p>Sign in to ClickUp and navigate to Settings &gt; Apps.
 There you will see a an API token. Copy this and save it. You will use this to authenticate the clickupy client with ClickUp’s API.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ from clickupy import ClickUpClient
+
+  API_KEY = &#39;YOUR API KEY&#39;
+  client = ClickUpClient(API_KEY)
+
+  # Example request | Creating a task in a list
+  c = client.ClickUpClient(API_KEY)
+  task = c.create_task(&quot;list_id&quot;, name=&quot;Test task&quot;, due_date=&quot;march 2 2021&quot;)
+
+  if task:
+     print(task.id)
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -98,6 +111,7 @@ There you will see a an API token. Copy this and save it. You will use this to a
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#tasks">Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#lists">Lists</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="functions.html">Functions</a></li>

@@ -49,7 +49,6 @@ class ClickUpClient():
         """Performs a Get request to the ClickUp API
         """        
         path = formatting.url_join(API_URL, model, *additionalpath)
-        print(path)
         response = requests.get(path, headers=self.__headers())
         self.request_count +=1
         response_json = response.json()
@@ -116,11 +115,11 @@ class ClickUpClient():
         """Fetches a single list item from a given list id and returns a List object.
 
         Args:
-            list_id (str): The ID od the ClickUp list to be returned.
+            list_id (str): The id of the ClickUp list.
 
         Returns:
-            clickuplist.SingleList: Returns a list of type List.
-        """
+            models.SingleList: Returns an object of type List.
+        """        
         model = "list/"
         fetched_list = self.__get_request(model, list_id)
 
@@ -130,10 +129,10 @@ class ClickUpClient():
         """Fetches all lists from a given folder id and returns a list of List objects.
 
         Args:
-            folder_id (str): The ID od the ClickUp folder to be returned.
+            :folder_id (str): The ID of the ClickUp folder to be returned.
 
         Returns:
-            list.AllLists: Returns a list of type AllLists.
+            :list.AllLists: Returns a list of type AllLists.
         """
         model = "folder/"
         fetched_lists = self.__get_request(model, folder_id)
@@ -150,15 +149,15 @@ class ClickUpClient():
         """Creates and returns a List object in a folder from a given folder ID.
 
         Args:
-            folder_id (str): The ID of the ClickUp folder.
-            name (str): The name of the created list.
-            content (str): The description content of the created list.
-            due_date (str): The due date of the created list.
-            priority (int): An integer 1 : Urgent, 2 : High, 3 : Normal, 4 : Low.
-            status (str): Refers to the List color rather than the task Statuses available in the List.
+            :folder_id (str): The ID of the ClickUp folder.
+            :name (str): The name of the created list.
+            :content (str): The description content of the created list.
+            :due_date (str): The due date of the created list.
+            :priority (int): An integer 1 : Urgent, 2 : High, 3 : Normal, 4 : Low.
+            :status (str): Refers to the List color rather than the task Statuses available in the List.
 
         Returns:
-            list.SingleList: Returns an object of type SingleList.
+            :list.SingleList: Returns an object of type SingleList.
         """
         data = {
             'name': name,
@@ -177,10 +176,10 @@ class ClickUpClient():
         """Fetches a single folder item from a given folder id and returns a Folder object.
 
         Args:
-            folder_id (str): The ID of the ClickUp folder to retrieve.
+            :folder_id (str): The ID of the ClickUp folder to retrieve.
 
         Returns:
-            Folder: Returns an object of type Folder.
+            :Folder: Returns an object of type Folder.
         """
         model = "folder/"
         fetched_folder = self.__get_request(model, folder_id)
@@ -191,10 +190,10 @@ class ClickUpClient():
         """Fetches all folders from a given space ID and returns a list of Folder objects.
 
         Args:
-            space_id (str): The ID of the ClickUp space to retrieve the list of folder from.
+            :space_id (str): The ID of the ClickUp space to retrieve the list of folder from.
 
         Returns:
-            Folders: Returns a list of Folder objects.
+            :Folders: Returns a list of Folder objects.
         """
         model = "space/"
         fetched_folders = self.__get_request(model, space_id, "folder")
@@ -205,11 +204,11 @@ class ClickUpClient():
         """Creates and returns a Folder object in a space from a given space ID.
 
         Args:
-            space_id (str): The ID of the ClickUp space to create the folder inside.
-            name (str): String value that the created folder will utilize as its name.
+            :space_id (str): The ID of the ClickUp space to create the folder inside.
+            :name (str): String value that the created folder will utilize as its name.
 
         Returns:
-            Folder: Returns the created Folder object.
+            :Folder: Returns the created Folder object.
         """
         data = {
             'name': name,
@@ -224,11 +223,11 @@ class ClickUpClient():
         """Updates the name of a folder given the folder ID.
 
         Args:
-            folder_id (str): The ID of the ClickUp folder to update.
-            name (str): String that the folder name will be updated to reflect.
+            :folder_id (str): The ID of the ClickUp folder to update.
+            :name (str): String that the folder name will be updated to reflect.
 
         Returns:
-            Folder: Returns the updated Folder as an object.
+            :Folder: Returns the updated Folder as an object.
         """
         data = {
             'name': name,
@@ -243,7 +242,7 @@ class ClickUpClient():
         """Deletes a folder from a given folder ID.
 
         Args:
-            folder_id (str): The ID of the ClickUp folder to delete.
+            :folder_id (str): The ID of the ClickUp folder to delete.
         """
         model = "folder/"
         deleted_folder_status = self.__delete_request(
@@ -258,11 +257,11 @@ class ClickUpClient():
         """Uploads an attachment to a ClickUp task.
 
         Args:
-            task_id (str): The ID of the task to upload to.
-            file_path (str): The filepath of the file to upload.
+            :task_id (str): The ID of the task to upload to.
+            :file_path (str): The filepath of the file to upload.
 
         Returns:
-            Attachment: Returns an attachment object.
+            :Attachment: Returns an attachment object.
         """
 
         if os.path.exists(file_path):
@@ -286,10 +285,10 @@ class ClickUpClient():
         """Fetches a single ClickUp task item and returns a Task object.
 
         Args:
-            task_id (str): The ID of the task to return.
+            :task_id (str): The ID of the task to return.
 
         Returns:
-            Task: Returns an object of type Task.
+            :Task: Returns an object of type Task.
         """
         model = "task/"
         fetched_task = self.__get_request(model, task_id)
@@ -300,32 +299,44 @@ class ClickUpClient():
     def get_tasks(self, list_id: str, archived: bool = False, page: int = 0, order_by: str = "created", reverse: bool = False, subtasks: bool = False, statuses: List[str] = None,
                   include_closed: bool = False, assignees: List[str] = None, due_date_gt: str = None, due_date_lt: str = None, date_created_gt: str = None,
                   date_created_lt: str = None,  date_updated_gt: str = None, date_updated_lt: str = None) -> models.Tasks:
-        """The maximum number of tasks returned in this response is 100. When you are paging this request, 
-            you should check list limit against the length of each response to determine if you are on the last page.
-
-
+        
+        """The maximum number of tasks returned in this response is 100. When you are paging this request, you should check list limit against the length of each response to determine if you are on the last page.
+        
         Args:
-            list_id (str): The ID of the list to retrieve tasks from.
-            archived (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.
-            page (int, optional): Page to fetch (starts at 0). Defaults to 0.
-            order_by (str, optional): Order by field, defaults to "created". Options: id, created, updated, due_date.
-            reverse (bool, optional): Reverse the order of the returned tasks. Defaults to False.
-            subtasks (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.
-            statuses (List[str], optional): Only retrive tasks with the supplied status. Defaults to None.
-            include_closed (bool, optional): Include closed tasks in the query. Defaults to False.
-            assignees (List[str], optional): Retrieve tasks for specific assignees only. Defaults to None.
-            due_date_gt (str, optional): Retrieve tasks with a due date greater than the supplied date. Defaults to None.
-            due_date_lt (str, optional): Retrieve tasks with a due date less than the supplied date. Defaults to None.
-            date_created_gt (str, optional): Retrieve tasks with a creation date greater than the supplied date. Defaults to None.
-            date_created_lt (str, optional): Retrieve tasks with a creation date less than the supplied date. Defaults to None.
-            date_updated_gt (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
-            date_updated_lt (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
+            :list_id (str): 
+                The ID of the list to retrieve tasks from.
+            :archived (bool, optional): 
+                Include archived tasks in the retrieved tasks. Defaults to False.
+            :page (int, optional): 
+                Page to fetch (starts at 0). Defaults to 0.
+            :order_by (str, optional): 
+                Order by field, defaults to "created". Options: id, created, updated, due_date.
+            :reverse (bool, optional): 
+                Reverse the order of the returned tasks. Defaults to False.
+            :subtasks (bool, optional): 
+                Include archived tasks in the retrieved tasks. Defaults to False.
+            :statuses (List[str], optional): 
+                Only retrieve tasks with the supplied status. Defaults to None.
+            :include_closed (bool, optional): 
+                Include closed tasks in the query. Defaults to False.
+            :assignees (List[str], optional): 
+                Retrieve tasks for specific assignees only. Defaults to None.
+            :due_date_gt (str, optional): 
+                Retrieve tasks with a due date greater than the supplied date. Defaults to None.
+            :due_date_lt (str, optional): Retrieve tasks with a due date less than the supplied date. Defaults to None.
+            :date_created_gt (str, optional): 
+                Retrieve tasks with a creation date greater than the supplied date. Defaults to None.
+            :date_created_lt (str, optional): 
+                Retrieve tasks with a creation date less than the supplied date. Defaults to None.
+            :date_updated_gt (str, optional): 
+                Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
+            :date_updated_lt (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
 
         Raises:
-            exceptions.ClickupClientError: Invalid order_by value
+            :exceptions.ClickupClientError: Invalid order_by value
 
         Returns:
-            models.Tasks: Returns a list of item Task.
+            :models.Tasks: Returns a list of item Task.
         """
 
         if order_by not in ["id", "created", "updated", "due_date"]:
@@ -377,7 +388,26 @@ class ClickUpClient():
             due_date: str = None,
             start_date: str = None,
             notify_all: bool = True) -> models.Task:
+        """[summary]
 
+        Args:
+            :list_id (str): [description]
+            :name (str): [description]
+            :description (str, optional): [description]. Defaults to None.
+            :priority (int, optional): [description]. Defaults to None.
+            :assignees ([type], optional): [description]. Defaults to None.
+            :tags ([type], optional): [description]. Defaults to None.
+            :status (str, optional): [description]. Defaults to None.
+            :due_date (str, optional): [description]. Defaults to None.
+            :start_date (str, optional): [description]. Defaults to None.
+            :notify_all (bool, optional): [description]. Defaults to True.
+
+        Raises:
+            :exceptions.ClickupClientError: [description]
+
+        Returns:
+            :models.Task: [description]
+        """        
         if priority and priority not in range(1, 4):
             raise exceptions.ClickupClientError(
                 "Priority must be in range of 0-4.", "Priority out of range")
@@ -414,21 +444,21 @@ class ClickUpClient():
         """[summary]
 
         Args:
-            task_id ([type]): The ID of the ClickUp task to update.
-            name (str, optional): Sting value to update the task name to. Defaults to None.
-            description (str, optional): Sting value to update the task description to. Defaults to None.
-            status (str, optional): String value of the tasks status. Defaults to None.
-            priority (int, optional): Priority of the task. Range 1-4. Defaults to None.
-            time_estimate (int, optional): Time estimate of the task. Defaults to None.
-            archived (bool, optional): Whether the task should be archived or not. Defaults to None.
-            add_assignees (List[str], optional): List of assignee IDs to add to the task. Defaults to None.
-            remove_assignees (List[int], optional): List of assignee IDs to remove from the task. Defaults to None.
+            :task_id ([type]): The ID of the ClickUp task to update.
+            :name (str, optional): Sting value to update the task name to. Defaults to None.
+            :description (str, optional): Sting value to update the task description to. Defaults to None.
+            :status (str, optional): String value of the tasks status. Defaults to None.
+            :priority (int, optional): Priority of the task. Range 1-4. Defaults to None.
+            :time_estimate (int, optional): Time estimate of the task. Defaults to None.
+            :archived (bool, optional): Whether the task should be archived or not. Defaults to None.
+            :add_assignees (List[str], optional): List of assignee IDs to add to the task. Defaults to None.
+            :remove_assignees (List[int], optional): List of assignee IDs to remove from the task. Defaults to None.
 
         Raises:
-            exceptions.ClickupClientError: Raises "Priority out of range" exception for invalid priority range.
+            :exceptions.ClickupClientError: Raises "Priority out of range" exception for invalid priority range.
 
         Returns:
-            task.Task: Returns an object of type Task.
+            :task.Task: Returns an object of type Task.
         """
         if priority and priority not in range(1, 4):
             raise exceptions.ClickupClientError(
@@ -472,7 +502,14 @@ class ClickUpClient():
 
     # Comments
     def get_task_comments(self, task_id: str):
+        """Get all the comments for a task from a given Task id.
 
+        Args:
+            :task_id (str): [description]
+
+        Returns:
+            [type]: [description]
+        """        
         model = "task/"
         fetched_comments = self.__get_request(model, task_id, "comment")
         final_comments = models.Comments.build_comments(fetched_comments)
@@ -488,7 +525,7 @@ class ClickUpClient():
             return final_comments
 
     def get_chat_comments(self, view_id: str):
-
+        
         model = "view/"
         fetched_comments = self.__get_request(model, view_id, "comment")
         final_comments = models.Comments.build_comments(fetched_comments)
