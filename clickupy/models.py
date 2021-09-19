@@ -46,7 +46,7 @@ class SingleList(BaseModel):
     priority: Optional[Priority] = None
     assignee: Asssignee = None
     due_date: str = None
-    start_date: None
+    start_date: str = None
     folder: ListFolder = None
     space: ListFolder = None
     statuses: Optional[List[StatusElement]] = None
@@ -55,7 +55,7 @@ class SingleList(BaseModel):
     content: Optional[str] = None
     status: Optional[Status] = None
     task_count: Optional[int] = None
-    start_date_time: Optional[None] = None
+    start_date_time: Optional[str] = None
     due_date_time: Optional[bool] = None
 
     # return a single list

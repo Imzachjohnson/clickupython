@@ -112,7 +112,14 @@ class ClickUpClient():
 
     # Lists
     def get_list(self, list_id: str) -> models.SingleList:
-        
+        """Fetches a single list item from a given list id and returns a List object.
+
+        Args:
+            list_id (str): The id of the ClickUp list.
+
+        Returns:
+            models.SingleList: Returns an object of type List.
+        """        
         model = "list/"
         fetched_list = self.__get_request(model, list_id)
 
@@ -122,10 +129,10 @@ class ClickUpClient():
         """Fetches all lists from a given folder id and returns a list of List objects.
 
         Args:
-            folder_id (str): The ID od the ClickUp folder to be returned.
+            :folder_id (str): The ID of the ClickUp folder to be returned.
 
         Returns:
-            list.AllLists: Returns a list of type AllLists.
+            :list.AllLists: Returns a list of type AllLists.
         """
         model = "folder/"
         fetched_lists = self.__get_request(model, folder_id)
@@ -142,15 +149,15 @@ class ClickUpClient():
         """Creates and returns a List object in a folder from a given folder ID.
 
         Args:
-            folder_id (str): The ID of the ClickUp folder.
-            name (str): The name of the created list.
-            content (str): The description content of the created list.
-            due_date (str): The due date of the created list.
-            priority (int): An integer 1 : Urgent, 2 : High, 3 : Normal, 4 : Low.
-            status (str): Refers to the List color rather than the task Statuses available in the List.
+            :folder_id (str): The ID of the ClickUp folder.
+            :name (str): The name of the created list.
+            :content (str): The description content of the created list.
+            :due_date (str): The due date of the created list.
+            :priority (int): An integer 1 : Urgent, 2 : High, 3 : Normal, 4 : Low.
+            :status (str): Refers to the List color rather than the task Statuses available in the List.
 
         Returns:
-            list.SingleList: Returns an object of type SingleList.
+            :list.SingleList: Returns an object of type SingleList.
         """
         data = {
             'name': name,
@@ -169,10 +176,10 @@ class ClickUpClient():
         """Fetches a single folder item from a given folder id and returns a Folder object.
 
         Args:
-            folder_id (str): The ID of the ClickUp folder to retrieve.
+            :folder_id (str): The ID of the ClickUp folder to retrieve.
 
         Returns:
-            Folder: Returns an object of type Folder.
+            :Folder: Returns an object of type Folder.
         """
         model = "folder/"
         fetched_folder = self.__get_request(model, folder_id)
@@ -183,10 +190,10 @@ class ClickUpClient():
         """Fetches all folders from a given space ID and returns a list of Folder objects.
 
         Args:
-            space_id (str): The ID of the ClickUp space to retrieve the list of folder from.
+            :space_id (str): The ID of the ClickUp space to retrieve the list of folder from.
 
         Returns:
-            Folders: Returns a list of Folder objects.
+            :Folders: Returns a list of Folder objects.
         """
         model = "space/"
         fetched_folders = self.__get_request(model, space_id, "folder")
@@ -197,11 +204,11 @@ class ClickUpClient():
         """Creates and returns a Folder object in a space from a given space ID.
 
         Args:
-            space_id (str): The ID of the ClickUp space to create the folder inside.
-            name (str): String value that the created folder will utilize as its name.
+            :space_id (str): The ID of the ClickUp space to create the folder inside.
+            :name (str): String value that the created folder will utilize as its name.
 
         Returns:
-            Folder: Returns the created Folder object.
+            :Folder: Returns the created Folder object.
         """
         data = {
             'name': name,
@@ -216,11 +223,11 @@ class ClickUpClient():
         """Updates the name of a folder given the folder ID.
 
         Args:
-            folder_id (str): The ID of the ClickUp folder to update.
-            name (str): String that the folder name will be updated to reflect.
+            :folder_id (str): The ID of the ClickUp folder to update.
+            :name (str): String that the folder name will be updated to reflect.
 
         Returns:
-            Folder: Returns the updated Folder as an object.
+            :Folder: Returns the updated Folder as an object.
         """
         data = {
             'name': name,
@@ -235,7 +242,7 @@ class ClickUpClient():
         """Deletes a folder from a given folder ID.
 
         Args:
-            folder_id (str): The ID of the ClickUp folder to delete.
+            :folder_id (str): The ID of the ClickUp folder to delete.
         """
         model = "folder/"
         deleted_folder_status = self.__delete_request(
@@ -250,11 +257,11 @@ class ClickUpClient():
         """Uploads an attachment to a ClickUp task.
 
         Args:
-            task_id (str): The ID of the task to upload to.
-            file_path (str): The filepath of the file to upload.
+            :task_id (str): The ID of the task to upload to.
+            :file_path (str): The filepath of the file to upload.
 
         Returns:
-            Attachment: Returns an attachment object.
+            :Attachment: Returns an attachment object.
         """
 
         if os.path.exists(file_path):
@@ -495,7 +502,14 @@ class ClickUpClient():
 
     # Comments
     def get_task_comments(self, task_id: str):
+        """Get all the comments for a task from a given Task id.
 
+        Args:
+            :task_id (str): [description]
+
+        Returns:
+            [type]: [description]
+        """        
         model = "task/"
         fetched_comments = self.__get_request(model, task_id, "comment")
         final_comments = models.Comments.build_comments(fetched_comments)
@@ -511,7 +525,7 @@ class ClickUpClient():
             return final_comments
 
     def get_chat_comments(self, view_id: str):
-
+        
         model = "view/"
         fetched_comments = self.__get_request(model, view_id, "comment")
         final_comments = models.Comments.build_comments(fetched_comments)

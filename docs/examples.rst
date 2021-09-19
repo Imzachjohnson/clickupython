@@ -149,3 +149,62 @@ update_task()
 .. raw:: html
 
    <hr>
+
+delete_task()
+++++++++++++
+.. automethod:: clickupy.client.ClickUpClient.delete_task
+|
+|
+.. raw:: html
+
+   <hr>
+
+get_task_comments()
+++++++++++++
+.. automethod:: clickupy.client.ClickUpClient.get_task_comments
+|
+|
+.. raw:: html
+
+   <hr>
+
+
+Lists
+*****
+.. autoclass:: clickupy.models.SingleList
+    :members:
+    :undoc-members:
+    :show-inheritance:
+|
+|
+.. raw:: html
+
+   <hr>
+
+List Methods
+---------------
+
+get_list()
+++++++++++++
+.. automethod:: clickupy.client.ClickUpClient.get_list
+|
+|
+.. raw:: html
+
+   <hr>
+get_lists()
+++++++++++++
+.. automethod:: clickupy.client.ClickUpClient.get_lists
+|
+|
+.. raw:: html
+
+   <hr>
+create_list()
+++++++++++++
+.. automethod:: clickupy.client.ClickUpClient.create_list
+|
+|
+.. raw:: html
+
+   <hr>
