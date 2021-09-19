@@ -25,7 +25,7 @@ Each ``Task`` object has the following attributes:
 ``text_content``
 ``description``
 ``status``
-``orderindex``
+``order_index``
 ``date_created``
 ``date_updated``
 ``date_closed``
@@ -58,27 +58,12 @@ Example::
 
 Filtering Tasks
 ---------------
-You can extend the call above by passing any of the following arguments to the ``get_tasks`` method. You can use as many or as few as you would like:
-
-``archived (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.``
-``page (int, optional): Page to fetch. Defaults to 0.``
-``order_by (str, optional): Order by field, defaults to "created". Options: id, created, updated, due_date.``
-``reverse (bool, optional): Reverse the order of the returned tasks. Defaults to False.``
-``subtasks (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.``
-``statuses (List[str], optional): Only retrieve tasks with the supplied status. Defaults to None.``
-``include_closed (bool, optional): Include closed tasks in the query. Defaults to False.``
-``assignees (List[str], optional): Retrieve tasks for specific assignees only. Defaults to None.``
-``due_date_gt (str, optional): Retrieve tasks with a due date greater than the supplied date. Defaults to None.``
-``due_date_lt (str, optional): Retrieve tasks with a due date less than the supplied date. Defaults to None.``
-``date_created_gt (str, optional): Retrieve tasks with a creation date greater than the supplied date. Defaults to None.``
-``date_created_lt (str, optional): Retrieve tasks with a creation date less than the supplied date. Defaults to None.``
-``date_updated_gt (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.``
-``date_updated_lt (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.``
-
 Example::
 
    c = client.ClickUpClient("YOUR_API_KEY")
-   tasks = c.get_tasks("list_id", date_updated_gt="august 1 2021", assignees=["4523","4562","5871"], include_closed=True)
+   tasks = c.get_tasks("list_id", date_updated_gt="august 1 2021", 
+          assignees=["4523","4562","5871"], include_closed=True)
+
 
 This example will return all tasks that have been updated after August 1st, 2021 and are assigned to users with the ids of 4523, 4562, and 5871.
 This request will also include tasks that have been marked as "closed."
@@ -86,9 +71,28 @@ This request will also include tasks that have been marked as "closed."
 Example::
 
    c = client.ClickUpClient("YOUR_API_KEY")
-   tasks = c.get_tasks("list_id", subtasks=True, statuses=["todo", "in progress"])
+   tasks = c.get_tasks("list_id", subtasks=True, 
+           statuses=["todo", "in progress"])
 
 This example will return all tasks and subtasks that are marked as "Todo" and "In Progress". These values can be changed depending on the statuses you have available in your list.
+
+You can extend the calls above by passing any of the following arguments to the ``get_tasks`` method. You can use as many or as few as you would like.
+
+-page                   (int, optional): Page to fetch. Defaults to 0.
+-reverse                (bool, optional): Reverse the order of the returned tasks. Defaults to False.
+-order_by               (str, optional): Order by field, defaults to "created". Options: id, created, updated, due_date.
+-subtasks               (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.
+-statuses               (List[str], optional): Only retrieve tasks with the supplied status. Defaults to None.
+-include_closed         (bool, optional): Include closed tasks in the query. Defaults to False.
+-archived               (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.
+-assignees              (List[str], optional): Retrieve tasks for specific assignees only. Defaults to None.
+-due_date_gt            (str, optional): Retrieve tasks with a due date greater than the supplied date. Defaults to None.
+-due_date_lt            (str, optional): Retrieve tasks with a due date less than the supplied date. Defaults to None.
+-date_created_gt        (str, optional): Retrieve tasks with a creation date greater than the supplied date. Defaults to None.
+-date_created_lt        (str, optional): Retrieve tasks with a creation date less than the supplied date. Defaults to None.
+-date_updated_gt        (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
+-date_updated_lt        (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
+
 
 Working With Tasks
 ---------------
@@ -110,7 +114,7 @@ Example: Direct Access via an Index::
 
    print(tasks[0].name])
 
-Getting a single Task
+Getting a Single Task
 ---------------
 Example: Lookup via ClickUpClient::
 

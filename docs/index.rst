@@ -47,3 +47,21 @@ There you will see a an API token. Copy this and save it. You will use this to a
 
       if task:
          print(task.id)
+
+
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   modules
+   examples
+   functions
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

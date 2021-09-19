@@ -17,7 +17,9 @@
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Functions" href="functions.html" />
+    <link rel="prev" title="clickupy.helpers package" href="clickupy.helpers.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -35,22 +37,24 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Examples</a><ul>
-<li><a class="reference internal" href="#tasks">Tasks</a><ul>
-<li><a class="reference internal" href="#creating-a-task">Creating a Task</a></li>
-<li><a class="reference internal" href="#fetching-all-tasks-from-a-list">Fetching all Tasks from a List</a></li>
-<li><a class="reference internal" href="#filtering-tasks">Filtering Tasks</a></li>
-<li><a class="reference internal" href="#working-with-tasks">Working With Tasks</a></li>
-<li><a class="reference internal" href="#getting-a-single-task">Getting a single Task</a></li>
-<li><a class="reference internal" href="#getting-tasks-associated-with-a-list-object">Getting Tasks Associated with a List Object</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Clickupy Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-task">Creating a Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fetching-all-tasks-from-a-list">Fetching all Tasks from a List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filtering-tasks">Filtering Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#working-with-tasks">Working With Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-a-single-task">Getting a Single Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-tasks-associated-with-a-list-object">Getting Tasks Associated with a List Object</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">Functions</a></li>
 </ul>
-</div>
+
         </div>
       </div>
     </nav>
@@ -96,7 +100,7 @@ due date. When creating a new task, the only required arguments are list_id and 
 <code class="docutils literal notranslate"><span class="pre">text_content</span></code>
 <code class="docutils literal notranslate"><span class="pre">description</span></code>
 <code class="docutils literal notranslate"><span class="pre">status</span></code>
-<code class="docutils literal notranslate"><span class="pre">orderindex</span></code>
+<code class="docutils literal notranslate"><span class="pre">order_index</span></code>
 <code class="docutils literal notranslate"><span class="pre">date_created</span></code>
 <code class="docutils literal notranslate"><span class="pre">date_updated</span></code>
 <code class="docutils literal notranslate"><span class="pre">date_closed</span></code>
@@ -127,34 +131,66 @@ due date. When creating a new task, the only required arguments are list_id and 
 </section>
 <section id="filtering-tasks">
 <h3>Filtering Tasks<a class="headerlink" href="#filtering-tasks" title="Permalink to this headline"></a></h3>
-<p>You can extend the call above by passing any of the following arguments to the <code class="docutils literal notranslate"><span class="pre">get_tasks</span></code> method. You can use as many or as few as you would like:</p>
-<p><code class="docutils literal notranslate"><span class="pre">archived</span> <span class="pre">(bool,</span> <span class="pre">optional):</span> <span class="pre">Include</span> <span class="pre">archived</span> <span class="pre">tasks</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">retrieved</span> <span class="pre">tasks.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">False.</span></code>
-<code class="docutils literal notranslate"><span class="pre">page</span> <span class="pre">(int,</span> <span class="pre">optional):</span> <span class="pre">Page</span> <span class="pre">to</span> <span class="pre">fetch.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">0.</span></code>
-<code class="docutils literal notranslate"><span class="pre">order_by</span> <span class="pre">(str,</span> <span class="pre">optional):</span> <span class="pre">Order</span> <span class="pre">by</span> <span class="pre">field,</span> <span class="pre">defaults</span> <span class="pre">to</span> <span class="pre">&quot;created&quot;.</span> <span class="pre">Options:</span> <span class="pre">id,</span> <span class="pre">created,</span> <span class="pre">updated,</span> <span class="pre">due_date.</span></code>
-<code class="docutils literal notranslate"><span class="pre">reverse</span> <span class="pre">(bool,</span> <span class="pre">optional):</span> <span class="pre">Reverse</span> <span class="pre">the</span> <span class="pre">order</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">returned</span> <span class="pre">tasks.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">False.</span></code>
-<code class="docutils literal notranslate"><span class="pre">subtasks</span> <span class="pre">(bool,</span> <span class="pre">optional):</span> <span class="pre">Include</span> <span class="pre">archived</span> <span class="pre">tasks</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">retrieved</span> <span class="pre">tasks.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">False.</span></code>
-<code class="docutils literal notranslate"><span class="pre">statuses</span> <span class="pre">(List[str],</span> <span class="pre">optional):</span> <span class="pre">Only</span> <span class="pre">retrieve</span> <span class="pre">tasks</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">supplied</span> <span class="pre">status.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">None.</span></code>
-<code class="docutils literal notranslate"><span class="pre">include_closed</span> <span class="pre">(bool,</span> <span class="pre">optional):</span> <span class="pre">Include</span> <span class="pre">closed</span> <span class="pre">tasks</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">query.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">False.</span></code>
-<code class="docutils literal notranslate"><span class="pre">assignees</span> <span class="pre">(List[str],</span> <span class="pre">optional):</span> <span class="pre">Retrieve</span> <span class="pre">tasks</span> <span class="pre">for</span> <span class="pre">specific</span> <span class="pre">assignees</span> <span class="pre">only.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">None.</span></code>
-<code class="docutils literal notranslate"><span class="pre">due_date_gt</span> <span class="pre">(str,</span> <span class="pre">optional):</span> <span class="pre">Retrieve</span> <span class="pre">tasks</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">due</span> <span class="pre">date</span> <span class="pre">greater</span> <span class="pre">than</span> <span class="pre">the</span> <span class="pre">supplied</span> <span class="pre">date.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">None.</span></code>
-<code class="docutils literal notranslate"><span class="pre">due_date_lt</span> <span class="pre">(str,</span> <span class="pre">optional):</span> <span class="pre">Retrieve</span> <span class="pre">tasks</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">due</span> <span class="pre">date</span> <span class="pre">less</span> <span class="pre">than</span> <span class="pre">the</span> <span class="pre">supplied</span> <span class="pre">date.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">None.</span></code>
-<code class="docutils literal notranslate"><span class="pre">date_created_gt</span> <span class="pre">(str,</span> <span class="pre">optional):</span> <span class="pre">Retrieve</span> <span class="pre">tasks</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">creation</span> <span class="pre">date</span> <span class="pre">greater</span> <span class="pre">than</span> <span class="pre">the</span> <span class="pre">supplied</span> <span class="pre">date.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">None.</span></code>
-<code class="docutils literal notranslate"><span class="pre">date_created_lt</span> <span class="pre">(str,</span> <span class="pre">optional):</span> <span class="pre">Retrieve</span> <span class="pre">tasks</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">creation</span> <span class="pre">date</span> <span class="pre">less</span> <span class="pre">than</span> <span class="pre">the</span> <span class="pre">supplied</span> <span class="pre">date.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">None.</span></code>
-<code class="docutils literal notranslate"><span class="pre">date_updated_gt</span> <span class="pre">(str,</span> <span class="pre">optional):</span> <span class="pre">Retrieve</span> <span class="pre">tasks</span> <span class="pre">where</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">update</span> <span class="pre">date</span> <span class="pre">is</span> <span class="pre">greater</span> <span class="pre">than</span> <span class="pre">the</span> <span class="pre">supplied</span> <span class="pre">date.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">None.</span></code>
-<code class="docutils literal notranslate"><span class="pre">date_updated_lt</span> <span class="pre">(str,</span> <span class="pre">optional):</span> <span class="pre">Retrieve</span> <span class="pre">tasks</span> <span class="pre">where</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">update</span> <span class="pre">date</span> <span class="pre">is</span> <span class="pre">greater</span> <span class="pre">than</span> <span class="pre">the</span> <span class="pre">supplied</span> <span class="pre">date.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">None.</span></code></p>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">ClickUpClient</span><span class="p">(</span><span class="s2">&quot;YOUR_API_KEY&quot;</span><span class="p">)</span>
-<span class="n">tasks</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="s2">&quot;list_id&quot;</span><span class="p">,</span> <span class="n">date_updated_gt</span><span class="o">=</span><span class="s2">&quot;august 1 2021&quot;</span><span class="p">,</span> <span class="n">assignees</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;4523&quot;</span><span class="p">,</span><span class="s2">&quot;4562&quot;</span><span class="p">,</span><span class="s2">&quot;5871&quot;</span><span class="p">],</span> <span class="n">include_closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tasks</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="s2">&quot;list_id&quot;</span><span class="p">,</span> <span class="n">date_updated_gt</span><span class="o">=</span><span class="s2">&quot;august 1 2021&quot;</span><span class="p">,</span>
+       <span class="n">assignees</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;4523&quot;</span><span class="p">,</span><span class="s2">&quot;4562&quot;</span><span class="p">,</span><span class="s2">&quot;5871&quot;</span><span class="p">],</span> <span class="n">include_closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This example will return all tasks that have been updated after August 1st, 2021 and are assigned to users with the ids of 4523, 4562, and 5871.
 This request will also include tasks that have been marked as “closed.”</p>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">ClickUpClient</span><span class="p">(</span><span class="s2">&quot;YOUR_API_KEY&quot;</span><span class="p">)</span>
-<span class="n">tasks</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="s2">&quot;list_id&quot;</span><span class="p">,</span> <span class="n">subtasks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">statuses</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;todo&quot;</span><span class="p">,</span> <span class="s2">&quot;in progress&quot;</span><span class="p">])</span>
+<span class="n">tasks</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="s2">&quot;list_id&quot;</span><span class="p">,</span> <span class="n">subtasks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">statuses</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;todo&quot;</span><span class="p">,</span> <span class="s2">&quot;in progress&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>This example will return all tasks and subtasks that are marked as “Todo” and “In Progress”. These values can be changed depending on the statuses you have available in your list.</p>
+<p>You can extend the calls above by passing any of the following arguments to the <code class="docutils literal notranslate"><span class="pre">get_tasks</span></code> method. You can use as many or as few as you would like.</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-p<var>age</var></span></kbd></dt>
+<dd><p>(int, optional): Page to fetch. Defaults to 0.</p>
+</dd>
+<dt><kbd><span class="option">-r<var>everse</var></span></kbd></dt>
+<dd><p>(bool, optional): Reverse the order of the returned tasks. Defaults to False.</p>
+</dd>
+<dt><kbd><span class="option">-o<var>rder_by</var></span></kbd></dt>
+<dd><p>(str, optional): Order by field, defaults to “created”. Options: id, created, updated, due_date.</p>
+</dd>
+<dt><kbd><span class="option">-s<var>ubtasks</var></span></kbd></dt>
+<dd><p>(bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.</p>
+</dd>
+<dt><kbd><span class="option">-s<var>tatuses</var></span></kbd></dt>
+<dd><p>(List[str], optional): Only retrieve tasks with the supplied status. Defaults to None.</p>
+</dd>
+<dt><kbd><span class="option">-i<var>nclude_closed</var></span></kbd></dt>
+<dd><p>(bool, optional): Include closed tasks in the query. Defaults to False.</p>
+</dd>
+<dt><kbd><span class="option">-a<var>rchived</var></span></kbd></dt>
+<dd><p>(bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.</p>
+</dd>
+<dt><kbd><span class="option">-a<var>ssignees</var></span></kbd></dt>
+<dd><p>(List[str], optional): Retrieve tasks for specific assignees only. Defaults to None.</p>
+</dd>
+<dt><kbd><span class="option">-d<var>ue_date_gt</var></span></kbd></dt>
+<dd><p>(str, optional): Retrieve tasks with a due date greater than the supplied date. Defaults to None.</p>
+</dd>
+<dt><kbd><span class="option">-d<var>ue_date_lt</var></span></kbd></dt>
+<dd><p>(str, optional): Retrieve tasks with a due date less than the supplied date. Defaults to None.</p>
+</dd>
+<dt><kbd><span class="option">-d<var>ate_created_gt</var></span></kbd></dt>
+<dd><p>(str, optional): Retrieve tasks with a creation date greater than the supplied date. Defaults to None.</p>
+</dd>
+<dt><kbd><span class="option">-d<var>ate_created_lt</var></span></kbd></dt>
+<dd><p>(str, optional): Retrieve tasks with a creation date less than the supplied date. Defaults to None.</p>
+</dd>
+<dt><kbd><span class="option">-d<var>ate_updated_gt</var></span></kbd></dt>
+<dd><p>(str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.</p>
+</dd>
+<dt><kbd><span class="option">-d<var>ate_updated_lt</var></span></kbd></dt>
+<dd><p>(str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.</p>
+</dd>
+</dl>
 </section>
 <section id="working-with-tasks">
 <h3>Working With Tasks<a class="headerlink" href="#working-with-tasks" title="Permalink to this headline"></a></h3>
@@ -176,7 +212,7 @@ This request will also include tasks that have been marked as “closed.”</p>
 </div>
 </section>
 <section id="getting-a-single-task">
-<h3>Getting a single Task<a class="headerlink" href="#getting-a-single-task" title="Permalink to this headline"></a></h3>
+<h3>Getting a Single Task<a class="headerlink" href="#getting-a-single-task" title="Permalink to this headline"></a></h3>
 <p>Example: Lookup via ClickUpClient:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">ClickUpClient</span><span class="p">(</span><span class="s2">&quot;YOUR_API_KEY&quot;</span><span class="p">)</span>
 <span class="n">task</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_task</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span>
@@ -208,7 +244,10 @@ methods.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="clickupy.helpers.html" class="btn btn-neutral float-left" title="clickupy.helpers package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="functions.html" class="btn btn-neutral float-right" title="Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
