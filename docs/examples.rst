@@ -5,6 +5,15 @@ Clickupy is a Python client for the ClickUp API and can be used to interact with
 
 Tasks
 *****
+.. autoclass:: clickupy.models.Task
+    :members:
+    :undoc-members:
+    :show-inheritance:
+|
+|
+.. raw:: html
+
+   <hr>
 
 Creating a Task
 ---------------
@@ -17,33 +26,14 @@ Example::
    t = c.create_task("LIST_ID", name="Test Task", due_date="march 2 2021")
 
 
-Each ``Task`` object has the following attributes:
+Fetching a Single Task
+---------------
+Example: Lookup via ClickUpClient::
 
-``id``
-``custom_id``
-``name``
-``text_content``
-``description``
-``status``
-``order_index``
-``date_created``
-``date_updated``
-``date_closed``
-``creator``
-``task_assignees``
-``task_checklists``
-``task_tags``
-``parent``
-``priority``
-``due_date``
-``start_date``
-``time_estimate``
-``time_spent``
-``custom_fields``
-``list``
-``folder``
-``space``
-``url``
+   c = client.ClickUpClient("YOUR_API_KEY")
+   task = c.get_task(task_id)
+
+   print(task.name)
 
 
 Fetching all Tasks from a List
@@ -54,6 +44,7 @@ Example::
 
    c = client.ClickUpClient("YOUR_API_KEY")
    tasks = c.get_tasks("list_id")
+
 
 
 Filtering Tasks
@@ -76,22 +67,8 @@ Example::
 
 This example will return all tasks and subtasks that are marked as "Todo" and "In Progress". These values can be changed depending on the statuses you have available in your list.
 
-You can extend the calls above by passing any of the following arguments to the ``get_tasks`` method. You can use as many or as few as you would like.
+You can extend the calls above by passing any of the arguments to the ``get_tasks`` method. You can use as many or as few as you would like.
 
--page                   (int, optional): Page to fetch. Defaults to 0.
--reverse                (bool, optional): Reverse the order of the returned tasks. Defaults to False.
--order_by               (str, optional): Order by field, defaults to "created". Options: id, created, updated, due_date.
--subtasks               (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.
--statuses               (List[str], optional): Only retrieve tasks with the supplied status. Defaults to None.
--include_closed         (bool, optional): Include closed tasks in the query. Defaults to False.
--archived               (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.
--assignees              (List[str], optional): Retrieve tasks for specific assignees only. Defaults to None.
--due_date_gt            (str, optional): Retrieve tasks with a due date greater than the supplied date. Defaults to None.
--due_date_lt            (str, optional): Retrieve tasks with a due date less than the supplied date. Defaults to None.
--date_created_gt        (str, optional): Retrieve tasks with a creation date greater than the supplied date. Defaults to None.
--date_created_lt        (str, optional): Retrieve tasks with a creation date less than the supplied date. Defaults to None.
--date_updated_gt        (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
--date_updated_lt        (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
 
 
 Working With Tasks
@@ -114,15 +91,6 @@ Example: Direct Access via an Index::
 
    print(tasks[0].name])
 
-Getting a Single Task
----------------
-Example: Lookup via ClickUpClient::
-
-   c = client.ClickUpClient("YOUR_API_KEY")
-   task = c.get_task(task_id)
-
-   print(task.name)
-
 
 Getting Tasks Associated with a List Object
 ---------------
@@ -138,3 +106,46 @@ Example: Lookup Tasks via a List Object::
    tasks = list.get_tasks(c)
    filtered_tasks = list.get_tasks(c, subtasks=True, statuses=["todo", "in progress"])
    task = list.get_task(c, task_id)
+|
+|
+
+.. raw:: html
+
+   <hr>
+
+Task Methods
+---------------
+
+get_tasks()
+++++++++++++
+.. automethod:: clickupy.client.ClickUpClient.get_tasks
+|
+|
+
+.. raw:: html
+
+   <hr>
+get_task()
+++++++++++++
+.. automethod:: clickupy.client.ClickUpClient.get_task
+|
+
+.. raw:: html
+
+   <hr>
+create_task()
+++++++++++++
+.. automethod:: clickupy.client.ClickUpClient.create_task
+|
+|
+.. raw:: html
+
+   <hr>
+update_task()
+++++++++++++
+.. automethod:: clickupy.client.ClickUpClient.update_task
+|
+|
+.. raw:: html
+
+   <hr>

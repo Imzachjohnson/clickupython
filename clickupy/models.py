@@ -249,7 +249,7 @@ class Space(BaseModel):
 
 
 class Task(BaseModel):
-    
+
     id: str = None
     custom_id: None = None
     name: str = None

@@ -112,14 +112,7 @@ class ClickUpClient():
 
     # Lists
     def get_list(self, list_id: str) -> models.SingleList:
-        """Fetches a single list item from a given list id and returns a List object.
-
-        Args:
-            list_id (str): The ID od the ClickUp list to be returned.
-
-        Returns:
-            clickuplist.SingleList: Returns a list of type List.
-        """
+        
         model = "list/"
         fetched_list = self.__get_request(model, list_id)
 
@@ -285,10 +278,10 @@ class ClickUpClient():
         """Fetches a single ClickUp task item and returns a Task object.
 
         Args:
-            task_id (str): The ID of the task to return.
+            :task_id (str): The ID of the task to return.
 
         Returns:
-            Task: Returns an object of type Task.
+            :Task: Returns an object of type Task.
         """
         model = "task/"
         fetched_task = self.__get_request(model, task_id)
@@ -299,32 +292,44 @@ class ClickUpClient():
     def get_tasks(self, list_id: str, archived: bool = False, page: int = 0, order_by: str = "created", reverse: bool = False, subtasks: bool = False, statuses: List[str] = None,
                   include_closed: bool = False, assignees: List[str] = None, due_date_gt: str = None, due_date_lt: str = None, date_created_gt: str = None,
                   date_created_lt: str = None,  date_updated_gt: str = None, date_updated_lt: str = None) -> models.Tasks:
-        """The maximum number of tasks returned in this response is 100. When you are paging this request, 
-            you should check list limit against the length of each response to determine if you are on the last page.
-
-
+        
+        """The maximum number of tasks returned in this response is 100. When you are paging this request, you should check list limit against the length of each response to determine if you are on the last page.
+        
         Args:
-            list_id (str): The ID of the list to retrieve tasks from.
-            archived (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.
-            page (int, optional): Page to fetch (starts at 0). Defaults to 0.
-            order_by (str, optional): Order by field, defaults to "created". Options: id, created, updated, due_date.
-            reverse (bool, optional): Reverse the order of the returned tasks. Defaults to False.
-            subtasks (bool, optional): Include archived tasks in the retrieved tasks. Defaults to False.
-            statuses (List[str], optional): Only retrieve tasks with the supplied status. Defaults to None.
-            include_closed (bool, optional): Include closed tasks in the query. Defaults to False.
-            assignees (List[str], optional): Retrieve tasks for specific assignees only. Defaults to None.
-            due_date_gt (str, optional): Retrieve tasks with a due date greater than the supplied date. Defaults to None.
-            due_date_lt (str, optional): Retrieve tasks with a due date less than the supplied date. Defaults to None.
-            date_created_gt (str, optional): Retrieve tasks with a creation date greater than the supplied date. Defaults to None.
-            date_created_lt (str, optional): Retrieve tasks with a creation date less than the supplied date. Defaults to None.
-            date_updated_gt (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
-            date_updated_lt (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
+            :list_id (str): 
+                The ID of the list to retrieve tasks from.
+            :archived (bool, optional): 
+                Include archived tasks in the retrieved tasks. Defaults to False.
+            :page (int, optional): 
+                Page to fetch (starts at 0). Defaults to 0.
+            :order_by (str, optional): 
+                Order by field, defaults to "created". Options: id, created, updated, due_date.
+            :reverse (bool, optional): 
+                Reverse the order of the returned tasks. Defaults to False.
+            :subtasks (bool, optional): 
+                Include archived tasks in the retrieved tasks. Defaults to False.
+            :statuses (List[str], optional): 
+                Only retrieve tasks with the supplied status. Defaults to None.
+            :include_closed (bool, optional): 
+                Include closed tasks in the query. Defaults to False.
+            :assignees (List[str], optional): 
+                Retrieve tasks for specific assignees only. Defaults to None.
+            :due_date_gt (str, optional): 
+                Retrieve tasks with a due date greater than the supplied date. Defaults to None.
+            :due_date_lt (str, optional): Retrieve tasks with a due date less than the supplied date. Defaults to None.
+            :date_created_gt (str, optional): 
+                Retrieve tasks with a creation date greater than the supplied date. Defaults to None.
+            :date_created_lt (str, optional): 
+                Retrieve tasks with a creation date less than the supplied date. Defaults to None.
+            :date_updated_gt (str, optional): 
+                Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
+            :date_updated_lt (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
 
         Raises:
-            exceptions.ClickupClientError: Invalid order_by value
+            :exceptions.ClickupClientError: Invalid order_by value
 
         Returns:
-            models.Tasks: Returns a list of item Task.
+            :models.Tasks: Returns a list of item Task.
         """
 
         if order_by not in ["id", "created", "updated", "due_date"]:
@@ -376,7 +381,26 @@ class ClickUpClient():
             due_date: str = None,
             start_date: str = None,
             notify_all: bool = True) -> models.Task:
+        """[summary]
 
+        Args:
+            :list_id (str): [description]
+            :name (str): [description]
+            :description (str, optional): [description]. Defaults to None.
+            :priority (int, optional): [description]. Defaults to None.
+            :assignees ([type], optional): [description]. Defaults to None.
+            :tags ([type], optional): [description]. Defaults to None.
+            :status (str, optional): [description]. Defaults to None.
+            :due_date (str, optional): [description]. Defaults to None.
+            :start_date (str, optional): [description]. Defaults to None.
+            :notify_all (bool, optional): [description]. Defaults to True.
+
+        Raises:
+            :exceptions.ClickupClientError: [description]
+
+        Returns:
+            :models.Task: [description]
+        """        
         if priority and priority not in range(1, 4):
             raise exceptions.ClickupClientError(
                 "Priority must be in range of 0-4.", "Priority out of range")
@@ -413,21 +437,21 @@ class ClickUpClient():
         """[summary]
 
         Args:
-            task_id ([type]): The ID of the ClickUp task to update.
-            name (str, optional): Sting value to update the task name to. Defaults to None.
-            description (str, optional): Sting value to update the task description to. Defaults to None.
-            status (str, optional): String value of the tasks status. Defaults to None.
-            priority (int, optional): Priority of the task. Range 1-4. Defaults to None.
-            time_estimate (int, optional): Time estimate of the task. Defaults to None.
-            archived (bool, optional): Whether the task should be archived or not. Defaults to None.
-            add_assignees (List[str], optional): List of assignee IDs to add to the task. Defaults to None.
-            remove_assignees (List[int], optional): List of assignee IDs to remove from the task. Defaults to None.
+            :task_id ([type]): The ID of the ClickUp task to update.
+            :name (str, optional): Sting value to update the task name to. Defaults to None.
+            :description (str, optional): Sting value to update the task description to. Defaults to None.
+            :status (str, optional): String value of the tasks status. Defaults to None.
+            :priority (int, optional): Priority of the task. Range 1-4. Defaults to None.
+            :time_estimate (int, optional): Time estimate of the task. Defaults to None.
+            :archived (bool, optional): Whether the task should be archived or not. Defaults to None.
+            :add_assignees (List[str], optional): List of assignee IDs to add to the task. Defaults to None.
+            :remove_assignees (List[int], optional): List of assignee IDs to remove from the task. Defaults to None.
 
         Raises:
-            exceptions.ClickupClientError: Raises "Priority out of range" exception for invalid priority range.
+            :exceptions.ClickupClientError: Raises "Priority out of range" exception for invalid priority range.
 
         Returns:
-            task.Task: Returns an object of type Task.
+            :task.Task: Returns an object of type Task.
         """
         if priority and priority not in range(1, 4):
             raise exceptions.ClickupClientError(
