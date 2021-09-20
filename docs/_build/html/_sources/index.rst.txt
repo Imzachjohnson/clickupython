@@ -55,13 +55,7 @@ There you will see a an API token. Copy this and save it. You will use this to a
    :maxdepth: 2
    :caption: Contents:
 
-   modules
-   examples
-   functions
+   index
+   tasks
+   lists
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

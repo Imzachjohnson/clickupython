@@ -3,6 +3,9 @@ from typing import List
 import distutils.text_file
 from pathlib import Path
 
+
+cmdclass = {'build_sphinx': BuildDoc}
+
 with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
@@ -17,16 +20,17 @@ setuptools.setup(
     name='clickupy',
     author='Zach Johnson & Robert Mullis',
     author_email='imzachjohnson@gmail.com',
-    description='Example PyPI (Python Package Index) Package',
-    keywords='example, pypi, package',
+    description='Clickupy: A Python client for the ClickUp API',
+    keywords='clickup, clickup api, python, clickupy',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/tomchen/example_pypi_package',
+    url='https://github.com/Imzachjohnson/clickupy',
+    
     project_urls={
-        'Documentation': 'https://github.com/tomchen/example_pypi_package',
+        'Documentation': 'https://clickupy.readthedocs.io/en/latest/',
         'Bug Reports':
-        'https://github.com/tomchen/example_pypi_package/issues',
-        'Source Code': 'https://github.com/tomchen/example_pypi_package',
+        'https://github.com/Imzachjohnson/clickupy/issues',
+        'Source Code': 'https://github.com/Imzachjohnson/clickupy',
         # 'Funding': '',
         # 'Say Thanks!': '',
     },

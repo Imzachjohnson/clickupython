@@ -3,10 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. clickupy documentation master file, created by
-   sphinx-quickstart on Thu Sep  9 17:56:55 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. meta::
+   :description: Clickupy: A Python client for the ClickUp API
+   :keywords: clickup, documentation, clickup api, python, clickupy
+
 
 Clickupy
 ====================================
@@ -55,13 +55,7 @@ There you will see a an API token. Copy this and save it. You will use this to a
    :maxdepth: 2
    :caption: Contents:
 
-   modules
-   examples
-   functions
+   index
+   tasks
+   lists
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
