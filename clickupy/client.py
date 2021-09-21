@@ -903,12 +903,6 @@ class ClickUpClient:
         if updated_goal:
             return models.Goals.build_goals(updated_goal)
 
-    def delete_tag(self, space_id: str, tag_name: str):
-
-        model = "space/"
-        self.__delete_request(model, space_id, "tag", tag_name)
-        return True
-
     def tag_task(
         self,
         task_id: str,
@@ -959,3 +953,32 @@ class ClickUpClient:
 
         if created_space:
             return models.Space.build_space(created_space)
+
+    def delete_space(self, space_id: str):
+
+        model = "space/"
+        self.__delete_request(model, space_id)
+        return True
+
+    def get_spaces(self, team_id: str, archived: bool = False):
+
+        path = "space?archived=false"
+
+        if archived:
+            path = "space?archived=true"
+
+        model = "team/"
+
+        fetched_spaces = self.__get_request(model, team_id, path)
+
+        if fetched_spaces:
+            return models.Spaces.build_spaces(fetched_spaces)
+
+    def get_space(self, space_id: str):
+
+        model = "space/"
+
+        fetched_space = self.__get_request(model, space_id)
+
+        if fetched_space:
+            return models.Space.build_space(fetched_space)

@@ -234,26 +234,69 @@ class CustomItems(BaseModel):
     enabled: bool = False
 
 
+class MultipleAssignees(BaseModel):
+    enabled: bool = False
+
+
+class TagsStatus(BaseModel):
+    enabled: bool = False
+
+
+class CustomFieldsStatus(BaseModel):
+    enabled: bool = False
+
+
+class DependencyWarning(BaseModel):
+    enabled: bool = False
+
+
+class TimeEstimateStatus(BaseModel):
+    enabled: bool = False
+
+
+class RemapDependenciesStatus(BaseModel):
+    enabled: bool = False
+
+
 class Features(BaseModel):
     due_dates: DueDates = None
-    multiple_assignees: bool = False
+    multiple_assignees: MultipleAssignees = None
     sprints: Sprints = None
     start_date: bool = False
     remap_due_dates: bool = False
     remap_closed_due_date: bool = False
-    time_tracking: TimeTracking = None
-    tags: bool = False
-    time_estimates: bool = False
+    time_tracking: Optional[TimeTracking]
+    tags: Optional[TagsStatus]
+    time_estimates: Optional[TimeEstimateStatus]
     checklists: bool = False
-    custom_fields: bool = False
-    remap_dependencies: bool = False
-    dependency_warning: bool = False
+    custom_fields: Optional[CustomFieldsStatus]
+    remap_dependencies: Optional[RemapDependenciesStatus]
+    dependency_warning: DependencyWarning = None
     portfolios: bool = False
     points: Points = None
     custom_items: CustomItems = None
     zoom: Zoom = None
     milestones: Milestones = None
     emails: Emails = None
+
+    class Config:
+        validate_assignment = True
+
+    @validator("time_tracking", pre=True, always=True)
+    def set_tt(cls, time_tracking):
+        return time_tracking or {"enabled": False}
+
+    @validator("custom_fields", pre=True, always=True)
+    def set_cf(cls, custom_fields):
+        return custom_fields or {"enabled": False}
+
+    @validator("tags", pre=True, always=True)
+    def set_tags(cls, tags):
+        return tags or {"enabled": False}
+
+    @validator("multiple_assignees", pre=True, always=True)
+    def set_ma(cls, multiple_assignees):
+        return multiple_assignees or {"enabled": False}
 
 
 class SpaceFeatures(BaseModel):
@@ -309,6 +352,16 @@ class Space(BaseModel):
 
     def build_space(self):
         return Space(**self)
+
+
+class Spaces(BaseModel):
+    spaces: List[Space] = None
+
+    def __iter__(self):
+        return iter(self.spaces)
+
+    def build_spaces(self):
+        return Spaces(**self)
 
 
 class Folder(BaseModel):
