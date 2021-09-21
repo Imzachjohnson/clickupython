@@ -123,10 +123,10 @@ class ClickUpClient:
         """Fetches a single list item from a given list id and returns a List object.
 
         Args:
-            list_id (str): The id of the ClickUp list.
+            :list_id (str): The id of the ClickUp list.
 
         Returns:
-            models.SingleList: Returns an object of type List.
+            :models.SingleList: Returns an object of type List.
         """
         model = "list/"
         fetched_list = self.__get_request(model, list_id)
@@ -517,7 +517,7 @@ class ClickUpClient:
             :exceptions.ClickupClientError: Raises "Priority out of range" exception for invalid priority range.
 
         Returns:
-            :task.Task: Returns an object of type Task.
+            :models.Task: Returns an object of type Task.
         """
         if priority and priority not in range(1, 4):
             raise exceptions.ClickupClientError(
@@ -549,7 +549,7 @@ class ClickUpClient:
             return models.Task.build_task(updated_task)
 
     def delete_task(self, task_id: str) -> None:
-        """Deletes a task from a given task ID.
+        """Deletes a task via a given task ID.
 
         Args:
             folder_id (str): The ID of the ClickUp task to delete.
@@ -559,14 +559,14 @@ class ClickUpClient:
         return True
 
     # Comments
-    def get_task_comments(self, task_id: str):
-        """Get all the comments for a task from a given Task id.
+    def get_task_comments(self, task_id: str) -> models.Comments:
+        """Get all the comments for a task from a given task id.
 
         Args:
-            :task_id (str): [description]
+            :task_id (str): The id of the ClickUp task to retrieve comments from.
 
         Returns:
-            [type]: [description]
+            :models.Comments: Returns an object of type Comments.
         """
         model = "task/"
         fetched_comments = self.__get_request(model, task_id, "comment")
@@ -574,16 +574,30 @@ class ClickUpClient:
         if final_comments:
             return final_comments
 
-    def get_list_comments(self, list_id: str):
+    def get_list_comments(self, list_id: str) -> models.Comments:
+        """Get all the comments for a list from a given list id.
 
+        Args:
+            :list_id (str): The id of the ClickUp list to retrieve comments from.
+
+        Returns:
+            :models.Comments: Returns an object of type Comments.
+        """
         model = "list/"
         fetched_comments = self.__get_request(model, list_id, "comment")
         final_comments = models.Comments.build_comments(fetched_comments)
         if final_comments:
             return final_comments
 
-    def get_chat_comments(self, view_id: str):
+    def get_chat_comments(self, view_id: str) -> models.Comments:
+        """Get all the comments for a chat from a given view id.
 
+        Args:
+            :view_id (str): The id of the view to retrieve comments from.
+
+        Returns:
+            :models.Comments: Returns an object of type Comments.
+        """
         model = "view/"
         fetched_comments = self.__get_request(model, view_id, "comment")
         final_comments = models.Comments.build_comments(fetched_comments)
@@ -597,7 +611,17 @@ class ClickUpClient:
         assignee: str = None,
         resolved: bool = None,
     ) -> models.Comment:
+        """Update a ClickUp comment's content, assignee and resolution status.
 
+        Args:
+            :comment_id (str): The id of the comment to update
+            :comment_text (str, optional): The new content of the comment. Defaults to None.
+            :assignee (str, optional): The id of an assignee. Defaults to None.
+            :resolved (bool, optional): Comment resolution status. Defaults to None.
+
+        Returns:
+            :models.Comment: [description]
+        """
         arguments = {}
         arguments.update(vars())
         arguments.pop("self", None)
@@ -613,7 +637,14 @@ class ClickUpClient:
             return True
 
     def delete_comment(self, comment_id: str) -> bool:
+        """Deletes a comment via a given comment id.
 
+        Args:
+            :comment_id (str): The id of the comment to delete.
+
+        Returns:
+            :bool: True if successful.
+        """
         model = "comment/"
         deleted_comment_status = self.__delete_request(model, comment_id)
         return True
@@ -625,7 +656,17 @@ class ClickUpClient:
         assignee: str = None,
         notify_all: bool = True,
     ) -> models.Comment:
+        """Create a comment on a task via a given task id.
 
+        Args:
+            task_id (str): The id of the task to comment on.
+            comment_text (str): The text of the comment.
+            assignee (str, optional): The id of a user to add as an assignee. Defaults to None.
+            notify_all (bool, optional): Notify all valid users of the comment's creation. Defaults to True.
+
+        Returns:
+            models.Comment: Returns an object of type Comment.
+        """
         arguments = {}
         arguments.update(vars())
         arguments.pop("self", None)
@@ -645,8 +686,13 @@ class ClickUpClient:
             return final_comment
 
     # Teams
-    def get_teams(self):
+    def get_teams(self) -> models.Teams:
+        """Get all teams from a workspace. Teams is the legacy term for what are now called Workspaces in ClickUp. For compatibility,
+        the term team is still used in this API. This is NOT the new "Teams" feature which represents a group of users.
 
+        Returns:
+             :models.Teams: Returns an object of type Teams.
+        """
         model = "team/"
         fetched_teams = self.__get_request(model)
         final_teams = models.Teams.build_teams(fetched_teams)
@@ -654,8 +700,16 @@ class ClickUpClient:
             return final_teams
 
     # Checklists
-    def create_checklist(self, task_id: str, name: str):
+    def create_checklist(self, task_id: str, name: str) -> models.Checklist:
+        """Create a checklist in a task via a given task id.
 
+        Args:
+            :task_id (str): The id of the task to create a checklist in.
+            :name (str): The name for the new checklist.
+
+        Returns:
+            models.Checklist: Returns and object of type Checklist.
+        """
         data = {
             "name": name,
         }
@@ -666,7 +720,9 @@ class ClickUpClient:
         )
         return models.Checklists.build_checklist(created_checklist)
 
-    def create_checklist_item(self, checklist_id: str, name: str, assignee: str = None):
+    def create_checklist_item(
+        self, checklist_id: str, name: str, assignee: str = None
+    ) -> models.Checklist:
 
         data = {}
 
@@ -960,6 +1016,15 @@ class ClickUpClient:
         self.__delete_request(model, space_id)
         return True
 
+    def get_space(self, space_id: str):
+
+        model = "space/"
+
+        fetched_space = self.__get_request(model, space_id)
+
+        if fetched_space:
+            return models.Space.build_space(fetched_space)
+
     def get_spaces(self, team_id: str, archived: bool = False):
 
         path = "space?archived=false"
@@ -973,12 +1038,3 @@ class ClickUpClient:
 
         if fetched_spaces:
             return models.Spaces.build_spaces(fetched_spaces)
-
-    def get_space(self, space_id: str):
-
-        model = "space/"
-
-        fetched_space = self.__get_request(model, space_id)
-
-        if fetched_space:
-            return models.Space.build_space(fetched_space)
