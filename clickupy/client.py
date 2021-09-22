@@ -723,7 +723,16 @@ class ClickUpClient:
     def create_checklist_item(
         self, checklist_id: str, name: str, assignee: str = None
     ) -> models.Checklist:
+        """create_checklist_item Creates an item in a ClickUp checklist via a given checklist id.
 
+        Args:
+            :checklist_id (str): The id of the checklist to create a new item in.
+            :name (str): The name of the new checklist item.
+            :assignee (str, optional): The user id to assign the checklist item to. Defaults to None.
+
+        Returns:
+            :models.Checklist: Returns and object of type Checklist.
+        """
         data = {}
 
         data = {"name": name, "assignee": assignee} if assignee else {"name": name}
@@ -735,8 +744,17 @@ class ClickUpClient:
 
     def update_checklist(
         self, checklist_id: str, name: str = None, postion: int = None
-    ):
+    ) -> models.Checklist:
+        """update_checklist Updates a ClickUp checklist.
 
+        Args:
+            :checklist_id (str): The id of the checklist to be updated.
+            :name (str, optional): The name to update the checklist to. Defaults to None.
+            :postion (int, optional): The order position to update the checklist to. Defaults to None.
+
+        Returns:
+            :models.Checklist: Returns an object of type Checklist.
+        """
         if not name and not postion:
             return
 
@@ -752,18 +770,25 @@ class ClickUpClient:
         if updated_checklist:
             return models.Checklists.build_checklist(updated_checklist)
 
-    def delete_checklist(self, checklist_id: str) -> None:
+    def delete_checklist(self, checklist_id: str) -> bool:
+        """delete_checklist Delete a checklist via a given checklist id.
 
+        Args:
+            :checklist_id (str): The id of the ClickUp checklist to be deleted.
+
+        Returns:
+            :bool: Returns True
+        """
         model = "checklist/"
         self.__delete_request(model, checklist_id)
         return True
 
-    def delete_checklist_item(self, checklist_id: str, checklist_item_id: str) -> None:
-        """test summary
+    def delete_checklist_item(self, checklist_id: str, checklist_item_id: str) -> bool:
+        """Deletes an item from a checklist via a given checklist id and item id.
 
         Args:
-            checklist_id (str): [description]
-            checklist_item_id (str): [description]
+            :checklist_id (str): The id of the ClickUp checklist to delete an item from.
+            :checklist_item_id (str): The id of the checklist item to be deleted.
         """
         model = "checklist/"
         self.__delete_request(model, checklist_id, "checklist_item", checklist_item_id)
@@ -776,8 +801,19 @@ class ClickUpClient:
         name: str = None,
         resolved: bool = None,
         parent: str = None,
-    ):
+    ) -> models.Checklist:
+        """Updates an item in a checklist via a given checklist id and item id.
 
+        Args:
+            :checklist_id (str): The id of the checklist the item resides in.
+            :checklist_item_id (str): The id of the checklist item to be updated.
+            :name (str, optional): New name for the checklist item. Defaults to None.
+            :resolved (bool, optional): boolean value indicated the resolution status of the checklist item. Defaults to None.
+            :parent (str, optional): The new parent for the checklist item. Defaults to None.
+
+        Returns:
+            :models.Checklist: [description]
+        """
         arguments = {}
         arguments.update(vars())
         arguments.pop("self", None)
@@ -799,15 +835,30 @@ class ClickUpClient:
 
     # Members
 
-    def get_task_members(self, task_id: str):
+    def get_task_members(self, task_id: str) -> models.Members:
+        """Get all members assigned to a specific task via a task id.
+
+        Args:
+            :task_id (str): The id of the task to get members of.
+
+        Returns:
+            models.Members: Returns an object of type Members.
+        """
 
         model = "task/"
 
         task_members = self.__get_request(model, task_id, "member")
         return models.Members.build_members(task_members)
 
-    def get_list_members(self, list_id: str):
+    def get_list_members(self, list_id: str) -> models.Members:
+        """Get all members assigned to a specific list via a list id.
 
+        Args:
+            list_id (str): The id of the list to get members of.
+
+        Returns:
+            models.Members: Returns an object of type Members.
+        """
         model = "list/"
 
         task_members = self.__get_request(model, list_id, "member")
@@ -818,14 +869,27 @@ class ClickUpClient:
     def create_goal(
         self,
         team_id,
-        name: str = None,
+        name: str,
         due_date: str = None,
         description: str = None,
         multiple_owners: bool = True,
         owners: List[int] = None,
         color: str = None,
-    ):
+    ) -> models.Goal:
+        """Create a new goal for a team given a team id.
 
+        Args:
+            :team_id ([type]): [description]
+            :name (str, optional): The name of the goal.
+            :due_date (str, optional): The due date of the goal. Defaults to None.
+            :description (str, optional): The goal description. Defaults to None.
+            :multiple_owners (bool, optional): Indicated whether the goal should have multiple owners. Defaults to True.
+            :owners (List[int], optional): If multiple owners is True, a supplied list of user ids to assign as owners. Defaults to None.
+            :color (str, optional): Hex value for color of the goal. Defaults to None.
+
+        Returns:
+            :models.Goal: Returns an object of type Goal.
+        """
         arguments = {}
         arguments.update(vars())
         arguments.pop("self", None)
@@ -854,8 +918,21 @@ class ClickUpClient:
         rem_owners: List[str] = None,
         add_owners: List[str] = None,
         color: str = None,
-    ):
+    ) -> models.Goal:
+        """Updates a goal via a given goal id.
 
+        Args:
+            :goal_id (str): The id of the goal to be updated.
+            :name (str, optional): New name for the goal. Defaults to None.
+            :due_date (str, optional): Due date for goal. Defaults to None.
+            :description (str, optional): Description of the goal. Defaults to None.
+            :rem_owners (List[str], optional): Remove owners from the goal. Defaults to None.
+            :add_owners (List[str], optional): Add owners to the goal. Defaults to None.
+            :color (str, optional): The color for the goal. Defaults to None.
+
+        Returns:
+            models.Goal: [description]
+        """
         arguments = {}
         arguments.update(vars())
         arguments.pop("self", None)
@@ -869,22 +946,41 @@ class ClickUpClient:
         if updated_goal:
             return models.Goals.build_goals(updated_goal)
 
-    def delete_goal(self, goal_id: str):
+    def delete_goal(self, goal_id: str) -> bool:
+        """Delete a goal via a given goal id.
 
+        Args:
+            goal_id (str): The id of the goal to delete.
+
+        Returns:
+            bool: Returns True.
+        """
         model = "goal/"
         self.__delete_request(model, goal_id)
         return True
 
     def get_goal(self, goal_id: str) -> models.Goal:
-
+        """get_goal fetch a goal via a given goal id.
+        Args:
+            goal_id (str): The id of the goal to be fetched.
+        Returns:
+            models.Goal: Returns an object of type Goal.
+        """
         model = "goal/"
         fetched_goal = self.__get_request(model, goal_id)
         final_goal = models.Goals.build_goals(fetched_goal)
         if final_goal:
             return final_goal
 
-    def get_goals(self, team_id: str, include_completed: bool = False):
+    def get_goals(self, team_id: str, include_completed: bool = False) -> models.Goals:
+        """get_goals Returns a list of goals for a team via a given team id.
+        Args:
+            team_id (str): The id of the team to fetch goals for.
+            include_completed (bool, optional): Setting this to true will include completed goals in the query. Defaults to False.
 
+        Returns:
+            models.Goals: Returns an object of type Goals.
+        """
         model = "team/"
 
         if include_completed:
@@ -924,8 +1020,16 @@ class ClickUpClient:
         self,
         space_id,
         name: str,
-    ):
+    ) -> models.Tag:
+        """Creates a tag to be utilized in a space.
 
+        Args:
+            space_id ([type]): The id of the space to create a tag for.
+            name (str): the name of the created tag.
+
+        Returns:
+            models.Tag: Returns an object of type Tag.
+        """
         arguments = {}
         arguments.update(vars())
         arguments.pop("self", None)
