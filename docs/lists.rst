@@ -1,11 +1,7 @@
-Examples
+Lists
 ====================================
-Clickupy is a Python client for the ClickUp API and can be used to interact with the ClickUp API in your projects. Below are some examples to get you started with clickupy.
 
-
-Tasks
-*****
-.. autoclass:: clickupy.models.Task
+.. autoclass:: clickupy.models.SingleList
     :members:
     :undoc-members:
     :show-inheritance:
@@ -15,7 +11,7 @@ Tasks
 
    <hr>
 
-Creating a Task
+Creating a List
 ---------------
 Here's how to create a new ClickupClient instance and validate a personal API key with the ClickUp API and create a new task with a 
 due date. When creating a new task, the only required arguments are list_id and name. Name will be the title of your list on ClickUp.
@@ -113,73 +109,6 @@ Example: Lookup Tasks via a List Object::
 
    <hr>
 
-Task Methods
----------------
-
-get_tasks()
-++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.get_tasks
-|
-|
-
-.. raw:: html
-
-   <hr>
-get_task()
-++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.get_task
-|
-
-.. raw:: html
-
-   <hr>
-create_task()
-++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.create_task
-|
-|
-.. raw:: html
-
-   <hr>
-update_task()
-++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.update_task
-|
-|
-.. raw:: html
-
-   <hr>
-
-delete_task()
-++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.delete_task
-|
-|
-.. raw:: html
-
-   <hr>
-
-get_task_comments()
-++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.get_task_comments
-|
-|
-.. raw:: html
-
-   <hr>
-
-
-Lists
-*****
-.. autoclass:: clickupy.models.SingleList
-    :members:
-    :undoc-members:
-    :show-inheritance:
-|
-|
-.. raw:: html
-
-   <hr>
 
 List Methods
 ---------------
@@ -208,3 +137,6 @@ create_list()
 .. raw:: html
 
    <hr>
+
+
+

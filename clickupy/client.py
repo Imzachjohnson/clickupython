@@ -14,11 +14,10 @@ from clickupy import models
 from clickupy import exceptions
 
 
-API_URL = 'https://api.clickup.com/api/v2/'
+API_URL = "https://api.clickup.com/api/v2/"
 
 
-class ClickUpClient():
-
+class ClickUpClient:
     def __init__(self, accesstoken: str, api_url: str = API_URL):
         self.api_url = api_url
         self.accesstoken = accesstoken
@@ -27,75 +26,82 @@ class ClickUpClient():
     # Generates headers for use in GET, POST, DELETE, PUT requests
 
     def __headers(self, file_upload: bool = False):
-
         """Internal method to generate headers for HTTP requests. Generates headers for use in GET, POST, DELETE and PUT requests.
 
         Returns:
             dict: Returns headers for HTTP requests
-        """        
+        """
 
         return (
-            {'Authorization': self.accesstoken}
+            {"Authorization": self.accesstoken}
             if file_upload
             else {
-                'Authorization': self.accesstoken,
-                'Content-Type': 'application/json',
+                "Authorization": self.accesstoken,
+                "Content-Type": "application/json",
             }
         )
 
-    
     def __get_request(self, model, *additionalpath) -> json:
-        
-        """Performs a Get request to the ClickUp API
-        """        
+        """Performs a Get request to the ClickUp API"""
         path = formatting.url_join(API_URL, model, *additionalpath)
         response = requests.get(path, headers=self.__headers())
-        self.request_count +=1
+        self.request_count += 1
         response_json = response.json()
         if response.status_code == 429:
             raise exceptions.ClickupClientError(
-                "Rate limit exceeded", response.status_code)
+                "Rate limit exceeded", response.status_code
+            )
         if response.status_code in [401, 400, 404]:
             raise exceptions.ClickupClientError(
-                response_json['err'], response.status_code)
+                response_json["err"], response.status_code
+            )
         if response.ok:
             return response_json
 
     # Performs a Post request to the ClickUp API
     def __post_request(
-            self,
-            model,
-            data,
-            upload_files=None,
-            file_upload=False,
-            *additionalpath):
-        path = formatting.url_join(API_URL, model, *additionalpath)
+        self, model, data, upload_files=None, file_upload=False, *additionalpath
+    ):
 
-        if upload_files:
-            response = requests.post(path, headers=self.__headers(
-                True), data=data, files=upload_files)
-            self.request_count +=1    
+        path = formatting.url_join(API_URL, model, *additionalpath)
+        if data:
+            if upload_files:
+                response = requests.post(
+                    path, headers=self.__headers(True), data=data, files=upload_files
+                )
+                self.request_count += 1
+            else:
+                response = requests.post(path, headers=self.__headers(), data=data)
+
+                self.request_count += 1
+            response_json = response.json()
+
+            if response.status_code in [401, 400, 500, 404]:
+                raise exceptions.ClickupClientError(
+                    response_json["err"], response.status_code
+                )
+            if response.ok:
+                return response_json
         else:
-            response = requests.post(
-                path, headers=self.__headers(), data=data)
-            self.request_count +=1
-        response_json = response.json()
-        
-        if response.status_code in [401, 400, 500]:
-            raise exceptions.ClickupClientError(
-                response_json['err'], response.status_code)
-        if response.ok:
-            return response_json
+            response = requests.post(path, headers=self.__headers())
+            response_json = response.json()
+            if response.status_code in [401, 400, 500, 404]:
+                raise exceptions.ClickupClientError(
+                    response_json["err"], response.status_code
+                )
+            if response.ok:
+                return response_json
 
     # Performs a Put request to the ClickUp API
     def __put_request(self, model, data, *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
         response = requests.put(path, headers=self.__headers(), data=data)
-        self.request_count +=1
+        self.request_count += 1
         response_json = response.json()
         if response.status_code in [401, 400]:
             raise exceptions.ClickupClientError(
-                response_json['err'], response.status_code)
+                response_json["err"], response.status_code
+            )
         if response.ok:
             return response_json
 
@@ -103,23 +109,25 @@ class ClickUpClient():
     def __delete_request(self, model, *additionalpath):
         path = formatting.url_join(API_URL, model, *additionalpath)
         response = requests.delete(path, headers=self.__headers())
-        self.request_count +=1
+        self.request_count += 1
+        response_json = response.json()
         if response.ok:
             return response.status_code
         else:
             raise exceptions.ClickupClientError(
-                response_json['err'], response.status_code)
+                response_json["err"], response.status_code
+            )
 
     # Lists
     def get_list(self, list_id: str) -> models.SingleList:
         """Fetches a single list item from a given list id and returns a List object.
 
         Args:
-            list_id (str): The id of the ClickUp list.
+            :list_id (str): The id of the ClickUp list.
 
         Returns:
-            models.SingleList: Returns an object of type List.
-        """        
+            :models.SingleList: Returns an object of type List.
+        """
         model = "list/"
         fetched_list = self.__get_request(model, list_id)
 
@@ -139,13 +147,14 @@ class ClickUpClient():
         return models.AllLists.build_lists(fetched_lists)
 
     def create_list(
-            self,
-            folder_id: str,
-            name: str,
-            content: str,
-            due_date: str,
-            priority: int,
-            status: str) -> models.SingleList:
+        self,
+        folder_id: str,
+        name: str,
+        content: str,
+        due_date: str,
+        priority: int,
+        status: str,
+    ) -> models.SingleList:
         """Creates and returns a List object in a folder from a given folder ID.
 
         Args:
@@ -160,18 +169,46 @@ class ClickUpClient():
             :list.SingleList: Returns an object of type SingleList.
         """
         data = {
-            'name': name,
-            'content': content,
-            'due_date': due_date,
-            'status': status
+            "name": name,
+            "content": content,
+            "due_date": due_date,
+            "status": status,
         }
         model = "folder/"
         created_list = self.__post_request(
-            model, json.dumps(data), None, False, folder_id, "list")
+            model, json.dumps(data), None, False, folder_id, "list"
+        )
+        if created_list:
+            return models.SingleList.build_list(created_list)
+
+    def create_folderless_list(
+        self,
+        space_id: str,
+        name: str,
+        content: str = None,
+        due_date: str = None,
+        priority: int = None,
+        assignee: str = None,
+        status: str = None,
+    ) -> models.SingleList:
+
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop("self", None)
+        arguments.pop("arguments", None)
+        arguments.pop("space_id", None)
+
+        final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
+
+        model = "space/"
+        created_list = self.__post_request(
+            model, final_dict, None, False, space_id, "list"
+        )
         if created_list:
             return models.SingleList.build_list(created_list)
 
     # Folders
+
     def get_folder(self, folder_id: str) -> models.Folder:
         """Fetches a single folder item from a given folder id and returns a Folder object.
 
@@ -211,11 +248,12 @@ class ClickUpClient():
             :Folder: Returns the created Folder object.
         """
         data = {
-            'name': name,
+            "name": name,
         }
         model = "space/"
         created_folder = self.__post_request(
-            model, json.dumps(data), None, False, space_id, "folder")
+            model, json.dumps(data), None, False, space_id, "folder"
+        )
         if created_folder:
             return models.Folder.build_folder(created_folder)
 
@@ -230,11 +268,10 @@ class ClickUpClient():
             :Folder: Returns the updated Folder as an object.
         """
         data = {
-            'name': name,
+            "name": name,
         }
         model = "folder/"
-        updated_folder = self.__put_request(
-            model, json.dumps(data), folder_id)
+        updated_folder = self.__put_request(model, json.dumps(data), folder_id)
         if updated_folder:
             return models.Folder.build_folder(updated_folder)
 
@@ -245,15 +282,11 @@ class ClickUpClient():
             :folder_id (str): The ID of the ClickUp folder to delete.
         """
         model = "folder/"
-        deleted_folder_status = self.__delete_request(
-            model, folder_id)
-        return(True)
+        deleted_folder_status = self.__delete_request(model, folder_id)
+        return True
 
     # Tasks
-    def upload_attachment(
-            self,
-            task_id: str,
-            file_path: str) -> models.Attachment:
+    def upload_attachment(self, task_id: str, file_path: str) -> models.Attachment:
         """Uploads an attachment to a ClickUp task.
 
         Args:
@@ -266,19 +299,18 @@ class ClickUpClient():
 
         if os.path.exists(file_path):
 
-            with open(file_path, 'rb') as f:
-                files = [
-                    ('attachment', (f.name, open(
-                        file_path, 'rb')))
-                ]
-                data = {'filename': ntpath.basename(f.name)}
+            with open(file_path, "rb") as f:
+                files = [("attachment", (f.name, open(file_path, "rb")))]
+                data = {"filename": ntpath.basename(f.name)}
                 model = "task/" + task_id
                 uploaded_attachment = self.__post_request(
-                    model, data, files, True, "attachment")
+                    model, data, files, True, "attachment"
+                )
 
                 if uploaded_attachment:
                     final_attachment = models.Attachment.build_attachment(
-                        uploaded_attachment)
+                        uploaded_attachment
+                    )
                 return final_attachment
 
     def get_task(self, task_id: str) -> models.Task:
@@ -296,39 +328,55 @@ class ClickUpClient():
         if final_task:
             return final_task
 
-    def get_tasks(self, list_id: str, archived: bool = False, page: int = 0, order_by: str = "created", reverse: bool = False, subtasks: bool = False, statuses: List[str] = None,
-                  include_closed: bool = False, assignees: List[str] = None, due_date_gt: str = None, due_date_lt: str = None, date_created_gt: str = None,
-                  date_created_lt: str = None,  date_updated_gt: str = None, date_updated_lt: str = None) -> models.Tasks:
-        
-        """The maximum number of tasks returned in this response is 100. When you are paging this request, you should check list limit against the length of each response to determine if you are on the last page.
-        
+    def get_tasks(
+        self,
+        list_id: str,
+        archived: bool = False,
+        page: int = 0,
+        order_by: str = "created",
+        reverse: bool = False,
+        subtasks: bool = False,
+        statuses: List[str] = None,
+        include_closed: bool = False,
+        assignees: List[str] = None,
+        due_date_gt: str = None,
+        due_date_lt: str = None,
+        date_created_gt: str = None,
+        date_created_lt: str = None,
+        date_updated_gt: str = None,
+        date_updated_lt: str = None,
+    ) -> models.Tasks:
+
+        """The maximum number of tasks returned in this response is 100. When you are paging this request, you should check list limit
+        against the length of each response to determine if you are on the last page.
+
         Args:
-            :list_id (str): 
+            :list_id (str):
                 The ID of the list to retrieve tasks from.
-            :archived (bool, optional): 
+            :archived (bool, optional):
                 Include archived tasks in the retrieved tasks. Defaults to False.
-            :page (int, optional): 
+            :page (int, optional):
                 Page to fetch (starts at 0). Defaults to 0.
-            :order_by (str, optional): 
+            :order_by (str, optional):
                 Order by field, defaults to "created". Options: id, created, updated, due_date.
-            :reverse (bool, optional): 
+            :reverse (bool, optional):
                 Reverse the order of the returned tasks. Defaults to False.
-            :subtasks (bool, optional): 
+            :subtasks (bool, optional):
                 Include archived tasks in the retrieved tasks. Defaults to False.
-            :statuses (List[str], optional): 
+            :statuses (List[str], optional):
                 Only retrieve tasks with the supplied status. Defaults to None.
-            :include_closed (bool, optional): 
+            :include_closed (bool, optional):
                 Include closed tasks in the query. Defaults to False.
-            :assignees (List[str], optional): 
+            :assignees (List[str], optional):
                 Retrieve tasks for specific assignees only. Defaults to None.
-            :due_date_gt (str, optional): 
+            :due_date_gt (str, optional):
                 Retrieve tasks with a due date greater than the supplied date. Defaults to None.
             :due_date_lt (str, optional): Retrieve tasks with a due date less than the supplied date. Defaults to None.
-            :date_created_gt (str, optional): 
+            :date_created_gt (str, optional):
                 Retrieve tasks with a creation date greater than the supplied date. Defaults to None.
-            :date_created_lt (str, optional): 
+            :date_created_lt (str, optional):
                 Retrieve tasks with a creation date less than the supplied date. Defaults to None.
-            :date_updated_gt (str, optional): 
+            :date_updated_gt (str, optional):
                 Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
             :date_updated_lt (str, optional): Retrieve tasks where the last update date is greater than the supplied date. Defaults to None.
 
@@ -341,23 +389,29 @@ class ClickUpClient():
 
         if order_by not in ["id", "created", "updated", "due_date"]:
             raise exceptions.ClickupClientError(
-                "Options are: id, created, updated, due_date", "Invalid order_by value")
+                "Options are: id, created, updated, due_date", "Invalid order_by value"
+            )
 
-        supplied_values = [f"archived={str(archived).lower()}", f"page={page}", f"order_by={order_by}",
-                           f"reverse={str(reverse).lower()}", f"include_closed={str(include_closed).lower()}"]
+        supplied_values = [
+            f"archived={str(archived).lower()}",
+            f"page={page}",
+            f"order_by={order_by}",
+            f"reverse={str(reverse).lower()}",
+            f"include_closed={str(include_closed).lower()}",
+        ]
 
         if statuses:
             supplied_values.append(
-                f"{urllib.parse.quote_plus('statuses[]')}={','.join(statuses)}")
+                f"{urllib.parse.quote_plus('statuses[]')}={','.join(statuses)}"
+            )
         if assignees:
             supplied_values.append(
-                f"{urllib.parse.quote_plus('assignees[]')}={','.join(assignees)}")
+                f"{urllib.parse.quote_plus('assignees[]')}={','.join(assignees)}"
+            )
         if due_date_gt:
-            supplied_values.append(
-                f"due_date_gt={fuzzy_time_to_unix(due_date_gt)}")
+            supplied_values.append(f"due_date_gt={fuzzy_time_to_unix(due_date_gt)}")
         if due_date_lt:
-            supplied_values.append(
-                f"due_date_lt={fuzzy_time_to_unix(due_date_lt)}")
+            supplied_values.append(f"due_date_lt={fuzzy_time_to_unix(due_date_lt)}")
         if date_created_gt:
             supplied_values.append(f"date_created_gt={date_created_gt}")
         if date_created_lt:
@@ -377,17 +431,19 @@ class ClickUpClient():
             return models.Tasks.build_tasks(fetched_tasks)
 
     def create_task(
-            self,
-            list_id: str,
-            name: str,
-            description: str = None,
-            priority: int = None,
-            assignees: [] = None,
-            tags: [] = None,
-            status: str = None,
-            due_date: str = None,
-            start_date: str = None,
-            notify_all: bool = True) -> models.Task:
+        self,
+        list_id: str,
+        name: str,
+        description: str = None,
+        priority: int = None,
+        assignees: [] = None,
+        tags: [] = None,
+        status: str = None,
+        due_date: str = None,
+        start_date: str = None,
+        notify_all: bool = True,
+    ) -> models.Task:
+
         """[summary]
 
         Args:
@@ -407,40 +463,43 @@ class ClickUpClient():
 
         Returns:
             :models.Task: [description]
-        """        
+        """
         if priority and priority not in range(1, 4):
             raise exceptions.ClickupClientError(
-                "Priority must be in range of 0-4.", "Priority out of range")
+                "Priority must be in range of 0-4.", "Priority out of range"
+            )
         if due_date:
             due_date = fuzzy_time_to_unix(due_date)
 
         arguments = {}
         arguments.update(vars())
-        arguments.pop('self', None)
-        arguments.pop('arguments', None)
-        arguments.pop('list_id', None)
+        arguments.pop("self", None)
+        arguments.pop("arguments", None)
+        arguments.pop("list_id", None)
 
-        final_dict = json.dumps(
-            {k: v for k, v in arguments.items() if v is not None})
+        final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
 
         model = "list/"
         created_task = self.__post_request(
-            model, final_dict, None, False, list_id, "task")
+            model, final_dict, None, False, list_id, "task"
+        )
 
         if created_task:
             return models.Task.build_task(created_task)
 
     def update_task(
-            self,
-            task_id,
-            name: str = None,
-            description: str = None,
-            status: str = None,
-            priority: int = None,
-            time_estimate: int = None,
-            archived: bool = None,
-            add_assignees: List[str] = None,
-            remove_assignees: List[int] = None) -> models.Task:
+        self,
+        task_id,
+        name: str = None,
+        description: str = None,
+        status: str = None,
+        priority: int = None,
+        time_estimate: int = None,
+        archived: bool = None,
+        add_assignees: List[str] = None,
+        remove_assignees: List[int] = None,
+    ) -> models.Task:
+
         """[summary]
 
         Args:
@@ -458,74 +517,87 @@ class ClickUpClient():
             :exceptions.ClickupClientError: Raises "Priority out of range" exception for invalid priority range.
 
         Returns:
-            :task.Task: Returns an object of type Task.
+            :models.Task: Returns an object of type Task.
         """
         if priority and priority not in range(1, 4):
             raise exceptions.ClickupClientError(
-                "Priority must be in range of 0-4.", "Priority out of range")
+                "Priority must be in range of 0-4.", "Priority out of range"
+            )
 
         arguments = {}
         arguments.update(vars())
-        arguments.pop('self', None)
-        arguments.pop('arguments', None)
-        arguments.pop('task_id', None)
-        arguments.pop('add_assignees', None)
-        arguments.pop('remove_assignees', None)
+        arguments.pop("self", None)
+        arguments.pop("arguments", None)
+        arguments.pop("task_id", None)
+        arguments.pop("add_assignees", None)
+        arguments.pop("remove_assignees", None)
 
         if add_assignees and remove_assignees:
             arguments.update(
-                {'assignees': {'add': add_assignees, 'rem': remove_assignees}})
+                {"assignees": {"add": add_assignees, "rem": remove_assignees}}
+            )
         elif add_assignees:
-            arguments.update({'assignees': {'add': add_assignees}})
+            arguments.update({"assignees": {"add": add_assignees}})
         elif remove_assignees:
-            arguments.update({'assignees': {'rem': remove_assignees}})
+            arguments.update({"assignees": {"rem": remove_assignees}})
 
-        final_dict = json.dumps(
-            {k: v for k, v in arguments.items() if v is not None})
+        final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
 
         model = "task/"
-        updated_task = self.__put_request(
-            model, final_dict, task_id)
+        updated_task = self.__put_request(model, final_dict, task_id)
         if updated_task:
             return models.Task.build_task(updated_task)
 
     def delete_task(self, task_id: str) -> None:
-        """Deletes a task from a given task ID.
+        """Deletes a task via a given task ID.
 
         Args:
             folder_id (str): The ID of the ClickUp task to delete.
         """
         model = "task/"
-        deleted_task_status = self.__delete_request(
-            model, task_id)
-        return(True)
+        deleted_task_status = self.__delete_request(model, task_id)
+        return True
 
     # Comments
-    def get_task_comments(self, task_id: str):
-        """Get all the comments for a task from a given Task id.
+    def get_task_comments(self, task_id: str) -> models.Comments:
+        """Get all the comments for a task from a given task id.
 
         Args:
-            :task_id (str): [description]
+            :task_id (str): The id of the ClickUp task to retrieve comments from.
 
         Returns:
-            [type]: [description]
-        """        
+            :models.Comments: Returns an object of type Comments.
+        """
         model = "task/"
         fetched_comments = self.__get_request(model, task_id, "comment")
         final_comments = models.Comments.build_comments(fetched_comments)
         if final_comments:
             return final_comments
 
-    def get_list_comments(self, list_id: str):
+    def get_list_comments(self, list_id: str) -> models.Comments:
+        """Get all the comments for a list from a given list id.
 
+        Args:
+            :list_id (str): The id of the ClickUp list to retrieve comments from.
+
+        Returns:
+            :models.Comments: Returns an object of type Comments.
+        """
         model = "list/"
         fetched_comments = self.__get_request(model, list_id, "comment")
         final_comments = models.Comments.build_comments(fetched_comments)
         if final_comments:
             return final_comments
 
-    def get_chat_comments(self, view_id: str):
-        
+    def get_chat_comments(self, view_id: str) -> models.Comments:
+        """Get all the comments for a chat from a given view id.
+
+        Args:
+            :view_id (str): The id of the view to retrieve comments from.
+
+        Returns:
+            :models.Comments: Returns an object of type Comments.
+        """
         model = "view/"
         fetched_comments = self.__get_request(model, view_id, "comment")
         final_comments = models.Comments.build_comments(fetched_comments)
@@ -533,63 +605,94 @@ class ClickUpClient():
             return final_comments
 
     def update_comment(
-            self,
-            comment_id: str,
-            comment_text: str = None,
-            assignee: str = None,
-            resolved: bool = None) -> models.Comment:
+        self,
+        comment_id: str,
+        comment_text: str = None,
+        assignee: str = None,
+        resolved: bool = None,
+    ) -> models.Comment:
+        """Update a ClickUp comment's content, assignee and resolution status.
 
+        Args:
+            :comment_id (str): The id of the comment to update
+            :comment_text (str, optional): The new content of the comment. Defaults to None.
+            :assignee (str, optional): The id of an assignee. Defaults to None.
+            :resolved (bool, optional): Comment resolution status. Defaults to None.
+
+        Returns:
+            :models.Comment: [description]
+        """
         arguments = {}
         arguments.update(vars())
-        arguments.pop('self', None)
-        arguments.pop('arguments', None)
-        arguments.pop('comment_id', None)
+        arguments.pop("self", None)
+        arguments.pop("arguments", None)
+        arguments.pop("comment_id", None)
 
         model = "comment/"
 
-        final_dict = json.dumps(
-            {k: v for k, v in arguments.items() if v is not None})
+        final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
 
-        updated_comment = self.__put_request(
-            model, final_dict, comment_id)
+        updated_comment = self.__put_request(model, final_dict, comment_id)
         if updated_comment:
             return True
 
     def delete_comment(self, comment_id: str) -> bool:
+        """Deletes a comment via a given comment id.
 
+        Args:
+            :comment_id (str): The id of the comment to delete.
+
+        Returns:
+            :bool: True if successful.
+        """
         model = "comment/"
-        deleted_comment_status = self.__delete_request(
-            model, comment_id)
-        return(True)
+        deleted_comment_status = self.__delete_request(model, comment_id)
+        return True
 
     def create_task_comment(
-            self,
-            task_id: str,
-            comment_text: str,
-            assignee: str = None,
-            notify_all: bool = True) -> models.Comment:
+        self,
+        task_id: str,
+        comment_text: str,
+        assignee: str = None,
+        notify_all: bool = True,
+    ) -> models.Comment:
+        """Create a comment on a task via a given task id.
 
+        Args:
+            task_id (str): The id of the task to comment on.
+            comment_text (str): The text of the comment.
+            assignee (str, optional): The id of a user to add as an assignee. Defaults to None.
+            notify_all (bool, optional): Notify all valid users of the comment's creation. Defaults to True.
+
+        Returns:
+            models.Comment: Returns an object of type Comment.
+        """
         arguments = {}
         arguments.update(vars())
-        arguments.pop('self', None)
-        arguments.pop('arguments', None)
-        arguments.pop('task_id', None)
+        arguments.pop("self", None)
+        arguments.pop("arguments", None)
+        arguments.pop("task_id", None)
 
         model = "task/"
 
-        final_dict = json.dumps(
-            {k: v for k, v in arguments.items() if v is not None})
+        final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
 
         created_comment = self.__post_request(
-            model, final_dict, None, False, task_id, "comment")
+            model, final_dict, None, False, task_id, "comment"
+        )
 
         final_comment = models.Comment.build_comment(created_comment)
         if final_comment:
             return final_comment
 
     # Teams
-    def get_teams(self):
+    def get_teams(self) -> models.Teams:
+        """Get all teams from a workspace. Teams is the legacy term for what are now called Workspaces in ClickUp. For compatibility,
+        the term team is still used in this API. This is NOT the new "Teams" feature which represents a group of users.
 
+        Returns:
+             :models.Teams: Returns an object of type Teams.
+        """
         model = "team/"
         fetched_teams = self.__get_request(model)
         final_teams = models.Teams.build_teams(fetched_teams)
@@ -597,37 +700,42 @@ class ClickUpClient():
             return final_teams
 
     # Checklists
-    def create_checklist(self, task_id: str, name: str):
+    def create_checklist(self, task_id: str, name: str) -> models.Checklist:
+        """Create a checklist in a task via a given task id.
 
+        Args:
+            :task_id (str): The id of the task to create a checklist in.
+            :name (str): The name for the new checklist.
+
+        Returns:
+            models.Checklist: Returns and object of type Checklist.
+        """
         data = {
-            'name': name,
+            "name": name,
         }
 
         model = "task/"
         created_checklist = self.__post_request(
-            model, json.dumps(data), None, False, task_id, "checklist")
+            model, json.dumps(data), None, False, task_id, "checklist"
+        )
         return models.Checklists.build_checklist(created_checklist)
 
     def create_checklist_item(
-            self,
-            checklist_id: str,
-            name: str,
-            assignee: str = None):
+        self, checklist_id: str, name: str, assignee: str = None
+    ) -> models.Checklist:
 
         data = {}
 
-        data = {
-            'name': name,
-            'assignee': assignee
-        } if assignee else {
-            'name': name
-        }
+        data = {"name": name, "assignee": assignee} if assignee else {"name": name}
         model = "checklist/"
         created_checklist = self.__post_request(
-            model, json.dumps(data), None, False, checklist_id, "checklist_item")
+            model, json.dumps(data), None, False, checklist_id, "checklist_item"
+        )
         return models.Checklists.build_checklist(created_checklist)
 
-    def update_checklist(self, checklist_id: str, name: str = None, postion: int = None):
+    def update_checklist(
+        self, checklist_id: str, name: str = None, postion: int = None
+    ):
 
         if not name and not postion:
             return
@@ -635,22 +743,20 @@ class ClickUpClient():
         data = {}
 
         if name:
-            data.update({'name': name})
+            data.update({"name": name})
         if postion:
-            data.update({'postition': position})
+            data.update({"postition": position})
 
         model = "checklist/"
-        updated_checklist = self.__put_request(
-            model, json.dumps(data), checklist_id)
+        updated_checklist = self.__put_request(model, json.dumps(data), checklist_id)
         if updated_checklist:
             return models.Checklists.build_checklist(updated_checklist)
 
     def delete_checklist(self, checklist_id: str) -> None:
 
         model = "checklist/"
-        self.__delete_request(
-            model, checklist_id)
-        return(True)
+        self.__delete_request(model, checklist_id)
+        return True
 
     def delete_checklist_item(self, checklist_id: str, checklist_item_id: str) -> None:
         """test summary
@@ -660,26 +766,32 @@ class ClickUpClient():
             checklist_item_id (str): [description]
         """
         model = "checklist/"
-        self.__delete_request(
-            model, checklist_id, "checklist_item", checklist_item_id)
-        return(True)
+        self.__delete_request(model, checklist_id, "checklist_item", checklist_item_id)
+        return True
 
-    def update_checklist_item(self, checklist_id: str, checklist_item_id: str, name: str = None, resolved: bool = None, parent: str = None):
+    def update_checklist_item(
+        self,
+        checklist_id: str,
+        checklist_item_id: str,
+        name: str = None,
+        resolved: bool = None,
+        parent: str = None,
+    ):
 
         arguments = {}
         arguments.update(vars())
-        arguments.pop('self', None)
-        arguments.pop('arguments', None)
-        arguments.pop('checklist_id', None)
-        arguments.pop('checklist_item_id', None)
+        arguments.pop("self", None)
+        arguments.pop("arguments", None)
+        arguments.pop("checklist_id", None)
+        arguments.pop("checklist_item_id", None)
 
         model = "checklist/"
 
-        final_dict = json.dumps(
-            {k: v for k, v in arguments.items() if v is not None})
+        final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
 
         item_update = self.__put_request(
-            model, final_dict, checklist_id, "checklist_item", checklist_item_id)
+            model, final_dict, checklist_id, "checklist_item", checklist_item_id
+        )
 
         final_update = models.Checklists.build_checklist(item_update)
         if final_update:
@@ -687,18 +799,14 @@ class ClickUpClient():
 
     # Members
 
-    def get_task_members(
-            self,
-            task_id: str):
+    def get_task_members(self, task_id: str):
 
         model = "task/"
 
         task_members = self.__get_request(model, task_id, "member")
         return models.Members.build_members(task_members)
 
-    def get_list_members(
-            self,
-            list_id: str):
+    def get_list_members(self, list_id: str):
 
         model = "list/"
 
@@ -708,61 +816,64 @@ class ClickUpClient():
     # Goals
 
     def create_goal(
-            self,
-            team_id,
-            name: str = None,
-            due_date: str = None,
-            description: str = None,
-            multiple_owners: bool = True,
-            owners: List[int] = None,
-            color: str = None,
+        self,
+        team_id,
+        name: str = None,
+        due_date: str = None,
+        description: str = None,
+        multiple_owners: bool = True,
+        owners: List[int] = None,
+        color: str = None,
     ):
 
         arguments = {}
         arguments.update(vars())
-        arguments.pop('self', None)
-        arguments.pop('arguments', None)
-        arguments.pop('team_id', None)
-        arguments.pop('owners', None)
+        arguments.pop("self", None)
+        arguments.pop("arguments", None)
+        arguments.pop("team_id", None)
+        arguments.pop("owners", None)
 
         if multiple_owners and owners:
-            arguments.update(
-                {'owners': owners})
+            arguments.update({"owners": owners})
 
-        final_dict = json.dumps(
-            {k: v for k, v in arguments.items() if v is not None})
-
-        print(final_dict)
+        final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
 
         model = "team/"
         created_goal = self.__post_request(
-            model, final_dict, None, False, team_id, "goal")
+            model, final_dict, None, False, team_id, "goal"
+        )
         if created_goal:
             return models.Goals.build_goals(created_goal)
 
-    def update_goal(self, goal_id: str, name: str = None, due_date: str = None, description: str = None, rem_owners: List[str] = None, add_owners: List[str] = None, color: str = None):
+    def update_goal(
+        self,
+        goal_id: str,
+        name: str = None,
+        due_date: str = None,
+        description: str = None,
+        rem_owners: List[str] = None,
+        add_owners: List[str] = None,
+        color: str = None,
+    ):
 
         arguments = {}
         arguments.update(vars())
-        arguments.pop('self', None)
-        arguments.pop('arguments', None)
-        arguments.pop('goal_id', None)
+        arguments.pop("self", None)
+        arguments.pop("arguments", None)
+        arguments.pop("goal_id", None)
 
-        final_dict = json.dumps(
-            {k: v for k, v in arguments.items() if v is not None})
+        final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
 
         model = "goal/"
-        updated_goal = self.__put_request(
-            model, final_dict, goal_id)
+        updated_goal = self.__put_request(model, final_dict, goal_id)
         if updated_goal:
             return models.Goals.build_goals(updated_goal)
 
     def delete_goal(self, goal_id: str):
 
         model = "goal/"
-        self.__delete_request(
-            model, goal_id)
-        return(True)
+        self.__delete_request(model, goal_id)
+        return True
 
     def get_goal(self, goal_id: str) -> models.Goal:
 
@@ -778,11 +889,152 @@ class ClickUpClient():
 
         if include_completed:
             fetched_goals = self.__get_request(
-                model, team_id, "goal?include_completed=true")
+                model, team_id, "goal?include_completed=true"
+            )
         else:
             fetched_goals = self.__get_request(
-                model, team_id, "goal?include_completed=false")
+                model, team_id, "goal?include_completed=false"
+            )
 
         final_goals = models.GoalsList.build_goals(fetched_goals)
         if final_goals:
             return final_goals
+
+    # Tags
+
+    def get_space_tags(self, space_id: str) -> models.Tags:
+        """Gets all tags from a ClickUp space given the space id.
+
+        Args:
+            :space_id (str): The id of the space to return tags from.
+
+        Returns:
+            :models.Tags: Returns an object of type Tags.
+        """
+        model = "space/"
+
+        fetched_tags = self.__get_request(model, space_id, "tag")
+
+        final_tags = models.Tags.build_tags(fetched_tags)
+
+        if final_tags:
+            return final_tags
+
+    def create_space_tag(
+        self,
+        space_id,
+        name: str,
+    ):
+
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop("self", None)
+        arguments.pop("arguments", None)
+        arguments.pop("space_id", None)
+
+        final_dict = {k: v for k, v in arguments.items() if v is not None}
+        final_tag = json.dumps({"tag": final_dict})
+
+        model = "space/"
+        created_tag = self.__post_request(
+            model, final_tag, None, False, space_id, "tag"
+        )
+
+        if created_tag:
+            return models.Tags.build_tags(created_tag)
+
+    # // TODO #34 Finalize update_tag function
+
+    def update_tag(
+        self,
+        space_id: str,
+        name: str,
+        new_name: str,
+    ):
+
+        final_dict = {"tag_name": new_name}
+
+        model = "goal/"
+        updated_goal = self.__put_request(model, final_dict, name)
+        if updated_goal:
+            return models.Goals.build_goals(updated_goal)
+
+    def tag_task(
+        self,
+        task_id: str,
+        tag_name: str,
+    ):
+
+        model = "task/"
+        self.__post_request(model, None, None, False, task_id, "tag", tag_name)
+
+        return True
+
+    def untag_task(
+        self,
+        task_id: str,
+        tag_name: str,
+    ):
+        model = "task/"
+        self.__delete_request(model, task_id, "tag", tag_name)
+        return True
+
+    # Spaces
+
+    def create_space(
+        self, team_id: str, name: str, features: models.Features
+    ) -> models.Space:
+        """create_space Create's a new ClickUp space.
+
+        Args:
+            team_id (str): Id of the team to create the space for.
+            name (str): The name of the created space.
+            features (models.Features): Features to enable or disable in the newly created space.
+
+        Returns:
+            models.Space: Returns an object of type Space.
+        """
+        final_dict = json.dumps(
+            {
+                "name": name,
+                "multiple_assignees": features.multiple_assignees,
+                "features": features.all_features,
+            }
+        )
+
+        model = "team/"
+        created_space = self.__post_request(
+            model, final_dict, None, False, team_id, "space"
+        )
+
+        if created_space:
+            return models.Space.build_space(created_space)
+
+    def delete_space(self, space_id: str):
+
+        model = "space/"
+        self.__delete_request(model, space_id)
+        return True
+
+    def get_space(self, space_id: str):
+
+        model = "space/"
+
+        fetched_space = self.__get_request(model, space_id)
+
+        if fetched_space:
+            return models.Space.build_space(fetched_space)
+
+    def get_spaces(self, team_id: str, archived: bool = False):
+
+        path = "space?archived=false"
+
+        if archived:
+            path = "space?archived=true"
+
+        model = "team/"
+
+        fetched_spaces = self.__get_request(model, team_id, path)
+
+        if fetched_spaces:
+            return models.Spaces.build_spaces(fetched_spaces)
