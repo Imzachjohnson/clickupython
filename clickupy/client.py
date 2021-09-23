@@ -1142,3 +1142,58 @@ class ClickUpClient:
 
         if fetched_spaces:
             return models.Spaces.build_spaces(fetched_spaces)
+
+    # Shared Hierarchy
+    # Returns all resources you have access to where you don't have access to its parent.
+    # For example, if you have a access to a shared task, but don't have access to its parent list, it will come back in this request.
+
+    # //TODO #37 Need to fix this method
+    def get_shared_hierarchy(self, team_id: str) -> models.Shared:
+
+        model = "team/"
+        fetched_hierarchy = self.__get_request(model, team_id, "shared")
+        if fetched_hierarchy:
+            return models.Shared.build_shared(fetched_hierarchy)
+
+    # Time Tracking
+    def get_time_entries_in_range(
+        self,
+        team_id: str,
+        start_date: str = None,
+        end_date: str = None,
+        assignees: List[str] = None,
+    ) -> models.TimeTrackingData:
+        """Gets a list of time tracking entries for a specific date range.
+
+        Args:
+            team_id (str): The id of the team to fetch time entries for.
+            start_date (str, optional): The minimum date to fetch time entries for. Defaults to None.
+            end_date (str, optional): The maximum date to fetch time entries for. Defaults to None.
+            assignees (List[str], optional): A list of user ids to add as assignees. Defaults to None.
+
+        Returns:
+            models.TimeTrackingData: Returns an object of type TimeTrackingData.
+        """
+        startdate = "start_date="
+        enddate = "end_date="
+        assignees_temp = "assignee="
+
+        if start_date:
+            startdate = f"start_date={fuzzy_time_to_unix(start_date)}"
+
+        if end_date:
+            enddate = f"end_date={fuzzy_time_to_unix(end_date)}"
+
+        if assignees:
+            if len(assignees) > 1:
+                assignees_temp = f'assignee={",".join(assignees)}'
+
+            if len(assignees) == 1:
+                assignees_temp = f"assignee={assignees[0]}"
+
+        joined_url = f"time_entries?{startdate}&{enddate}&{assignees_temp}"
+        model = "team/"
+        fetched_time_data = self.__get_request(model, team_id, joined_url)
+
+        if fetched_time_data:
+            return models.TimeTrackingDataList.build_data(fetched_time_data)

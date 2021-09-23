@@ -265,3 +265,26 @@ class TestClientGoals:
         assert result.id == "e53a033c-900e-462d-a849-4a216b06d930"
         assert result.owners[0].id == "182"
         assert result.pretty_url == "https://app.clickup.com/512/goals/6"
+
+
+class TestSharedHierarchy:
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.shared
+    def test_get_shared_hierarchy(self):
+        c = client.ClickUpClient("apikey")
+        result = c.get_shared_hierarchy("333")
+        assert isinstance(result, models.Shared)
+        assert result.shared.lists[0].id == "1421"
+
+
+class TestTimeTracking:
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.timetracking
+    def test_get_time_entries_in_range(self):
+        c = client.ClickUpClient("apikey")
+        result = c.get_time_entries_in_range("333")
+        assert isinstance(result, models.TimeTrackingDataList)
+        assert result.data[0].id == "1963465985517105840"
+        assert result.data[0].task.id == "1vwwavv"
+        assert result.data[0].wid == "300702"
+        assert result.data[0].user.username == "first_name last_name"
