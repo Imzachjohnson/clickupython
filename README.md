@@ -117,6 +117,13 @@ _For more examples, please refer to the [Documentation](https://clickupy.readthe
 - `get_space(space_id)`
 - `get_spaces( team_id, archived)`
 
+### Time Tracking
+
+- `get_time_entries_in_range(team_id, start_date, end_date, assignees)`
+- `get_single_time_entry(team_id, timer_id)`
+- `start_timer(team_id, timer_id)`
+- `stop_timer(team_id)`
+
 ## Contact
 
 Created by Zach Johnson & Robert Mullis
