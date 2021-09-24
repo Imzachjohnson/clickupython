@@ -74,3 +74,4 @@ test.py
 pyvenv.cfg
 Include
 Scripts
+preflight.py
