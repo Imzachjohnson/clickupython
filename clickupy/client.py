@@ -18,10 +18,20 @@ API_URL = "https://api.clickup.com/api/v2/"
 
 
 class ClickUpClient:
-    def __init__(self, accesstoken: str, api_url: str = API_URL):
+    def __init__(
+        self,
+        accesstoken: str,
+        api_url: str = API_URL,
+        default_space: str = None,
+        default_list: str = None,
+        default_task: str = None,
+    ):
         self.api_url = api_url
         self.accesstoken = accesstoken
         self.request_count = 0
+        self.default_space = default_space
+        self.default_list = default_list
+        self.default_task = default_task
 
     # Generates headers for use in GET, POST, DELETE, PUT requests
 
@@ -1197,3 +1207,57 @@ class ClickUpClient:
 
         if fetched_time_data:
             return models.TimeTrackingDataList.build_data(fetched_time_data)
+
+    def get_single_time_entry(
+        self, team_id: str, timer_id: str
+    ) -> models.TimeTrackingData:
+        """Gets a single time tracking object.
+
+        Args:
+            team_id (str): The id of the team the time tracking data resides in.
+            timer_id (str): The id of the time entry.
+
+        Returns:
+            models.TimeTrackingData: [Returns an object of type TimeTrackingData.
+        """
+
+        model = "team/"
+        fetched_time_data = self.__get_request(model, team_id, "time_entries", timer_id)
+        print(fetched_time_data)
+        if fetched_time_data:
+            return models.TimeTrackingDataSingle.build_data(fetched_time_data)
+
+    def start_timer(self, team_id: str, timer_id: str) -> models.TimeTrackingData:
+        """start_timer Starts the time tracking timer for a task via a timer id.
+
+        Args:
+            team_id (str): The id of the team the timer exists in.
+            timer_id (str): The id of the timer to start tracking for.
+
+        Returns:
+            models.TimeTrackingData: Returns an object of type TimeTrackingData.
+        """
+        model = "team/"
+        fetched_time_data = self.__post_request(
+            model, None, None, False, team_id, "time_entries/start", timer_id
+        )
+
+        if fetched_time_data:
+            return models.TimeTrackingDataSingle.build_data(fetched_time_data)
+
+    def stop_timer(self, team_id: str) -> models.TimeTrackingData:
+        """Stops the time tracking timer for a task via a team id.
+
+        Args:
+            team_id (str): The id of the team the timer exists in.
+
+        Returns:
+            models.TimeTrackingData: Returns an object of type TimeTrackingData.
+        """
+        model = "team/"
+        fetched_time_data = self.__post_request(
+            model, None, None, False, team_id, "time_entries/stop"
+        )
+
+        if fetched_time_data:
+            return models.TimeTrackingDataSingle.build_data(fetched_time_data)

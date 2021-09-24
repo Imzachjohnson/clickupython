@@ -890,12 +890,25 @@ class TimeTrackingData(BaseModel):
     source: str = ""
     at: str = ""
 
+    def build_data(self):
+        return TimeTrackingData(**self)
+
 
 class TimeTrackingDataList(BaseModel):
     data: List[TimeTrackingData] = None
 
     def build_data(self):
         return TimeTrackingDataList(**self)
+
+    def __iter__(self):
+        return iter(self.data)
+
+
+class TimeTrackingDataSingle(BaseModel):
+    data: TimeTrackingData = None
+
+    def build_data(self):
+        return TimeTrackingDataSingle(**self)
 
     def __iter__(self):
         return iter(self.data)

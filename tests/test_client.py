@@ -287,4 +287,13 @@ class TestTimeTracking:
         assert result.data[0].id == "1963465985517105840"
         assert result.data[0].task.id == "1vwwavv"
         assert result.data[0].wid == "300702"
-        assert result.data[0].user.username == "first_name last_name"
+        assert result.data[0].user.username == "first_name last_name" @ mock.patch(
+            "clickupy.client.API_URL", MOCK_API_URL
+        )
+
+    @pytest.mark.timetracking
+    def test_get_single_time_entry(self):
+        c = client.ClickUpClient("pk_6341704_8OV9MRRLXIK2VO3XV3FNKKLY9IMQAXB3")
+        result = c.get_single_time_entry("18027888", "2626816009272585830")
+        assert isinstance(result, models.TimeTrackingDataSingle)
+        assert result.data.id == "2626816009272585830"
