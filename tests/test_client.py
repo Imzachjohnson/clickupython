@@ -17,6 +17,7 @@ from clickupy import client
 from clickupy import models
 import os
 import sys
+from clickupy import exceptions
 
 API_KEY = "pk_6341704_8OV9MRRLXIK2VO3XV3FNKKLY9IMQAXB3"
 MOCK_API_URL = "https://private-anon-3a942619a6-clickup20.apiary-mock.com/api/v2/"
@@ -151,6 +152,12 @@ class TestClientTasks:
         result = c.create_task("138166377", "New Task Name", "New Task Description")
 
         assert isinstance(result, models.Task)
+
+        with pytest.raises(exceptions.ClickupClientError):
+            t = c.create_task("Not a real task id", "New Task Name")
+
+        with pytest.raises(exceptions.ClickupClientError):
+            t = c.create_task("138166377", "New Task Name", priority=6)
 
     @pytest.mark.tasks
     def test_get_tasks(self):

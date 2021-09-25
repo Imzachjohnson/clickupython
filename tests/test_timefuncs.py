@@ -1,6 +1,7 @@
 from clickupy.helpers import timefuncs
 import pytest
 from datetime import datetime
+from clickupy import exceptions
 
 
 class TestTimeFuncs:
@@ -17,6 +18,9 @@ class TestTimeFuncs:
 
         assert t == str(int(final_timestamp))
 
+        with pytest.raises(exceptions.ClickupClientError):
+            t = timefuncs.fuzzy_time_to_unix("sdfsdfsdf")
+
     @pytest.mark.timefuncs
     def test_fuzzy_time_to_seconds(self):
 
@@ -25,3 +29,6 @@ class TestTimeFuncs:
 
         assert t == 18000
         assert t2 == 21600
+
+        t = timefuncs.fuzzy_time_to_seconds("1632603494")
+        assert t == "1632603494"

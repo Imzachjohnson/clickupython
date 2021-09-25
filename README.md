@@ -1,6 +1,7 @@
 [![Documentation Status](https://readthedocs.org/projects/clickupy/badge/?version=latest)](https://clickupy.readthedocs.io/en/latest/?badge=latest)
 [![CodeFactor](https://www.codefactor.io/repository/github/imzachjohnson/clickupy/badge)](https://www.codefactor.io/repository/github/imzachjohnson/clickupy)
 [![Build Status](https://app.travis-ci.com/Imzachjohnson/clickupy.svg?branch=main)](https://app.travis-ci.com/Imzachjohnson/clickupy)
+[![Coverage Status](https://coveralls.io/repos/github/Imzachjohnson/clickupy/badge.svg?branch=dev)](https://coveralls.io/github/Imzachjohnson/clickupy?branch=dev)
 
 # clickupy
 

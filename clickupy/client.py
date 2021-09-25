@@ -445,7 +445,34 @@ class ClickUpClient:
         date_updated_gt: str = None,
         date_updated_lt: str = None,
     ) -> models.Tasks:
+        """Gets filtered tasks for a team.
 
+        Args:
+            :team_Id (str): The id of the team to get tasks for.
+            :page (int, optional): The starting page number. Defaults to 0.
+            :order_by (str, optional):  Order by field, defaults to "created". Options: id, created, updated, due_date.
+            :reverse (bool, optional): [description]. Defaults to False.
+            :subtasks (bool, optional): [description]. Defaults to False.
+            :space_ids (List[str], optional): [description]. Defaults to None.
+            :project_ids (List[str], optional): [description]. Defaults to None.
+            :list_ids (List[str], optional): [description]. Defaults to None.
+            :statuses (List[str], optional): [description]. Defaults to None.
+            :include_closed (bool, optional): [description]. Defaults to False.
+            :assignees (List[str], optional): [description]. Defaults to None.
+            :tags (List[str], optional): [description]. Defaults to None.
+            :due_date_gt (str, optional): [description]. Defaults to None.
+            :due_date_lt (str, optional): [description]. Defaults to None.
+            :date_created_gt (str, optional): [description]. Defaults to None.
+            :date_created_lt (str, optional): [description]. Defaults to None.
+            :date_updated_gt (str, optional): [description]. Defaults to None.
+            :date_updated_lt (str, optional): [description]. Defaults to None.
+
+        Raises:
+            exceptions.ClickupClientError: [description]
+
+        Returns:
+            models.Tasks: [description]
+        """
         if order_by not in ["id", "created", "updated", "due_date"]:
             raise exceptions.ClickupClientError(
                 "Options are: id, created, updated, due_date", "Invalid order_by value"
