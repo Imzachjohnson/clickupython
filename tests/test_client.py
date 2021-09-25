@@ -72,9 +72,9 @@ class TestClientFolders:
     def test_get_folders(self):
 
         c = client.ClickUpClient(API_KEY)
-        result = c.get_folders("30067535")
-        assert len(result.folders) > 0
-        assert result.folders[0].id == "72245695"
+        result = c.get_folders("30094063")
+
+        assert result.folders[0].id == "78070294"
         assert isinstance(result, models.Folders)
 
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
@@ -146,7 +146,7 @@ class TestClientTasks:
     def test_create_task(self):
 
         c = client.ClickUpClient(API_KEY)
-        result = c.create_task("132235954", "New Task Name", "New Task Description")
+        result = c.create_task("138166377", "New Task Name", "New Task Description")
 
         assert isinstance(result, models.Task)
 
@@ -154,7 +154,7 @@ class TestClientTasks:
     def test_get_tasks(self):
 
         c = client.ClickUpClient(API_KEY)
-        result = c.get_tasks("132211116")
+        result = c.get_tasks("138166377")
         assert isinstance(result, models.Tasks)
 
     @pytest.mark.tasks
@@ -163,7 +163,7 @@ class TestClientTasks:
         description = "Updated Task description"
 
         c = client.ClickUpClient(API_KEY)
-        result = c.update_task("1g3b7k6", description=description)
+        result = c.update_task("1hpx6uk", description=description)
         assert type(result) == models.Task
         assert result.description == description
 
@@ -172,7 +172,7 @@ class TestClientComments:
     @pytest.mark.comments
     def test_get_task_comments(self):
         c = client.ClickUpClient(API_KEY)
-        result = c.get_task_comments("1gexdjy")
+        result = c.get_task_comments("1hpx6uk")
 
         for c in result:
             assert c.user.id == "6341704"
@@ -248,7 +248,7 @@ class TestClientGoals:
     @pytest.mark.goals
     def test_create_goal(self):
         c = client.ClickUpClient("apikey")
-        result = c.create_goal("12345")
+        result = c.create_goal("12345", "name")
 
         assert isinstance(result, models.Goal)
         assert result.id == "e53a033c-900e-462d-a849-4a216b06d930"
@@ -273,8 +273,9 @@ class TestSharedHierarchy:
     def test_get_shared_hierarchy(self):
         c = client.ClickUpClient("apikey")
         result = c.get_shared_hierarchy("333")
-        assert isinstance(result, models.Shared)
+        assert isinstance(result, models.SharedHierarchy)
         assert result.shared.lists[0].id == "1421"
+        assert result.shared.folders[0].id == "1058"
 
 
 class TestTimeTracking:

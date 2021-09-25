@@ -39,7 +39,7 @@ class ClickUpClient:
         """Internal method to generate headers for HTTP requests. Generates headers for use in GET, POST, DELETE and PUT requests.
 
         Returns:
-            dict: Returns headers for HTTP requests
+            :dict: Returns headers for HTTP requests
         """
 
         return (
@@ -217,6 +217,91 @@ class ClickUpClient:
         if created_list:
             return models.SingleList.build_list(created_list)
 
+    # //TODO Add unit tests
+    def update_list(
+        self,
+        list_id: str,
+        name: str = None,
+        content: str = None,
+        due_date: str = None,
+        due_date_time: bool = None,
+        priority: int = None,
+        assignee: str = None,
+        unset_status: bool = None,
+    ) -> models.SingleList:
+
+        if priority and priority not in range(1, 4):
+            raise exceptions.ClickupClientError(
+                "Priority must be in range of 0-4.", "Priority out of range"
+            )
+
+        if due_date:
+            due_date = fuzzy_time_to_unix(due_date)
+
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop("self", None)
+        arguments.pop("arguments", None)
+        arguments.pop("list_id", None)
+
+        final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
+        print(final_dict)
+        model = "list/"
+        updated_list = self.__put_request(model, final_dict, list_id)
+        if updated_list:
+            return models.SingleList.build_list(updated_list)
+
+    def delete_list(self, list_id: str) -> bool:
+
+        """Deletes a list via a given list id.
+
+        Returns:
+            bool: Returns True if the list was successfully deleted.
+        """
+        model = "list/"
+        self.__delete_request(model, list_id)
+        return True
+
+    def add_task_to_list(
+        self,
+        task_id: str,
+        list_id: str,
+    ) -> models.Task:
+        """Adds a task to a list via a gen task id and list id.
+
+        Args:
+            task_id (str): The id of the task to be added to a list.
+            list_id (str): The id of the list to add the task to.
+
+        Returns:
+            models.Task: Returns an object of type Task.
+        """
+        model = "list/"
+        task = self.__post_request(model, None, None, False, list_id, "task", task_id)
+
+        if task:
+            return models.Task.build_task(task)
+
+    def remove_task_from_list(
+        self,
+        task_id: str,
+        list_id: str,
+    ) -> bool:
+        """Removes a task from a list via a given task id and list id.
+
+        Args:
+            :task_id (str): The id of the task to remove.
+            :list_id (str): The id of the list to remove the task from.
+
+        Returns:
+           :bool: Returns True.
+        """
+        model = "list/"
+        task = self.__delete_request(model, list_id, "task", task_id)
+
+        if task:
+            return True
+
     # Folders
 
     def get_folder(self, folder_id: str) -> models.Folder:
@@ -323,6 +408,7 @@ class ClickUpClient:
                     )
                 return final_attachment
 
+    # // TODO Add "Include subtasks option"
     def get_task(self, task_id: str) -> models.Task:
         """Fetches a single ClickUp task item and returns a Task object.
 
@@ -337,6 +423,81 @@ class ClickUpClient:
         final_task = models.Task.build_task(fetched_task)
         if final_task:
             return final_task
+
+    def get_team_tasks(
+        self,
+        team_Id: str,
+        page: int = 0,
+        order_by: str = "created",
+        reverse: bool = False,
+        subtasks: bool = False,
+        space_ids: List[str] = None,
+        project_ids: List[str] = None,
+        list_ids: List[str] = None,
+        statuses: List[str] = None,
+        include_closed: bool = False,
+        assignees: List[str] = None,
+        tags: List[str] = None,
+        due_date_gt: str = None,
+        due_date_lt: str = None,
+        date_created_gt: str = None,
+        date_created_lt: str = None,
+        date_updated_gt: str = None,
+        date_updated_lt: str = None,
+    ) -> models.Tasks:
+
+        if order_by not in ["id", "created", "updated", "due_date"]:
+            raise exceptions.ClickupClientError(
+                "Options are: id, created, updated, due_date", "Invalid order_by value"
+            )
+
+        supplied_values = [
+            f"page={page}",
+            f"order_by={order_by}",
+            f"reverse={str(reverse).lower()}",
+        ]
+
+        if statuses:
+            supplied_values.append(
+                f"{urllib.parse.quote_plus('statuses[]')}={','.join(statuses)}"
+            )
+        if assignees:
+            supplied_values.append(
+                f"{urllib.parse.quote_plus('assignees[]')}={','.join(assignees)}"
+            )
+        if due_date_gt:
+            supplied_values.append(f"due_date_gt={fuzzy_time_to_unix(due_date_gt)}")
+        if due_date_lt:
+            supplied_values.append(f"due_date_lt={fuzzy_time_to_unix(due_date_lt)}")
+        if space_ids:
+            supplied_values.append(
+                f"{urllib.parse.quote_plus('space_ids[]')}={','.join(space_ids)}"
+            )
+        if project_ids:
+            supplied_values.append(
+                f"{urllib.parse.quote_plus('project_ids[]')}={','.join(project_ids)}"
+            )
+        if list_ids:
+            supplied_values.append(
+                f"{urllib.parse.quote_plus('list_ids[]')}={','.join(list_ids)}"
+            )
+        if date_created_gt:
+            supplied_values.append(f"date_created_gt={date_created_gt}")
+        if date_created_lt:
+            supplied_values.append(f"date_created_lt={date_created_lt}")
+        if date_updated_gt:
+            supplied_values.append(f"date_updated_gt={date_updated_gt}")
+        if date_updated_lt:
+            supplied_values.append(f"date_updated_lt={date_updated_lt}")
+        if subtasks:
+            supplied_values.append(f"subtasks=true")
+
+        joined_url = f"task?{'&'.join(supplied_values)}"
+
+        model = "team/"
+        fetched_tasks = self.__get_request(model, team_Id, joined_url)
+        if fetched_tasks:
+            return models.Tasks.build_tasks(fetched_tasks)
 
     def get_tasks(
         self,
@@ -562,7 +723,7 @@ class ClickUpClient:
         """Deletes a task via a given task ID.
 
         Args:
-            folder_id (str): The ID of the ClickUp task to delete.
+            :folder_id (str): The ID of the ClickUp task to delete.
         """
         model = "task/"
         deleted_task_status = self.__delete_request(model, task_id)
@@ -669,13 +830,13 @@ class ClickUpClient:
         """Create a comment on a task via a given task id.
 
         Args:
-            task_id (str): The id of the task to comment on.
-            comment_text (str): The text of the comment.
-            assignee (str, optional): The id of a user to add as an assignee. Defaults to None.
-            notify_all (bool, optional): Notify all valid users of the comment's creation. Defaults to True.
+            :task_id (str): The id of the task to comment on.
+            :comment_text (str): The text of the comment.
+            :assignee (str, optional): The id of a user to add as an assignee. Defaults to None.
+            :notify_all (bool, optional): Notify all valid users of the comment's creation. Defaults to True.
 
         Returns:
-            models.Comment: Returns an object of type Comment.
+            :models.Comment: Returns an object of type Comment.
         """
         arguments = {}
         arguments.update(vars())
@@ -718,7 +879,7 @@ class ClickUpClient:
             :name (str): The name for the new checklist.
 
         Returns:
-            models.Checklist: Returns and object of type Checklist.
+            :models.Checklist: Returns and object of type Checklist.
         """
         data = {
             "name": name,
@@ -852,7 +1013,7 @@ class ClickUpClient:
             :task_id (str): The id of the task to get members of.
 
         Returns:
-            models.Members: Returns an object of type Members.
+            :models.Members: Returns an object of type Members.
         """
 
         model = "task/"
@@ -864,10 +1025,10 @@ class ClickUpClient:
         """Get all members assigned to a specific list via a list id.
 
         Args:
-            list_id (str): The id of the list to get members of.
+            :list_id (str): The id of the list to get members of.
 
         Returns:
-            models.Members: Returns an object of type Members.
+            :models.Members: Returns an object of type Members.
         """
         model = "list/"
 
@@ -960,10 +1121,10 @@ class ClickUpClient:
         """Delete a goal via a given goal id.
 
         Args:
-            goal_id (str): The id of the goal to delete.
+            :goal_id (str): The id of the goal to delete.
 
         Returns:
-            bool: Returns True.
+            :bool: Returns True.
         """
         model = "goal/"
         self.__delete_request(model, goal_id)
@@ -972,9 +1133,9 @@ class ClickUpClient:
     def get_goal(self, goal_id: str) -> models.Goal:
         """get_goal fetch a goal via a given goal id.
         Args:
-            goal_id (str): The id of the goal to be fetched.
+            :goal_id (str): The id of the goal to be fetched.
         Returns:
-            models.Goal: Returns an object of type Goal.
+            :models.Goal: Returns an object of type Goal.
         """
         model = "goal/"
         fetched_goal = self.__get_request(model, goal_id)
@@ -985,11 +1146,11 @@ class ClickUpClient:
     def get_goals(self, team_id: str, include_completed: bool = False) -> models.Goals:
         """get_goals Returns a list of goals for a team via a given team id.
         Args:
-            team_id (str): The id of the team to fetch goals for.
-            include_completed (bool, optional): Setting this to true will include completed goals in the query. Defaults to False.
+            :team_id (str): The id of the team to fetch goals for.
+            :include_completed (bool, optional): Setting this to true will include completed goals in the query. Defaults to False.
 
         Returns:
-            models.Goals: Returns an object of type Goals.
+            :models.Goals: Returns an object of type Goals.
         """
         model = "team/"
 
@@ -1034,11 +1195,11 @@ class ClickUpClient:
         """Creates a tag to be utilized in a space.
 
         Args:
-            space_id ([type]): The id of the space to create a tag for.
-            name (str): the name of the created tag.
+            :space_id ([type]): The id of the space to create a tag for.
+            :name (str): the name of the created tag.
 
         Returns:
-            models.Tag: Returns an object of type Tag.
+            :models.Tag: Returns an object of type Tag.
         """
         arguments = {}
         arguments.update(vars())
@@ -1101,12 +1262,12 @@ class ClickUpClient:
         """create_space Create's a new ClickUp space.
 
         Args:
-            team_id (str): Id of the team to create the space for.
-            name (str): The name of the created space.
-            features (models.Features): Features to enable or disable in the newly created space.
+            :team_id (str): Id of the team to create the space for.
+            :name (str): The name of the created space.
+            :features (models.Features): Features to enable or disable in the newly created space.
 
         Returns:
-            models.Space: Returns an object of type Space.
+            :models.Space: Returns an object of type Space.
         """
         final_dict = json.dumps(
             {
@@ -1157,13 +1318,22 @@ class ClickUpClient:
     # Returns all resources you have access to where you don't have access to its parent.
     # For example, if you have a access to a shared task, but don't have access to its parent list, it will come back in this request.
 
-    # //TODO #37 Need to fix this method
-    def get_shared_hierarchy(self, team_id: str) -> models.Shared:
+    def get_shared_hierarchy(self, team_id: str) -> models.SharedHierarchy:
+        """Returns all resources you have access to where you don't have access to its parent.
+        For example, if you have a access to a shared task, but don't have access to its parent list,
+        it will come back in this request.
 
+        Args:
+            :team_id (str): The team id to fetch shared hierarchy for.
+
+        Returns:
+            :models.SharedHierarchy: Returns an object of type SharedHierarchy.
+        """
         model = "team/"
         fetched_hierarchy = self.__get_request(model, team_id, "shared")
+        print(fetched_hierarchy)
         if fetched_hierarchy:
-            return models.Shared.build_shared(fetched_hierarchy)
+            return models.SharedHierarchy.build_shared(fetched_hierarchy)
 
     # Time Tracking
     def get_time_entries_in_range(
@@ -1176,13 +1346,13 @@ class ClickUpClient:
         """Gets a list of time tracking entries for a specific date range.
 
         Args:
-            team_id (str): The id of the team to fetch time entries for.
-            start_date (str, optional): The minimum date to fetch time entries for. Defaults to None.
-            end_date (str, optional): The maximum date to fetch time entries for. Defaults to None.
-            assignees (List[str], optional): A list of user ids to add as assignees. Defaults to None.
+            :team_id (str): The id of the team to fetch time entries for.
+            :start_date (str, optional): The minimum date to fetch time entries for. Defaults to None.
+            :end_date (str, optional): The maximum date to fetch time entries for. Defaults to None.
+            :assignees (List[str], optional): A list of user ids to add as assignees. Defaults to None.
 
         Returns:
-            models.TimeTrackingData: Returns an object of type TimeTrackingData.
+            :models.TimeTrackingData: Returns an object of type TimeTrackingData.
         """
         startdate = "start_date="
         enddate = "end_date="
@@ -1214,11 +1384,11 @@ class ClickUpClient:
         """Gets a single time tracking object.
 
         Args:
-            team_id (str): The id of the team the time tracking data resides in.
-            timer_id (str): The id of the time entry.
+            :team_id (str): The id of the team the time tracking data resides in.
+            :timer_id (str): The id of the time entry.
 
         Returns:
-            models.TimeTrackingData: [Returns an object of type TimeTrackingData.
+            :models.TimeTrackingData: [Returns an object of type TimeTrackingData.
         """
 
         model = "team/"
@@ -1231,11 +1401,11 @@ class ClickUpClient:
         """start_timer Starts the time tracking timer for a task via a timer id.
 
         Args:
-            team_id (str): The id of the team the timer exists in.
-            timer_id (str): The id of the timer to start tracking for.
+            :team_id (str): The id of the team the timer exists in.
+            :timer_id (str): The id of the timer to start tracking for.
 
         Returns:
-            models.TimeTrackingData: Returns an object of type TimeTrackingData.
+            :models.TimeTrackingData: Returns an object of type TimeTrackingData.
         """
         model = "team/"
         fetched_time_data = self.__post_request(
@@ -1249,10 +1419,10 @@ class ClickUpClient:
         """Stops the time tracking timer for a task via a team id.
 
         Args:
-            team_id (str): The id of the team the timer exists in.
+            :team_id (str): The id of the team the timer exists in.
 
         Returns:
-            models.TimeTrackingData: Returns an object of type TimeTrackingData.
+            :models.TimeTrackingData: Returns an object of type TimeTrackingData.
         """
         model = "team/"
         fetched_time_data = self.__post_request(
