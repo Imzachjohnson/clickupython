@@ -251,6 +251,57 @@ class ClickUpClient:
         if updated_list:
             return models.SingleList.build_list(updated_list)
 
+    def delete_list(self, list_id: str) -> bool:
+
+        """Deletes a list via a given list id.
+
+        Returns:
+            bool: Returns True if the list was successfully deleted.
+        """
+        model = "list/"
+        self.__delete_request(model, list_id)
+        return True
+
+    def add_task_to_list(
+        self,
+        task_id: str,
+        list_id: str,
+    ) -> models.Task:
+        """Adds a task to a list via a gen task id and list id.
+
+        Args:
+            task_id (str): The id of the task to be added to a list.
+            list_id (str): The id of the list to add the task to.
+
+        Returns:
+            models.Task: Returns an object of type Task.
+        """
+        model = "list/"
+        task = self.__post_request(model, None, None, False, list_id, "task", task_id)
+
+        if task:
+            return models.Task.build_task(task)
+
+    def remove_task_from_list(
+        self,
+        task_id: str,
+        list_id: str,
+    ) -> bool:
+        """Removes a task from a list via a given task id and list id.
+
+        Args:
+            :task_id (str): The id of the task to remove.
+            :list_id (str): The id of the list to remove the task from.
+
+        Returns:
+           :bool: Returns True.
+        """
+        model = "list/"
+        task = self.__delete_request(model, list_id, "task", task_id)
+
+        if task:
+            return True
+
     # Folders
 
     def get_folder(self, folder_id: str) -> models.Folder:
