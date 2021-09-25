@@ -5,6 +5,15 @@ python:
 
 install:
   - pip install -r requirements.txt
+  - pip install pytest-cov
+  - pip install coveralls
   - pip install -e .
 
-script: pytest
+
+script:
+  - pytest 
+
+script: pytest--cov=YourModule/
+
+after_success:
+  - coveralls
