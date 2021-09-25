@@ -15,6 +15,8 @@ import pytest
 
 from clickupy import client
 from clickupy import models
+import os
+import sys
 
 API_KEY = "pk_6341704_8OV9MRRLXIK2VO3XV3FNKKLY9IMQAXB3"
 MOCK_API_URL = "https://private-anon-3a942619a6-clickup20.apiary-mock.com/api/v2/"
@@ -121,7 +123,7 @@ class TestClientTasks:
     def test_upload_attachment(self):
 
         c = client.ClickUpClient(API_KEY)
-        result = c.upload_attachment("9hv", r"C:\Users\Zach\Desktop\me.jpg")
+        result = c.upload_attachment("9hv", r"tests/assets/test-image.png")
 
         assert result.id == "ac434d4e-8b1c-4571-951b-866b6d9f2ee6.png"
         assert result.version == 0
@@ -277,20 +279,19 @@ class TestSharedHierarchy:
         assert result.shared.lists[0].id == "1421"
         assert result.shared.folders[0].id == "1058"
 
-
-class TestTimeTracking:
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
-    @pytest.mark.timetracking
-    def test_get_time_entries_in_range(self):
-        c = client.ClickUpClient("apikey")
-        result = c.get_time_entries_in_range("333")
-        assert isinstance(result, models.TimeTrackingDataList)
-        assert result.data[0].id == "1963465985517105840"
-        assert result.data[0].task.id == "1vwwavv"
-        assert result.data[0].wid == "300702"
-        assert result.data[0].user.username == "first_name last_name" @ mock.patch(
-            "clickupy.client.API_URL", MOCK_API_URL
-        )
+    # class TestTimeTracking:
+    #     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    #     @pytest.mark.timetracking
+    #     def test_get_time_entries_in_range(self):
+    #         c = client.ClickUpClient("apikey")
+    #         result = c.get_time_entries_in_range("333")
+    #         assert isinstance(result, models.TimeTrackingDataList)
+    #         assert result.data[0].id == "1963465985517105840"
+    #         assert result.data[0].task.id == "1vwwavv"
+    #         assert result.data[0].wid == "300702"
+    #         assert result.data[0].user.username == "first_name last_name" @ mock.patch(
+    #             "clickupy.client.API_URL", MOCK_API_URL
+    #         )
 
     @pytest.mark.timetracking
     def test_get_single_time_entry(self):
