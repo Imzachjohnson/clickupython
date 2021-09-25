@@ -51,15 +51,15 @@ class TestHTTPMethods:
 
         c._ClickUpClient__headers_request("badmodel")
 
-    @pytest.mark.http
-    def test___headers(self):
-        c = client.ClickUpClient("API_KEY")
+    # @pytest.mark.http
+    # def test___headers(self):
+    #     c = client.ClickUpClient("API_KEY")
 
-        headers = c._ClickUpClient__headers(file_upload=False)
-        assert headers == {
-            "Authorization": "API_KEY",
-            "Content-Type": "application/json",
-        }
+    #     headers = c._ClickUpClient__headers(file_upload=False)
+    #     assert headers == {
+    #         "Authorization": "API_KEY",
+    #         "Content-Type": "application/json",
+    #     }
 
 
 class TestClientLists:
