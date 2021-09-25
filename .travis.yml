@@ -13,7 +13,7 @@ install:
 script:
   - pytest 
 
-script: pytest--cov=YourModule/
+script: pytest--cov=clickupy/tests/test_client.py
 
 after_success:
   - coveralls
