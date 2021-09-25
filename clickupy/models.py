@@ -619,15 +619,6 @@ class Task(BaseModel):
     space: Folder = None
     url: str = ""
 
-    @validator("priority")
-    def check_status(cls, v):
-
-        if v == "":
-
-            v = 4
-
-            return v
-
     def build_task(self):
 
         return Task(**self)
@@ -865,12 +856,15 @@ class Shared(BaseModel):
     def build_shared(self):
         return Shared(**self)
 
+    def __iter__(self):
+        return iter(self.shared)
+
 
 class SharedHierarchy(BaseModel):
-    shared: Optional[List[Shared]]
+    shared: Shared
 
     def build_shared(self):
-        return Shared(**self)
+        return SharedHierarchy(**self)
 
     def __iter__(self):
         return iter(self.shared)
