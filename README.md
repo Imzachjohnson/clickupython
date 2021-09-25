@@ -56,6 +56,10 @@ _For more examples, please refer to the [Documentation](https://clickupy.readthe
 - `get_lists(folder_id)`
 - `create_list(folder_id, name, content, due_date, priority, status)`
 - `create_folderless_list(space_id, name, content, due_date, priority, assignee, status)`
+- `update_list(list_id, name, content, due_date, due_date_time, priority, assignee, unset_status)`
+- `delete_list(list_id)`
+- `add_task_to_list(task_id, list_id)`
+- `remove_task_from_list(task_id, list_id)`
 
 ### Folder
 
