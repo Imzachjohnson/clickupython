@@ -120,7 +120,12 @@ class ClickUpClient:
         path = formatting.url_join(API_URL, model, *additionalpath)
         response = requests.delete(path, headers=self.__headers())
         self.request_count += 1
-        response_json = response.json()
+        try:
+            response_json = response.json()
+        except:
+            raise exceptions.ClickupClientError(
+                "Invalid Json response", response.status_code
+            )
         if response.ok:
             return response.status_code
         else:

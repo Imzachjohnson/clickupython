@@ -23,6 +23,45 @@ API_KEY = "pk_6341704_8OV9MRRLXIK2VO3XV3FNKKLY9IMQAXB3"
 MOCK_API_URL = "https://private-anon-3a942619a6-clickup20.apiary-mock.com/api/v2/"
 
 
+class TestHTTPMethods:
+    @pytest.mark.http
+    def test__get_request(self):
+        c = client.ClickUpClient(API_KEY)
+
+        with pytest.raises(exceptions.ClickupClientError):
+            c._ClickUpClient__get_request("badmodel")
+
+    @pytest.mark.http
+    def test__post_request(self):
+        c = client.ClickUpClient(API_KEY)
+
+        with pytest.raises(exceptions.ClickupClientError):
+            c._ClickUpClient__post_request("badmodel", "baddata")
+
+    @pytest.mark.http
+    def test__put_request(self):
+        c = client.ClickUpClient(API_KEY)
+
+        with pytest.raises(exceptions.ClickupClientError):
+            c._ClickUpClient__put_request("badmodel", "baddata")
+
+    @pytest.mark.http
+    def test__delete_request(self):
+        c = client.ClickUpClient(API_KEY)
+
+        c._ClickUpClient__headers_request("badmodel")
+
+    @pytest.mark.http
+    def test___headers(self):
+        c = client.ClickUpClient("API_KEY")
+
+        headers = c._ClickUpClient__headers(file_upload=False)
+        assert headers == {
+            "Authorization": "API_KEY",
+            "Content-Type": "application/json",
+        }
+
+
 class TestClientLists:
     @pytest.mark.lists
     def test_get_list(self):
