@@ -1,5 +1,6 @@
 [![Documentation Status](https://readthedocs.org/projects/clickupy/badge/?version=latest)](https://clickupy.readthedocs.io/en/latest/?badge=latest)
 [![CodeFactor](https://www.codefactor.io/repository/github/imzachjohnson/clickupy/badge)](https://www.codefactor.io/repository/github/imzachjohnson/clickupy)
+[![Build Status](https://app.travis-ci.com/Imzachjohnson/clickupy.svg?branch=main)](https://app.travis-ci.com/Imzachjohnson/clickupy)
 
 # clickupy
 
