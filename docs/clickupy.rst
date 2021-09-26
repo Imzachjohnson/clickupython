@@ -1,4 +1,4 @@
-clickupy package
+clickupython package
 ================
 
 Subpackages
@@ -7,31 +7,31 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   clickupy.helpers
+   clickupython.helpers
 
 Submodules
 ----------
 
-clickupy.client module
+clickupython.client module
 ----------------------
 
-.. automodule:: clickupy.client
+.. automodule:: clickupython.client
    :members:
    :undoc-members:
    :show-inheritance:
 
-clickupy.exceptions module
+clickupython.exceptions module
 --------------------------
 
-.. automodule:: clickupy.exceptions
+.. automodule:: clickupython.exceptions
    :members:
    :undoc-members:
    :show-inheritance:
 
-clickupy.models module
+clickupython.models module
 ----------------------
 
-.. automodule:: clickupy.models
+.. automodule:: clickupython.models
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,7 +39,7 @@ clickupy.models module
 Module contents
 ---------------
 
-.. automodule:: clickupy
+.. automodule:: clickupython
    :members:
    :undoc-members:
    :show-inheritance:

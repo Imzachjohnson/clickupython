@@ -4,9 +4,9 @@ python:
   - "3.9"
   - "3.8"
   - "3.7"
-  - "3.6"
 
 install:
+  - pip install setuptools
   - pip install -r requirements.txt
   - pip install pytest-cov
   - pip install coveralls
@@ -16,7 +16,7 @@ install:
 script:
   - pytest 
 
-script: pytest --cov=clickupy tests/
+script: pytest --cov=clickupython tests/
 
 after_success:
   - coveralls
