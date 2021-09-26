@@ -157,6 +157,42 @@ class TestClientFolders:
 
         assert result
 
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.folders
+    def test_create_folderless_list(self):
+
+        c = client.ClickUpClient(API_KEY)
+        result = c.create_folderless_list("789", "List Name")
+        assert result
+        assert result.id == "124"
+        assert result.due_date == "1567780450202"
+        assert result.space.id == "789"
+        assert result.statuses[0].status == "to do"
+        assert result.folder.id == "457"
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.folders
+    def test_update_list(self):
+
+        c = client.ClickUpClient(API_KEY)
+        result = c.update_list("789", "List Name")
+        assert result
+        assert result.id == "124"
+        assert result.due_date == "1567780450202"
+        assert result.space.id == "789"
+        assert result.statuses[0].status == "to do"
+        assert result.folder.id == "456"
+
+        with pytest.raises(exceptions.ClickupClientError):
+            t = c.update_list("789", "List Name", priority=6)
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    def test_delete_list(self):
+
+        c = client.ClickUpClient(API_KEY)
+        result = c.delete_list("789")
+        assert result
+
 
 class TestClientTasks:
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
@@ -215,6 +251,40 @@ class TestClientTasks:
         result = c.update_task("1hpx6uk", description=description)
         assert type(result) == models.Task
         assert result.description == description
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.tasks
+    def test_add_task_to_list(self):
+
+        c = client.ClickUpClient(API_KEY)
+        result = c.add_task_to_list("1hpx6uk", "123")
+        assert result
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.tasks
+    def test_remove_task_from_list(self):
+
+        c = client.ClickUpClient(API_KEY)
+        result = c.remove_task_from_list("1hpx6uk", "123")
+        assert result
+
+    @pytest.mark.tasks
+    def test_get_task(self):
+
+        c = client.ClickUpClient(API_KEY)
+        result = c.get_task("1jdux0n")
+        assert isinstance(result, models.Task)
+        assert result.name == "test task"
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.tasks
+    def test_get_team_tasks(self):
+
+        c = client.ClickUpClient(API_KEY)
+        result = c.get_team_tasks("team id")
+        assert isinstance(result, models.Tasks)
+        assert result.tasks[0].name == "My First Task"
+        assert result.tasks[0].assignees[0].username == "John Doe"
 
 
 class TestClientComments:
