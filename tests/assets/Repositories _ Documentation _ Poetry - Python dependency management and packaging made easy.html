@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<!-- saved from url=(0068)https://python-poetry.org/docs/repositories/#configuring-credentials -->
+<html class="light"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<title>Repositories | Documentation | Poetry - Python dependency management and packaging made easy</title>
+
+<meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="https://python-poetry.org/images/favicon-origami-32.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta content="Repositories Using the PyPI repository By default, Poetry is configured to use the PyPI repository, for package installation and publishing.
+So, when you add dependencies to your project, Poetry will assume they are available on PyPI.
+This represents most cases and will likely be enough for most users.
+Using a private repository However, at times, you may need to keep your package private while still being able to share it with your teammates." name="description">
+<link rel="canonical" href="https://python-poetry.org/docs/repositories/">
+<script defer="" data-domain="python-poetry.org" src="./Repositories _ Documentation _ Poetry - Python dependency management and packaging made easy_files/plausible.js.download"></script>
+<link rel="stylesheet" href="./Repositories _ Documentation _ Poetry - Python dependency management and packaging made easy_files/app.d4300324a0faa0dcb73ea4433398584b1f99ab832dcdb573950152bde033078d.css" integrity="sha256-1DADJKD6oNy3PqRDM5hYSx+Zq4MtzbVzlQFSveAzB40=">
+</head>
+<body data-new-gr-c-s-check-loaded="14.1029.0" data-gr-ext-installed=""><script>function getInitialColorMode(){const a=window.localStorage.getItem('color-mode'),c=typeof a=='string';if(c)return a;const b=window.matchMedia('(prefers-color-scheme: dark)'),d=typeof b.matches=='boolean';return d?b.matches?'dark':'light':'light'}document.documentElement.classList.add(getInitialColorMode())</script>
+<div data-controller="menu" data-action="keydown-&gt;menu#close">
+<div class="absolute max-w-7xl mx-auto px-4 top-0 left-0 right-0 z-30 sm:px-6 lg:px-8">
+<div class="relative flex justify-end items-center py-6 md:space-x-10">
+<div class="flex flex-grow justify-start lg:w-0 lg:flex-1">
+<a href="https://python-poetry.org/">
+<span class="sr-only">Home</span>
+<img class="h-8 w-auto sm:h-10" src="./Repositories _ Documentation _ Poetry - Python dependency management and packaging made easy_files/logo-origami.svg" alt="Poetry logo">
+</a>
+</div>
+<div class="search-container hidden w-36 self-end relative lg:flex" data-version="1.1">
+<div class="aa-Autocomplete" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="autocomplete-0-label"><button class="aa-DetachedSearchButton"><div class="aa-DetachedSearchButtonIcon"><svg class="aa-SubmitIcon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.041 15.856c-0.034 0.026-0.067 0.055-0.099 0.087s-0.060 0.064-0.087 0.099c-1.258 1.213-2.969 1.958-4.855 1.958-1.933 0-3.682-0.782-4.95-2.050s-2.050-3.017-2.050-4.95 0.782-3.682 2.050-4.95 3.017-2.050 4.95-2.050 3.682 0.782 4.95 2.050 2.050 3.017 2.050 4.95c0 1.886-0.745 3.597-1.959 4.856zM21.707 20.293l-3.675-3.675c1.231-1.54 1.968-3.493 1.968-5.618 0-2.485-1.008-4.736-2.636-6.364s-3.879-2.636-6.364-2.636-4.736 1.008-6.364 2.636-2.636 3.879-2.636 6.364 1.008 4.736 2.636 6.364 3.879 2.636 6.364 2.636c2.125 0 4.078-0.737 5.618-1.968l3.675 3.675c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414z"></path></svg></div><div class="aa-DetachedSearchButtonPlaceholder">Search</div></button></div></div>
+<div class="self-end mr-8 w-28 relative md:mr-0" data-controller="select" data-action="select:click:outside-&gt;select#close">
+<button type="button" class="bg-light-note flex items-center w-full border border-indigo-200 rounded-md shadow-sm pl-2.5 pr-2 py-2 text-left cursor-default focus:outline-none focus:border-indigo-500 focus:bg-indigo-50 sm:text-sm transition-all dark:bg-gray-700 dark:border-gray-600 dark:bg-opacity-50 dark:focus:border-blue-400 dark:focus:border-opacity-50 dark:focus:bg-blue-900 dark:focus:bg-opacity-20" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label" data-select-target="button" data-action="click-&gt;select#toggle">
+<span class="flex-none w-3 h-3 text-indigo-700 dark:text-blue-300"><svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path fill="currentcolor" fill-opacity="30%" d="M256 0C114.6.0.0 114.6.0 256s114.6 256 256 256 256-114.6 256-256S397.4.0 256 0zm96 256c0 52.95-43.05 96-96 96s-96-43.9-96-96 43.05-96 96-96 96 43.1 96 96z"></path><path fill="currentcolor" d="M352 256c0 52.95-43.05 96-96 96s-96-43.9-96-96 43.05-96 96-96 96 43.1 96 96z"></path></g></svg>
+</span>
+<span class="flex-grow ml-2 truncate font-medium">
+1.1
+</span>
+<span class="flex-none inset-y-0 text-indigo-800 pointer-events-none dark:text-indigo-200"><svg class="h-5 w-5 opacity-60" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentcolor" aria-hidden="true"><path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707A1 1 0 016.293 6.293l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414.0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414.0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+</span>
+</button>
+<ul class="hidden absolute z-10 mt-1 w-full bg-light-note shadow-lg max-h-60 rounded-md py-1 px-1 text-base ring-1 ring-indigo-300 ring-opacity-20 overflow-auto transition transform focus:outline-none sm:text-sm dark:bg-gray-700" data-select-target="menu" tabindex="-1" role="listbox" aria-labelledby="listbox-label" data-transition-enter-active="" data-transition-enter-from="" data-transition-enter-to="" data-transition-leave-active="ease-in duration-100" data-transition-leave-from="opacity-100" data-transition-leave-to="opacity-0">
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/master/" class="flex justify-end items-center content-center transition py-2 px-1.5 rounded duration-300 hover:bg-light-note-darker dark:hover:bg-dark-note-darker">
+<span class="flex-grow self-center ml-2 ml-5 font-normal inline-block truncate">
+master
+</span>
+</a>
+</li>
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/" class="flex justify-end items-center content-center transition py-2 px-1.5 rounded duration-300 hover:bg-light-note-darker dark:hover:bg-dark-note-darker">
+<span class="flex-none w-3 h-3 text-indigo-700 dark:text-blue-300"><svg aria-hidden="true" focusable="false" data-icon="circle-dot" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path fill="currentcolor" fill-opacity="30%" d="M256 0C114.6.0.0 114.6.0 256s114.6 256 256 256 256-114.6 256-256S397.4.0 256 0zm96 256c0 52.95-43.05 96-96 96s-96-43.9-96-96 43.05-96 96-96 96 43.1 96 96z"></path><path fill="currentcolor" d="M352 256c0 52.95-43.05 96-96 96s-96-43.9-96-96 43.05-96 96-96 96 43.1 96 96z"></path></g></svg>
+</span>
+<span class="flex-grow self-center ml-2 font-medium inline-block truncate">
+1.1
+</span>
+</a>
+</li>
+</ul>
+</div><button type="button" class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 mr-8 border-2 border-transparent rounded-full cursor-pointer transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300 dark:focus:ring-blue-200 dark:bg-gray-900 md:mr-0" role="switch" aria-checked="false" data-controller="mode-switch" data-action="click-&gt;mode-switch#toggle">
+<span class="sr-only">Use dark mode</span>
+<span class="translate-x-0 pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200 dark:bg-gray-700 dark:translate-x-5">
+<span class="opacity-100 ease-in duration-200 absolute inset-0 h-full w-full flex items-center justify-center transition-opacity dark:opacity-0" aria-hidden="true"><svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-3 h-3"><g><path fill="#fcd34d" d="M502.42 240.5l-94.7-47.3 33.5-100.4c4.5-13.6-8.4-26.5-21.9-21.9l-100.4 33.5-47.41-94.8a17.31 17.31.0 00-31 0l-47.3 94.7L92.7 70.8c-13.6-4.5-26.5 8.4-21.9 21.9l33.5 100.4-94.7 47.4a17.31 17.31.0 000 31l94.7 47.3-33.5 100.5c-4.5 13.6 8.4 26.5 21.9 21.9l100.41-33.5 47.3 94.7a17.31 17.31.0 0031 0l47.31-94.7 100.4 33.5c13.6 4.5 26.5-8.4 21.9-21.9l-33.5-100.4 94.7-47.3a17.33 17.33.0 00.2-31.1zm-155.9 106c-49.91 49.9-131.11 49.9-181 0a128.13 128.13.0 010-181c49.9-49.9 131.1-49.9 181 0a128.13 128.13.0 010 181z"></path><path fill="#f59e0b" d="M352 256a96 96 0 11-96-96 96.15 96.15.0 0196 96z"></path></g></svg>
+</span>
+<span class="opacity-0 ease-out duration-100 absolute inset-0 h-full w-full flex items-center justify-center transition-opacity dark:opacity-100" aria-hidden="true"><svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-3 h-3"><g><path fill="#fcd34d" d="M320 32 304 0l-16 32-32 16 32 16 16 32 16-32 32-16zm138.7 149.3L432 128l-26.7 53.3L352 208l53.3 26.7L432 288l26.7-53.3L512 208z"></path><path fill="#bae6fd" d="M332.2 426.4c8.1-1.6 13.9 8 8.6 14.5a191.18 191.18.0 01-149 71.1C85.8 512 0 426 0 320c0-120 108.7-210.6 227-188.8 8.2 1.6 10.1 12.6 2.8 16.7a150.3 150.3.0 00-76.1 130.8c0 94 85.4 165.4 178.5 147.7z"></path></g></svg>
+</span>
+</span>
+</button>
+<div class="-mr-2 -my-2 md:hidden">
+<button type="button" class="rounded-md p-2 inline-flex items-center justify-center transition opacity-60 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 dark:focus:ring-indigo-300 dark:focus:border-indigo-300" data-menu-target="button" data-action="click-&gt;menu#open" aria-expanded="false">
+<span class="sr-only">Open menu</span><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentcolor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+</button>
+</div>
+<nav class="hidden md:flex">
+<ul class="md:flex md:items-center md:space-x-10"><li class="relative flex items-center h-full" data-controller="flyover" data-flyover-target="button" data-action="mouseenter-&gt;flyover#open mouseleave-&gt;flyover#close">
+<a href="https://python-poetry.org/docs/" class="self-center text-sm font-medium uppercase transition duration-300 opacity-60 hover:opacity-100">Documentation</a><svg class="ml-2 h-5 w-5 opacity-60 group-hover:opacity-100 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentcolor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414.0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414.0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+<div class="hidden absolute z-10 top-0 left-1/2 transform -translate-x-1/2 mt-8 pt-2 px-2 w-screen max-w-md sm:px-0 lg:max-w-3xl" data-flyover-target="menu" data-transition-enter-active="duration-200 ease-out" data-transition-enter-from="opacity-0 scale-95" data-transition-enter-to="opacity-100 scale-100" data-transition-leave-active="duration-100 ease-in" data-transition-leave-from="opacity-100 scale-100" data-transition-leave-to="opacity-0 scale-95">
+<div class="rounded-lg shadow-lg ring-1 ring-indigo-200 ring-opacity-50 overflow-hidden">
+<div class="relative grid auto-cols-fr gap-6 bg-light-note px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-3 dark:bg-gray-700">
+<a href="https://python-poetry.org/docs/" class="-m-3 p-3 flex items-start rounded-lg whitespace-nowrap hover:bg-light-note-darker transition ease-in-out duration-150 dark:hover:bg-dark-note-darker">
+<div class="max-w-full">
+<p class="text-base font-medium">
+Introduction
+</p>
+<p class="mt-1 text-sm overflow-hidden overflow-ellipsis opacity-60"> Poetry is a tool for dependency management and packaging in Python.
+</p>
+</div>
+</a>
+<a href="https://python-poetry.org/docs/basic-usage/" class="-m-3 p-3 flex items-start rounded-lg whitespace-nowrap hover:bg-light-note-darker transition ease-in-out duration-150 dark:hover:bg-dark-note-darker">
+<div class="max-w-full">
+<p class="text-base font-medium">
+Basic usage
+</p>
+<p class="mt-1 text-sm overflow-hidden overflow-ellipsis opacity-60"> For the basic usage introduction we will be installing pendulum, a datetime library.
+</p>
+</div>
+</a>
+<a href="https://python-poetry.org/docs/libraries/" class="-m-3 p-3 flex items-start rounded-lg whitespace-nowrap hover:bg-light-note-darker transition ease-in-out duration-150 dark:hover:bg-dark-note-darker">
+<div class="max-w-full">
+<p class="text-base font-medium">
+Libraries
+</p>
+<p class="mt-1 text-sm overflow-hidden overflow-ellipsis opacity-60"> This chapter will tell you how to make your library installable through Poetry.
+Versioning While Poetry does not enforce any convention regarding package versioning, it strongly recommends to follow semantic versioning.
+This has many advantages for the end users and allows them to set appropriate version constraints.
+Lock file For your library, you may commit the poetry.lock file if you want to.
+</p>
+</div>
+</a>
+<a href="https://python-poetry.org/docs/cli/" class="-m-3 p-3 flex items-start rounded-lg whitespace-nowrap hover:bg-light-note-darker transition ease-in-out duration-150 dark:hover:bg-dark-note-darker">
+<div class="max-w-full">
+<p class="text-base font-medium">
+Commands
+</p>
+<p class="mt-1 text-sm overflow-hidden overflow-ellipsis opacity-60"> You’ve already learned how to use the command-line interface to do some things.
+</p>
+</div>
+</a>
+<a href="https://python-poetry.org/docs/configuration/" class="-m-3 p-3 flex items-start rounded-lg whitespace-nowrap hover:bg-light-note-darker transition ease-in-out duration-150 dark:hover:bg-dark-note-darker">
+<div class="max-w-full">
+<p class="text-base font-medium">
+Configuration
+</p>
+<p class="mt-1 text-sm overflow-hidden overflow-ellipsis opacity-60"> Poetry can be configured via the config command (see more about its usage here) or directly in the config.toml file that will be automatically be created when you first run that command.
+</p>
+</div>
+</a>
+<a href="https://python-poetry.org/docs/repositories/" class="-m-3 p-3 flex items-start rounded-lg whitespace-nowrap hover:bg-light-note-darker transition ease-in-out duration-150 dark:hover:bg-dark-note-darker">
+<div class="max-w-full">
+<p class="text-base font-medium">
+Repositories
+</p>
+<p class="mt-1 text-sm overflow-hidden overflow-ellipsis opacity-60"> Using the PyPI repository By default, Poetry is configured to use the PyPI repository, for package installation and publishing.
+So, when you add dependencies to your project, Poetry will assume they are available on PyPI.
+This represents most cases and will likely be enough for most users.
+Using a private repository However, at times, you may need to keep your package private while still being able to share it with your teammates..
+</p>
+</div>
+</a>
+<a href="https://python-poetry.org/docs/managing-environments/" class="-m-3 p-3 flex items-start rounded-lg whitespace-nowrap hover:bg-light-note-darker transition ease-in-out duration-150 dark:hover:bg-dark-note-darker">
+<div class="max-w-full">
+<p class="text-base font-medium">
+Managing environments
+</p>
+<p class="mt-1 text-sm overflow-hidden overflow-ellipsis opacity-60"> Poetry makes project environment isolation one of its core features.
+What this means is that it will always work isolated from your global Python installation.
+</p>
+</div>
+</a>
+<a href="https://python-poetry.org/docs/dependency-specification/" class="-m-3 p-3 flex items-start rounded-lg whitespace-nowrap hover:bg-light-note-darker transition ease-in-out duration-150 dark:hover:bg-dark-note-darker">
+<div class="max-w-full">
+<p class="text-base font-medium">
+Dependency specification
+</p>
+<p class="mt-1 text-sm overflow-hidden overflow-ellipsis opacity-60"> Dependencies for a project can be specified in various forms, which depend on the type of the dependency and on the optional constraints that might be needed for it to be installed.
+Version constraints Caret requirements Caret requirements allow SemVer compatible updates to a specified version.
+</p>
+</div>
+</a>
+<a href="https://python-poetry.org/docs/pyproject/" class="-m-3 p-3 flex items-start rounded-lg whitespace-nowrap hover:bg-light-note-darker transition ease-in-out duration-150 dark:hover:bg-dark-note-darker">
+<div class="max-w-full">
+<p class="text-base font-medium">
+The pyproject.toml file
+</p>
+<p class="mt-1 text-sm overflow-hidden overflow-ellipsis opacity-60"> The tool.poetry section of the pyproject.toml file is composed of multiple sections.
+name The name of the package.
+</p>
+</div>
+</a>
+<a href="https://python-poetry.org/docs/contributing/" class="-m-3 p-3 flex items-start rounded-lg whitespace-nowrap hover:bg-light-note-darker transition ease-in-out duration-150 dark:hover:bg-dark-note-darker">
+<div class="max-w-full">
+<p class="text-base font-medium">
+Contributing to Poetry
+</p>
+<p class="mt-1 text-sm overflow-hidden overflow-ellipsis opacity-60"> First off, thanks for taking the time to contribute!
+The following is a set of guidelines for contributing to Poetry on GitHub.
+</p>
+</div>
+</a>
+<a href="https://python-poetry.org/docs/faq/" class="-m-3 p-3 flex items-start rounded-lg whitespace-nowrap hover:bg-light-note-darker transition ease-in-out duration-150 dark:hover:bg-dark-note-darker">
+<div class="max-w-full">
+<p class="text-base font-medium">
+FAQ
+</p>
+<p class="mt-1 text-sm overflow-hidden overflow-ellipsis opacity-60"> Why is the dependency resolution process slow? While the dependency resolver at the heart of Poetry is highly optimized and should be fast enough for most cases, sometimes, with some specific set of dependencies, it can take time to find a valid solution.
+This is due to the fact that not all libraries on PyPI have properly declared their metadata and, as such, they are not available via the PyPI JSON API..
+</p>
+</div>
+</a>
+</div>
+<div class="p-5 bg-light-note-darker sm:p-8 dark:bg-dark-note-darker">
+<div class="relative grid gap-6 sm:gap-8 lg:grid-cols-2">
+<a href="https://python-poetry.org/docs/" class="-m-3 p-3 flow-root rounded-md hover:bg-indigo-50 transition ease-in-out duration-150 dark:hover:bg-gray-800">
+<span class="flex items-center">
+<span class="text-base font-medium">
+1.1
+</span>
+<span class="ml-3 inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium leading-5 bg-indigo-100 text-indigo-800 dark:text-indigo-300 dark:bg-transparent dark:border dark:border-indigo-300">
+Stable
+</span>
+</span>
+<span class="mt-1 block text-sm opacity-80">
+Documentation for the latest, <strong class="font-medium text-indigo-800 dark:font-medium dark:text-indigo-300">stable</strong>, branch.
+</span>
+</a>
+<a href="https://python-poetry.org/docs/master/" class="-m-3 p-3 flow-root rounded-md hover:bg-indigo-50 transition ease-in-out duration-150 dark:hover:bg-gray-800">
+<span class="flex items-center">
+<span class="text-base font-medium">
+master
+</span>
+<span class="ml-3 inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium leading-5 bg-orange-100 text-orange-700 dark:bg-transparent dark:text-orange-300 dark:border dark:border-orange-300">
+Development
+</span>
+</span>
+<span class="mt-1 block text-sm opacity-80">
+Documentation for the latest, <strong class="font-medium text-orange-700 dark:font-medium dark:text-orange-300">in-development</strong>, branch.
+</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li>
+<a href="https://python-poetry.org/blog/" class="self-center text-sm font-medium uppercase transition duration-300 opacity-60 hover:opacity-100">Blog</a>
+</li>
+<li>
+<a href="https://python-poetry.org/history/" class="self-center text-sm font-medium uppercase transition duration-300 opacity-60
+hover:opacity-100">History</a>
+</li>
+<li>
+<a href="https://github.com/python-poetry/poetry" title="Go to the Github project" class="self-center transition duration-300 opacity-60 hover:opacity-100"><svg class="w-8 h-8" viewBox="0 0 256 250" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid"><g><path d="M128.00106.0C57.3172926.0.0 57.3066942.0 128.00106c0 56.554221 36.6761997 104.534482 87.534937 121.459839 6.3970853 1.18487999999999 8.745651-2.776734 8.745651-6.157566C96.280588 240.251045 96.1618878 230.167899 96.106777 219.472176 60.4967585 227.215235 52.9826207 204.369712 52.9826207 204.369712c-5.8226623-14.795114-14.2122127-18.729174-14.2122127-18.729174C27.1568785 177.696113 39.6458206 177.859325 39.6458206 177.859325 52.4993419 178.762293 59.267365 191.04987 59.267365 191.04987c11.4164025 19.568553 29.9442103 13.911223 37.2485035 10.640612C97.6647155 193.417512 100.981959 187.77078 104.642583 184.574357 76.211799 181.33766 46.324819 170.362144 46.324819 121.315702c0-13.974813 5.0002398-25.3933338 13.1884247-34.3573083-1.3290169-3.2239785-5.7103208-16.2428317 1.2399917-33.8740301.0.0 10.7487147-3.4401823 35.2094058 13.1205959 10.2103258-2.8360835 21.1604058-4.2583646 32.0384188-4.3071163C138.879073 61.9465949 149.837632 63.368876 160.067033 66.2049595c24.431017-16.5607782 35.164893-13.1205959 35.164893-13.1205959C202.199197 70.715562 197.815773 83.7344152 196.486756 86.9583937 204.694018 95.9223682 209.660343 107.340889 209.660343 121.315702c0 49.163023-29.94421 59.988045-58.447062 63.156912 4.591149 3.97221400000001 8.682061 11.761904 8.682061 23.703979.0 17.126724-.14837399999999 30.910768-.14837399999999 35.12674C159.746968 246.709601 162.05102 250.70089 168.53925 249.443941 219.370432 232.499507 256 184.536204 256 128.00106 256 57.3066942 198.691187.0 128.00106.0zM47.9405593 182.340212C47.6586465 182.976105 46.6581745 183.166873 45.7467277 182.730227 44.8183235 182.312656 44.2968914 181.445722 44.5978808 180.80771 44.8734344 180.152739 45.876026 179.97045 46.8023103 180.409216 47.7328342 180.826786 48.2627451 181.702199 47.9405593 182.340212zm6.2962299 5.618042C53.6263318 188.524199 52.4329723 188.261363 51.6232682 187.366874 50.7860088 186.474504 50.6291553 185.281144 51.2480912 184.70672 51.8776254 184.140775 53.0349512 184.405731 53.8743302 185.298101 54.7115892 186.201069 54.8748019 187.38595 54.2367892 187.958254zM58.5562413 195.146347C57.7719732 195.691096 56.4895886 195.180261 55.6968417 194.042013 54.9125733 192.903764 54.9125733 191.538713 55.713799 190.991845 56.5086651 190.444977 57.7719732 190.936735 58.5753181 192.066505 59.3574669 193.22383 59.3574669 194.58888 58.5562413 195.146347zM65.8613592 203.471174C65.1597571 204.244846 63.6654083 204.03712 62.5716717 202.981538 61.4524999 201.94927 61.1409122 200.484596 61.8446341 199.710926 62.5547146 198.935137 64.0575422 199.15346 65.1597571 200.200564 66.2704506 201.230712 66.6095936 202.705984 65.8613592 203.471174zM75.3025151 206.281542C74.9930474 207.284134 73.553809 207.739857 72.1039724 207.313809 70.6562556 206.875043 69.7087748 205.700761 70.0012857 204.687571 70.302275 203.678621 71.7478721 203.20382 73.2083069 203.659543 74.6539041 204.09619 75.6035048 205.261994 75.3025151 206.281542zM86.046947 207.473627C86.0829806 208.529209 84.8535871 209.404622 83.3316829 209.4237 81.8013 209.457614 80.563428 208.603398 80.5464708 207.564772c0-1.066181 1.20183800000001-1.93311500000002 2.7322209-1.958551C84.8005962 205.576546 86.046947 206.424403 86.046947 207.473627zM96.6021471 207.069023C96.7844366 208.099171 95.7267341 209.156872 94.215428 209.438785 92.7295577 209.710099 91.3539086 209.074206 91.1652603 208.052538 90.9808515 206.996955 92.0576306 205.939253 93.5413813 205.66582 95.054807 205.402984 96.4092596 206.021919 96.6021471 207.069023z" fill="currentcolor"></path></g></svg>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<div data-menu-target="menu" data-transition-enter-active="duration-150 ease-out" data-transition-enter-from="opacity-0 scale-95" data-transition-enter-to="opacity-100 scale-100" data-transition-leave-active="duration-100 ease-in" data-transition-leave-from="opacity-100 scale-100" data-transition-leave-to="opacity-0 scale-95" class="hidden absolute top-0 inset-x-0 p-2 transition transform origin-top-right z-40 md:hidden" role="menu" aria-orientation="vertical">
+<div class="rounded-lg shadow-md bg-light-note ring-1 ring-black ring-opacity-5 overflow-hidden dark:bg-gray-700">
+<div class="px-5 pt-4 flex items-center justify-between">
+<div>
+<img class="h-8 w-auto" src="./Repositories _ Documentation _ Poetry - Python dependency management and packaging made easy_files/logo-origami.svg" alt="Poetry">
+</div>
+<div class="-mr-2">
+<button type="button" class="rounded-md p-2 inline-flex items-center justify-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 dark:hover:bg-gray-900 dark:hover:opacity-100 dark:focus:ring-indigo-300 dark:focus:border-indigo-300" data-action="click-&gt;menu#close">
+<span class="sr-only">Close menu</span><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentcolor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"></path></svg>
+</button>
+</div>
+</div>
+<div class="px-2 pt-2 pb-3">
+<a href="https://python-poetry.org/docs/" class="block px-3 py-4 rounded-md text-base font-medium uppercase hover:bg-indigo-50 dark:hover:bg-gray-900 dark:hover:opacity-100">Documentation</a>
+<a href="https://python-poetry.org/blog/" class="block px-3 py-4 rounded-md text-base font-medium uppercase hover:bg-indigo-50 dark:hover:bg-gray-900 dark:hover:opacity-100">Blog</a>
+<a href="https://python-poetry.org/history/" class="block px-3 py-4 rounded-md text-base font-medium uppercase hover:bg-indigo-50 dark:hover:bg-gray-900 dark:hover:opacity-100">History</a>
+<a href="https://github.com/python-poetry/poetry" title="Go to the Github project" class="block px-3 py-4 rounded-md text-base font-medium uppercase hover:bg-indigo-50 dark:hover:bg-gray-900 dark:hover:opacity-100"><svg viewBox="0 0 256 250" class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><g><path d="M128.00106.0C57.3172926.0.0 57.3066942.0 128.00106c0 56.554221 36.6761997 104.534482 87.534937 121.459839 6.3970853 1.18487999999999 8.745651-2.776734 8.745651-6.157566C96.280588 240.251045 96.1618878 230.167899 96.106777 219.472176 60.4967585 227.215235 52.9826207 204.369712 52.9826207 204.369712c-5.8226623-14.795114-14.2122127-18.729174-14.2122127-18.729174C27.1568785 177.696113 39.6458206 177.859325 39.6458206 177.859325 52.4993419 178.762293 59.267365 191.04987 59.267365 191.04987c11.4164025 19.568553 29.9442103 13.911223 37.2485035 10.640612C97.6647155 193.417512 100.981959 187.77078 104.642583 184.574357 76.211799 181.33766 46.324819 170.362144 46.324819 121.315702c0-13.974813 5.0002398-25.3933338 13.1884247-34.3573083-1.3290169-3.2239785-5.7103208-16.2428317 1.2399917-33.8740301.0.0 10.7487147-3.4401823 35.2094058 13.1205959 10.2103258-2.8360835 21.1604058-4.2583646 32.0384188-4.3071163C138.879073 61.9465949 149.837632 63.368876 160.067033 66.2049595c24.431017-16.5607782 35.164893-13.1205959 35.164893-13.1205959C202.199197 70.715562 197.815773 83.7344152 196.486756 86.9583937 204.694018 95.9223682 209.660343 107.340889 209.660343 121.315702c0 49.163023-29.94421 59.988045-58.447062 63.156912 4.591149 3.97221400000001 8.682061 11.761904 8.682061 23.703979.0 17.126724-.14837399999999 30.910768-.14837399999999 35.12674C159.746968 246.709601 162.05102 250.70089 168.53925 249.443941 219.370432 232.499507 256 184.536204 256 128.00106 256 57.3066942 198.691187.0 128.00106.0zM47.9405593 182.340212C47.6586465 182.976105 46.6581745 183.166873 45.7467277 182.730227 44.8183235 182.312656 44.2968914 181.445722 44.5978808 180.80771 44.8734344 180.152739 45.876026 179.97045 46.8023103 180.409216 47.7328342 180.826786 48.2627451 181.702199 47.9405593 182.340212zm6.2962299 5.618042C53.6263318 188.524199 52.4329723 188.261363 51.6232682 187.366874 50.7860088 186.474504 50.6291553 185.281144 51.2480912 184.70672 51.8776254 184.140775 53.0349512 184.405731 53.8743302 185.298101 54.7115892 186.201069 54.8748019 187.38595 54.2367892 187.958254zM58.5562413 195.146347C57.7719732 195.691096 56.4895886 195.180261 55.6968417 194.042013 54.9125733 192.903764 54.9125733 191.538713 55.713799 190.991845 56.5086651 190.444977 57.7719732 190.936735 58.5753181 192.066505 59.3574669 193.22383 59.3574669 194.58888 58.5562413 195.146347zM65.8613592 203.471174C65.1597571 204.244846 63.6654083 204.03712 62.5716717 202.981538 61.4524999 201.94927 61.1409122 200.484596 61.8446341 199.710926 62.5547146 198.935137 64.0575422 199.15346 65.1597571 200.200564 66.2704506 201.230712 66.6095936 202.705984 65.8613592 203.471174zM75.3025151 206.281542C74.9930474 207.284134 73.553809 207.739857 72.1039724 207.313809 70.6562556 206.875043 69.7087748 205.700761 70.0012857 204.687571 70.302275 203.678621 71.7478721 203.20382 73.2083069 203.659543 74.6539041 204.09619 75.6035048 205.261994 75.3025151 206.281542zM86.046947 207.473627C86.0829806 208.529209 84.8535871 209.404622 83.3316829 209.4237 81.8013 209.457614 80.563428 208.603398 80.5464708 207.564772c0-1.066181 1.20183800000001-1.93311500000002 2.7322209-1.958551C84.8005962 205.576546 86.046947 206.424403 86.046947 207.473627zM96.6021471 207.069023C96.7844366 208.099171 95.7267341 209.156872 94.215428 209.438785 92.7295577 209.710099 91.3539086 209.074206 91.1652603 208.052538 90.9808515 206.996955 92.0576306 205.939253 93.5413813 205.66582 95.054807 205.402984 96.4092596 206.021919 96.6021471 207.069023z" fill="currentcolor"></path></g></svg>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="content">
+<div class="w-full mt-48 max-w-7xl mx-auto pb-16 px-12 md:mt-64 lg:px-0">
+<div class="lg:flex">
+<div class="hidden z-10 lg:flex-none h-full lg:flex lg:pt-0 lg:static lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-60 xl:w-80 lg:block">
+<div class="h-full overflow-y-auto scrolling-touch lg:h-auto lg:block lg:relative lg:sticky overflow-hidden lg:top-18 mr-24 lg:mr-0">
+<nav id="documentation-menu" class="px-1 overflow-y-auto font-medium text-base sm:px-3 xl:px-5 lg:text-sm pb-10 lg:pb-14 sticky?lg:h-(screen-18)">
+<ul>
+<li class="pb-8">
+<a href="https://python-poetry.org/docs/" class="text-base">Introduction</a>
+</li>
+<li class="pb-8">
+<a href="https://python-poetry.org/docs/basic-usage/" class="text-base">Basic usage</a>
+</li>
+<li class="pb-8">
+<a href="https://python-poetry.org/docs/libraries/" class="text-base">Libraries</a>
+</li>
+<li class="pb-8">
+<a href="https://python-poetry.org/docs/cli/" class="text-base">Commands</a>
+</li>
+<li class="pb-8">
+<a href="https://python-poetry.org/docs/configuration/" class="text-base">Configuration</a>
+</li>
+<li class="pb-8">
+<a href="https://python-poetry.org/docs/repositories/" class="text-base text-indigo-500 dark:text-blue-300">Repositories</a>
+<nav id="TableOfContents">
+<ul>
+<li><a href="https://python-poetry.org/docs/repositories/#using-the-pypi-repository">Using the PyPI repository</a></li>
+<li><a href="https://python-poetry.org/docs/repositories/#using-a-private-repository">Using a private repository</a>
+<ul>
+<li><a href="https://python-poetry.org/docs/repositories/#adding-a-repository">Adding a repository</a></li>
+<li><a href="https://python-poetry.org/docs/repositories/#configuring-credentials">Configuring credentials</a></li>
+<li><a href="https://python-poetry.org/docs/repositories/#install-dependencies-from-a-private-repository">Install dependencies from a private repository</a></li>
+<li><a href="https://python-poetry.org/docs/repositories/#disabling-the-pypi-repository">Disabling the PyPI repository</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</li>
+<li class="pb-8">
+<a href="https://python-poetry.org/docs/managing-environments/" class="text-base">Managing environments</a>
+</li>
+<li class="pb-8">
+<a href="https://python-poetry.org/docs/dependency-specification/" class="text-base">Dependency specification</a>
+</li>
+<li class="pb-8">
+<a href="https://python-poetry.org/docs/pyproject/" class="text-base">The pyproject.toml file</a>
+</li>
+<li class="pb-8">
+<a href="https://python-poetry.org/docs/contributing/" class="text-base">Contributing to Poetry</a>
+</li>
+<li class="pb-8">
+<a href="https://python-poetry.org/docs/faq/" class="text-base">FAQ</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<div class="relative w-full mb-12 mx-auto md:w-8/12 lg:hidden" data-controller="select" data-action="select:click:outside-&gt;select#close">
+<div class="search-container w-full relative mb-8 lg:hidden" data-version="1.1">
+</div>
+<button type="button" class="bg-light-note relative flex items-center w-full max-w-full border border-gray-300 rounded-md shadow-sm pl-8 pr-6 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:bg-opacity-50 dark:focus:ring-indigo-300 dark:focus:border-indigo-300" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label" data-select-target="button" data-action="click-&gt;select#toggle">
+<span aria-label="Selected" class="absolute left-3.5 bg-indigo-400 flex-shrink-0 inline-block h-2 w-2 rounded-full dark:bg-indigo-300"></span>
+<span class="block truncate font-medium">
+Repositories</span>
+<span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentcolor" aria-hidden="true"><path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707A1 1 0 016.293 6.293l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414.0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414.0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+</span>
+</button>
+<ul class="hidden absolute z-10 mt-1 w-full max-w-full bg-white shadow-lg max-h-80 rounded-md py-1 px-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto transition transform focus:outline-none sm:text-sm dark:bg-gray-700" data-select-target="menu" tabindex="-1" role="listbox" aria-labelledby="listbox-label" data-transition-enter-active="" data-transition-enter-from="" data-transition-enter-to="" data-transition-leave-active="ease-in duration-100" data-transition-leave-from="opacity-100" data-transition-leave-to="opacity-0">
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/" class="relative flex justify-end items-center content-center transition py-4 px-7 rounded duration-300 hover:bg-light-note dark:hover:bg-gray-900">
+<span class="flex-grow font-medium inline-block truncate">
+Introduction</span>
+</a>
+</li>
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/basic-usage/" class="relative flex justify-end items-center content-center transition py-4 px-7 rounded duration-300 hover:bg-light-note dark:hover:bg-gray-900">
+<span class="flex-grow font-medium inline-block truncate">
+Basic usage</span>
+</a>
+</li>
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/libraries/" class="relative flex justify-end items-center content-center transition py-4 px-7 rounded duration-300 hover:bg-light-note dark:hover:bg-gray-900">
+<span class="flex-grow font-medium inline-block truncate">
+Libraries</span>
+</a>
+</li>
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/cli/" class="relative flex justify-end items-center content-center transition py-4 px-7 rounded duration-300 hover:bg-light-note dark:hover:bg-gray-900">
+<span class="flex-grow font-medium inline-block truncate">
+Commands</span>
+</a>
+</li>
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/configuration/" class="relative flex justify-end items-center content-center transition py-4 px-7 rounded duration-300 hover:bg-light-note dark:hover:bg-gray-900">
+<span class="flex-grow font-medium inline-block truncate">
+Configuration</span>
+</a>
+</li>
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/repositories/" class="relative flex justify-end items-center content-center transition py-4 px-7 rounded duration-300 hover:bg-light-note dark:hover:bg-gray-900">
+<span aria-label="Selected" class="absolute left-2.5 bg-indigo-400 flex-shrink-0 inline-block h-2 w-2 rounded-full dark:bg-indigo-300"></span>
+<span class="flex-grow font-medium inline-block truncate">
+Repositories</span>
+</a>
+</li>
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/managing-environments/" class="relative flex justify-end items-center content-center transition py-4 px-7 rounded duration-300 hover:bg-light-note dark:hover:bg-gray-900">
+<span class="flex-grow font-medium inline-block truncate">
+Managing environments</span>
+</a>
+</li>
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/dependency-specification/" class="relative flex justify-end items-center content-center transition py-4 px-7 rounded duration-300 hover:bg-light-note dark:hover:bg-gray-900">
+<span class="flex-grow font-medium inline-block truncate">
+Dependency specification</span>
+</a>
+</li>
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/pyproject/" class="relative flex justify-end items-center content-center transition py-4 px-7 rounded duration-300 hover:bg-light-note dark:hover:bg-gray-900">
+<span class="flex-grow font-medium inline-block truncate">
+The pyproject.toml file</span>
+</a>
+</li>
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/contributing/" class="relative flex justify-end items-center content-center transition py-4 px-7 rounded duration-300 hover:bg-light-note dark:hover:bg-gray-900">
+<span class="flex-grow font-medium inline-block truncate">
+Contributing to Poetry</span>
+</a>
+</li>
+<li class="cursor-default select-none relative" id="listbox-option-0" role="option">
+<a href="https://python-poetry.org/docs/faq/" class="relative flex justify-end items-center content-center transition py-4 px-7 rounded duration-300 hover:bg-light-note dark:hover:bg-gray-900">
+<span class="flex-grow font-medium inline-block truncate">
+FAQ</span>
+</a>
+</li>
+</ul>
+</div>
+<main id="docs" class="min-w-0 w-full lg:px-12 lg:flex-auto lg:static lg:max-h-full lg:overflow-visible">
+<h1 class="doc-title">Repositories</h1>
+<nav id="TableOfContents">
+<ul>
+<li><a href="https://python-poetry.org/docs/repositories/#using-the-pypi-repository">Using the PyPI repository</a></li>
+<li><a href="https://python-poetry.org/docs/repositories/#using-a-private-repository">Using a private repository</a>
+<ul>
+<li><a href="https://python-poetry.org/docs/repositories/#adding-a-repository">Adding a repository</a></li>
+<li><a href="https://python-poetry.org/docs/repositories/#configuring-credentials">Configuring credentials</a></li>
+<li><a href="https://python-poetry.org/docs/repositories/#install-dependencies-from-a-private-repository">Install dependencies from a private repository</a></li>
+<li><a href="https://python-poetry.org/docs/repositories/#disabling-the-pypi-repository">Disabling the PyPI repository</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+<h1 id="repositories">Repositories <a href="https://python-poetry.org/docs/repositories/#repositories" class="header-link" aria-label="Permanent link">#</a> </h1>
+<h2 id="using-the-pypi-repository">Using the PyPI repository <a href="https://python-poetry.org/docs/repositories/#using-the-pypi-repository" class="header-link" aria-label="Permanent link">#</a> </h2>
+<p>By default, Poetry is configured to use the <a href="https://pypi.org/">PyPI</a> repository,
+for package installation and publishing.</p>
+<p>So, when you add dependencies to your project, Poetry will assume they are available
+on PyPI.</p>
+<p>This represents most cases and will likely be enough for most users.</p>
+<h2 id="using-a-private-repository">Using a private repository <a href="https://python-poetry.org/docs/repositories/#using-a-private-repository" class="header-link" aria-label="Permanent link">#</a> </h2>
+<p>However, at times, you may need to keep your package private while still being
+able to share it with your teammates. In this case, you will need to use a private
+repository.</p>
+<h3 id="adding-a-repository">Adding a repository <a href="https://python-poetry.org/docs/repositories/#adding-a-repository" class="header-link" aria-label="Permanent link">#</a> </h3>
+<p>Adding a new repository is easy with the <code>config</code> command.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">poetry config repositories.foo https://foo.bar/simple/
+</code></pre></div><p>This will set the url for repository <code>foo</code> to <code>https://foo.bar/simple/</code>.</p>
+<h3 id="configuring-credentials">Configuring credentials <a href="https://python-poetry.org/docs/repositories/#configuring-credentials" class="header-link" aria-label="Permanent link">#</a> </h3>
+<p>If you want to store your credentials for a specific repository, you can do so easily:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">poetry config http-basic.foo username password
+</code></pre></div><p>If you do not specify the password you will be prompted to write it.</p>
+<div class="admonition note">
+<div class="title">Note</div>
+<div class="content"><p>To publish to PyPI, you can set your credentials for the repository named <code>pypi</code>.</p>
+<p>Note that it is recommended to use <a href="https://pypi.org/help/#apitoken">API tokens</a>
+when uploading packages to PyPI.
+Once you have created a new token, you can tell Poetry to use it:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">poetry config pypi-token.pypi my-token
+</code></pre></div><p>If you still want to use you username and password, you can do so with the following
+call to <code>config</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">poetry config http-basic.pypi username password
+</code></pre></div></div>
+</div>
+<p>You can also specify the username and password when using the <code>publish</code> command
+with the <code>--username</code> and <code>--password</code> options.</p>
+<p>If a system keyring is available and supported, the password is stored to and retrieved from the keyring. In the above example, the credential will be stored using the name <code>poetry-repository-pypi</code>. If access to keyring fails or is unsupported, this will fall back to writing the password to the <code>auth.toml</code> file along with the username.</p>
+<p>Keyring support is enabled using the <a href="https://pypi.org/project/keyring/">keyring library</a>. For more information on supported backends refer to the <a href="https://keyring.readthedocs.io/en/latest/?badge=latest">library documentation</a>.</p>
+<p>Alternatively, you can use environment variables to provide the credentials:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">POETRY_PYPI_TOKEN_PYPI</span><span class="o">=</span>my-token
+<span class="nb">export</span> <span class="nv">POETRY_HTTP_BASIC_PYPI_USERNAME</span><span class="o">=</span>username
+<span class="nb">export</span> <span class="nv">POETRY_HTTP_BASIC_PYPI_PASSWORD</span><span class="o">=</span>password
+</code></pre></div><p>See <a href="https://python-poetry.org/docs/configuration/#using-environment-variables">Using environment variables</a> for more information
+on how to configure Poetry with environment variables.</p>
+<h4 id="custom-certificate-authority-and-mutual-tls-authentication">Custom certificate authority and mutual TLS authentication <a href="https://python-poetry.org/docs/repositories/#custom-certificate-authority-and-mutual-tls-authentication" class="header-link" aria-label="Permanent link">#</a> </h4>
+<p>Poetry supports repositories that are secured by a custom certificate authority as well as those that require
+certificate-based client authentication. The following will configure the “foo” repository to validate the repository’s
+certificate using a custom certificate authority and use a client certificate (note that these config variables do not
+both need to be set):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">poetry config certificates.foo.cert /path/to/ca.pem
+poetry config certificates.foo.client-cert /path/to/client.pem
+</code></pre></div><h3 id="install-dependencies-from-a-private-repository">Install dependencies from a private repository <a href="https://python-poetry.org/docs/repositories/#install-dependencies-from-a-private-repository" class="header-link" aria-label="Permanent link">#</a> </h3>
+<p>Now that you can publish to your private repository, you need to be able to
+install dependencies from it.</p>
+<p>For that, you have to edit your <code>pyproject.toml</code> file, like so</p>
+<div class="highlight"><pre class="chroma"><code class="language-toml" data-lang="toml"><span class="p">[[</span><span class="nx">tool</span><span class="p">.</span><span class="nx">poetry</span><span class="p">.</span><span class="nx">source</span><span class="p">]]</span>
+<span class="nx">name</span> <span class="p">=</span> <span class="s2">"foo"</span>
+<span class="nx">url</span> <span class="p">=</span> <span class="s2">"https://foo.bar/simple/"</span>
+</code></pre></div><p>From now on, Poetry will also look for packages in your private repository.</p>
+<div class="admonition note">
+<div class="title">Note</div>
+<div class="content"><p>Any custom repository will have precedence over PyPI.</p>
+<p>If you still want PyPI to be your primary source for your packages
+you can declare custom repositories as secondary.</p>
+<div class="highlight"><pre class="chroma"><code class="language-toml" data-lang="toml"><span class="p">[[</span><span class="nx">tool</span><span class="p">.</span><span class="nx">poetry</span><span class="p">.</span><span class="nx">source</span><span class="p">]]</span>
+<span class="nx">name</span> <span class="p">=</span> <span class="s2">"foo"</span>
+<span class="nx">url</span> <span class="p">=</span> <span class="s2">"https://foo.bar/simple/"</span>
+<span class="nx">secondary</span> <span class="p">=</span> <span class="kc">true</span>
+</code></pre></div></div>
+</div>
+<p>If your private repository requires HTTP Basic Auth be sure to add the username and
+password to your <code>http-basic</code> configuration using the example above (be sure to use the
+same name that is in the <code>tool.poetry.source</code> section). If your repository requires either
+a custom certificate authority or client certificates, similarly refer to the example above to configure the
+<code>certificates</code> section. Poetry will use these values to authenticate to your private repository when downloading or
+looking for packages.</p>
+<h3 id="disabling-the-pypi-repository">Disabling the PyPI repository <a href="https://python-poetry.org/docs/repositories/#disabling-the-pypi-repository" class="header-link" aria-label="Permanent link">#</a> </h3>
+<p>If you want your packages to be exclusively looked up from a private
+repository, you can set it as the default one by using the <code>default</code> keyword</p>
+<div class="highlight"><pre class="chroma"><code class="language-toml" data-lang="toml"><span class="p">[[</span><span class="nx">tool</span><span class="p">.</span><span class="nx">poetry</span><span class="p">.</span><span class="nx">source</span><span class="p">]]</span>
+<span class="nx">name</span> <span class="p">=</span> <span class="s2">"foo"</span>
+<span class="nx">url</span> <span class="p">=</span> <span class="s2">"https://foo.bar/simple/"</span>
+<span class="nx">default</span> <span class="p">=</span> <span class="kc">true</span>
+</code></pre></div><p>A default source will also be the fallback source if you add other sources.</p>
+</main>
+</div>
+</div>
+</div><footer class="bg-light-note dark:bg-gray-900" aria-labelledby="footerHeading">
+<h2 id="footerHeading" class="sr-only">Footer</h2>
+<div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+<div class="xl:grid xl:grid-cols-3 xl:gap-8">
+<div class="space-y-8 xl:col-span-1">
+<img class="h-10" src="./Repositories _ Documentation _ Poetry - Python dependency management and packaging made easy_files/logo-origami.svg" alt="Poetry">
+<p class="text-base opacity-80">
+Python packaging and dependency management made easy.
+</p>
+<div class="flex space-x-6">
+<a href="https://github.com/python-poetry/poetry" class="transition opacity-80 hover:opacity-100">
+<span class="sr-only">GitHub</span><svg width="256" height="250" viewBox="0 0 256 250" class="h-7 w-7 text-primary dark:text-dark-primary" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid"><g><path d="M128.00106.0C57.3172926.0.0 57.3066942.0 128.00106c0 56.554221 36.6761997 104.534482 87.534937 121.459839 6.3970853 1.18487999999999 8.745651-2.776734 8.745651-6.157566C96.280588 240.251045 96.1618878 230.167899 96.106777 219.472176 60.4967585 227.215235 52.9826207 204.369712 52.9826207 204.369712c-5.8226623-14.795114-14.2122127-18.729174-14.2122127-18.729174C27.1568785 177.696113 39.6458206 177.859325 39.6458206 177.859325 52.4993419 178.762293 59.267365 191.04987 59.267365 191.04987c11.4164025 19.568553 29.9442103 13.911223 37.2485035 10.640612C97.6647155 193.417512 100.981959 187.77078 104.642583 184.574357 76.211799 181.33766 46.324819 170.362144 46.324819 121.315702c0-13.974813 5.0002398-25.3933338 13.1884247-34.3573083-1.3290169-3.2239785-5.7103208-16.2428317 1.2399917-33.8740301.0.0 10.7487147-3.4401823 35.2094058 13.1205959 10.2103258-2.8360835 21.1604058-4.2583646 32.0384188-4.3071163C138.879073 61.9465949 149.837632 63.368876 160.067033 66.2049595c24.431017-16.5607782 35.164893-13.1205959 35.164893-13.1205959C202.199197 70.715562 197.815773 83.7344152 196.486756 86.9583937 204.694018 95.9223682 209.660343 107.340889 209.660343 121.315702c0 49.163023-29.94421 59.988045-58.447062 63.156912 4.591149 3.97221400000001 8.682061 11.761904 8.682061 23.703979.0 17.126724-.14837399999999 30.910768-.14837399999999 35.12674C159.746968 246.709601 162.05102 250.70089 168.53925 249.443941 219.370432 232.499507 256 184.536204 256 128.00106 256 57.3066942 198.691187.0 128.00106.0zM47.9405593 182.340212C47.6586465 182.976105 46.6581745 183.166873 45.7467277 182.730227 44.8183235 182.312656 44.2968914 181.445722 44.5978808 180.80771 44.8734344 180.152739 45.876026 179.97045 46.8023103 180.409216 47.7328342 180.826786 48.2627451 181.702199 47.9405593 182.340212zm6.2962299 5.618042C53.6263318 188.524199 52.4329723 188.261363 51.6232682 187.366874 50.7860088 186.474504 50.6291553 185.281144 51.2480912 184.70672 51.8776254 184.140775 53.0349512 184.405731 53.8743302 185.298101 54.7115892 186.201069 54.8748019 187.38595 54.2367892 187.958254zM58.5562413 195.146347C57.7719732 195.691096 56.4895886 195.180261 55.6968417 194.042013 54.9125733 192.903764 54.9125733 191.538713 55.713799 190.991845 56.5086651 190.444977 57.7719732 190.936735 58.5753181 192.066505 59.3574669 193.22383 59.3574669 194.58888 58.5562413 195.146347zM65.8613592 203.471174C65.1597571 204.244846 63.6654083 204.03712 62.5716717 202.981538 61.4524999 201.94927 61.1409122 200.484596 61.8446341 199.710926 62.5547146 198.935137 64.0575422 199.15346 65.1597571 200.200564 66.2704506 201.230712 66.6095936 202.705984 65.8613592 203.471174zM75.3025151 206.281542C74.9930474 207.284134 73.553809 207.739857 72.1039724 207.313809 70.6562556 206.875043 69.7087748 205.700761 70.0012857 204.687571 70.302275 203.678621 71.7478721 203.20382 73.2083069 203.659543 74.6539041 204.09619 75.6035048 205.261994 75.3025151 206.281542zM86.046947 207.473627C86.0829806 208.529209 84.8535871 209.404622 83.3316829 209.4237 81.8013 209.457614 80.563428 208.603398 80.5464708 207.564772c0-1.066181 1.20183800000001-1.93311500000002 2.7322209-1.958551C84.8005962 205.576546 86.046947 206.424403 86.046947 207.473627zM96.6021471 207.069023C96.7844366 208.099171 95.7267341 209.156872 94.215428 209.438785 92.7295577 209.710099 91.3539086 209.074206 91.1652603 208.052538 90.9808515 206.996955 92.0576306 205.939253 93.5413813 205.66582 95.054807 205.402984 96.4092596 206.021919 96.6021471 207.069023z" fill="currentcolor"></path></g></svg>
+</a>
+<a href="https://discord.com/invite/awxPgve" class="transition opacity-80 hover:opacity-100">
+<span class="sr-only">Discord</span><svg viewBox="0 0 71 55" class="h-7 w-7 text-primary dark:text-dark-primary" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g clip-path="url(#clip0)"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527.41542 45.5603.39851 45.468.440769 45.4204.525289 44.7963 1.6353 44.105 3.0834 43.6209 4.2216c-5.4572-.817-10.8864-.817-16.2317.0C26.905 3.0581 26.1886 1.6353 25.5617.525289 25.5141.443589 25.4218.40133 25.3294.41542c-5.071.87338-9.9237 2.40318-14.4518 4.48238C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795 1.57795 18.7309-.943561 32.1443.293408 45.3914.299005 45.4562.335386 45.5182.385761 45.5576 6.45866 50.0174 12.3413 52.7249 18.1147 54.5195 18.2071 54.5477 18.305 54.5139 18.3638 54.4378 19.7295 52.5728 20.9469 50.6063 21.9907 48.5383 22.0523 48.4172 21.9935 48.2735 21.8676 48.2256 19.9366 47.4931 18.0979 46.6 16.3292 45.5858 16.1893 45.5041 16.1781 45.304 16.3068 45.2082 16.679 44.9293 17.0513 44.6391 17.4067 44.3461 17.471 44.2926 17.5606 44.2813 17.6362 44.3151c11.6196 5.3051 24.1992 5.3051 35.6817.0C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433 53.9057 44.6363 54.2779 44.9293 54.6529 45.2082 54.7816 45.304 54.7732 45.5041 54.6333 45.5858c-1.7687 1.0339-3.6074 1.9073-5.5412 2.637C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383c1.0662 2.0651 2.2836 4.0316 3.6241 5.8967C52.6519 54.5139 52.7526 54.5477 52.845 54.5195c5.8014-1.7946 11.684-4.5021 17.7569-8.9619C70.6551 45.5182 70.6887 45.459 70.6943 45.3942 72.1747 30.0791 68.2147 16.7757 60.1968 4.9823 60.1772 4.9429 60.1437 4.9147 60.1045 4.8978zM23.7259 37.3253c-3.4983.0-6.3808-3.2117-6.3808-7.156s2.8266-7.156 6.3808-7.156c3.5821.0 6.4367 3.2399 6.3807 7.156.0 3.9443-2.8266 7.156-6.3807 7.156zm23.5919.0c-3.4982.0-6.3807-3.2117-6.3807-7.156s2.8265-7.156 6.3807-7.156c3.5822.0 6.4367 3.2399 6.3808 7.156.0 3.9443-2.7986 7.156-6.3808 7.156z" fill="currentcolor"></path></g><defs><clippath id="clip0"><rect width="71" height="55" fill="#fff"></rect></clippath></defs></svg>
+</a>
+</div>
+</div>
+<div class="mt-12 grid gap-8 xl:mt-0 xl:col-span-2">
+<div class="md:grid md:grid-cols-3 md:gap-8">
+<div>
+<h3 class="text-sm font-semibold tracking-wider uppercase opacity-60">
+Documentation
+</h3>
+<ul class="mt-4 space-y-4">
+<li>
+<a href="https://python-poetry.org/docs/" class="text-base opacity-80 hover:opacity-100">
+Introduction
+</a>
+</li>
+<li>
+<a href="https://python-poetry.org/docs/basic-usage/" class="text-base opacity-80 hover:opacity-100">
+Basic usage
+</a>
+</li>
+<li>
+<a href="https://python-poetry.org/docs/libraries/" class="text-base opacity-80 hover:opacity-100">
+Libraries
+</a>
+</li>
+<li>
+<a href="https://python-poetry.org/docs/cli/" class="text-base opacity-80 hover:opacity-100">
+Commands
+</a>
+</li>
+<li>
+<a href="https://python-poetry.org/docs/configuration/" class="text-base opacity-80 hover:opacity-100">
+Configuration
+</a>
+</li>
+<li>
+<a href="https://python-poetry.org/docs/repositories/" class="text-base opacity-80 hover:opacity-100">
+Repositories
+</a>
+</li>
+<li>
+<a href="https://python-poetry.org/docs/managing-environments/" class="text-base opacity-80 hover:opacity-100">
+Managing environments
+</a>
+</li>
+<li>
+<a href="https://python-poetry.org/docs/dependency-specification/" class="text-base opacity-80 hover:opacity-100">
+Dependency specification
+</a>
+</li>
+<li>
+<a href="https://python-poetry.org/docs/pyproject/" class="text-base opacity-80 hover:opacity-100">
+The pyproject.toml file
+</a>
+</li>
+<li>
+<a href="https://python-poetry.org/docs/contributing/" class="text-base opacity-80 hover:opacity-100">
+Contributing to Poetry
+</a>
+</li>
+<li>
+<a href="https://python-poetry.org/docs/faq/" class="text-base opacity-80 hover:opacity-100">
+FAQ
+</a>
+</li>
+</ul>
+</div>
+<div class="mt-12 md:mt-0">
+<h3 class="text-sm font-semibold tracking-wider uppercase opacity-60"><svg class="w-4 h-4 mr-2 inline align-middle" viewBox="0 0 256 250" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid"><g><path d="M128.00106.0C57.3172926.0.0 57.3066942.0 128.00106c0 56.554221 36.6761997 104.534482 87.534937 121.459839 6.3970853 1.18487999999999 8.745651-2.776734 8.745651-6.157566C96.280588 240.251045 96.1618878 230.167899 96.106777 219.472176 60.4967585 227.215235 52.9826207 204.369712 52.9826207 204.369712c-5.8226623-14.795114-14.2122127-18.729174-14.2122127-18.729174C27.1568785 177.696113 39.6458206 177.859325 39.6458206 177.859325 52.4993419 178.762293 59.267365 191.04987 59.267365 191.04987c11.4164025 19.568553 29.9442103 13.911223 37.2485035 10.640612C97.6647155 193.417512 100.981959 187.77078 104.642583 184.574357 76.211799 181.33766 46.324819 170.362144 46.324819 121.315702c0-13.974813 5.0002398-25.3933338 13.1884247-34.3573083-1.3290169-3.2239785-5.7103208-16.2428317 1.2399917-33.8740301.0.0 10.7487147-3.4401823 35.2094058 13.1205959 10.2103258-2.8360835 21.1604058-4.2583646 32.0384188-4.3071163C138.879073 61.9465949 149.837632 63.368876 160.067033 66.2049595c24.431017-16.5607782 35.164893-13.1205959 35.164893-13.1205959C202.199197 70.715562 197.815773 83.7344152 196.486756 86.9583937 204.694018 95.9223682 209.660343 107.340889 209.660343 121.315702c0 49.163023-29.94421 59.988045-58.447062 63.156912 4.591149 3.97221400000001 8.682061 11.761904 8.682061 23.703979.0 17.126724-.14837399999999 30.910768-.14837399999999 35.12674C159.746968 246.709601 162.05102 250.70089 168.53925 249.443941 219.370432 232.499507 256 184.536204 256 128.00106 256 57.3066942 198.691187.0 128.00106.0zM47.9405593 182.340212C47.6586465 182.976105 46.6581745 183.166873 45.7467277 182.730227 44.8183235 182.312656 44.2968914 181.445722 44.5978808 180.80771 44.8734344 180.152739 45.876026 179.97045 46.8023103 180.409216 47.7328342 180.826786 48.2627451 181.702199 47.9405593 182.340212zm6.2962299 5.618042C53.6263318 188.524199 52.4329723 188.261363 51.6232682 187.366874 50.7860088 186.474504 50.6291553 185.281144 51.2480912 184.70672 51.8776254 184.140775 53.0349512 184.405731 53.8743302 185.298101 54.7115892 186.201069 54.8748019 187.38595 54.2367892 187.958254zM58.5562413 195.146347C57.7719732 195.691096 56.4895886 195.180261 55.6968417 194.042013 54.9125733 192.903764 54.9125733 191.538713 55.713799 190.991845 56.5086651 190.444977 57.7719732 190.936735 58.5753181 192.066505 59.3574669 193.22383 59.3574669 194.58888 58.5562413 195.146347zM65.8613592 203.471174C65.1597571 204.244846 63.6654083 204.03712 62.5716717 202.981538 61.4524999 201.94927 61.1409122 200.484596 61.8446341 199.710926 62.5547146 198.935137 64.0575422 199.15346 65.1597571 200.200564 66.2704506 201.230712 66.6095936 202.705984 65.8613592 203.471174zM75.3025151 206.281542C74.9930474 207.284134 73.553809 207.739857 72.1039724 207.313809 70.6562556 206.875043 69.7087748 205.700761 70.0012857 204.687571 70.302275 203.678621 71.7478721 203.20382 73.2083069 203.659543 74.6539041 204.09619 75.6035048 205.261994 75.3025151 206.281542zM86.046947 207.473627C86.0829806 208.529209 84.8535871 209.404622 83.3316829 209.4237 81.8013 209.457614 80.563428 208.603398 80.5464708 207.564772c0-1.066181 1.20183800000001-1.93311500000002 2.7322209-1.958551C84.8005962 205.576546 86.046947 206.424403 86.046947 207.473627zM96.6021471 207.069023C96.7844366 208.099171 95.7267341 209.156872 94.215428 209.438785 92.7295577 209.710099 91.3539086 209.074206 91.1652603 208.052538 90.9808515 206.996955 92.0576306 205.939253 93.5413813 205.66582 95.054807 205.402984 96.4092596 206.021919 96.6021471 207.069023z" fill="currentcolor"></path></g></svg>
+<span class="inline align-middle">Github</span>
+</h3>
+<ul class="mt-4 space-y-4">
+<li>
+<a href="https://github.com/python-poetry/poetry" class="text-base opacity-80 hover:opacity-100">
+Project
+</a>
+</li>
+<li>
+<a href="https://github.com/python-poetry/poetry/issues" class="text-base opacity-80 hover:opacity-100">
+Issues
+</a>
+</li>
+</ul>
+</div>
+<div class="mt-12 md:mt-0">
+<h3 class="text-sm font-semibold tracking-wider uppercase opacity-60">
+Projects
+</h3>
+<ul class="mt-4 space-y-4">
+<li>
+<a href="https://github.com/python-poetry/poetry-export-plugin" class="text-base opacity-80 hover:opacity-100">
+Export plugin
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 border-t border-gray-200 pt-8 dark:border-gray-600">
+<p class="flex flex-col text-base opacity-60 md:items-center md:justify-center xl:text-center">
+<span>Copyright © 2018-2021. All Rights Reserved.</span>
+<span class="flex items-center justify-start md:justify-center">
+Powered by
+<a href="https://vercel.com/?utm_source=python-poetry&amp;utm_campaign=oss" title="Go to the Vercel website" class="vercel-footer-link"><svg viewBox="0 0 4438 1e3" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2223.75 250c-172.5.0-296.88 112.5-296.88 281.25S2066.72 812.5 2239.38 812.5c104.21.0 196.09-41.25 252.96-110.781L2372.81 632.656C2341.25 667.188 2293.28 687.344 2239.38 687.344 2164.53 687.344 2100.94 648.281 2077.34 585.781h437.82C2518.59 568.281 2520.63 550.156 2520.63 531.094 2520.63 362.5 2396.41 250 2223.75 250zM2076.09 476.562C2095.62 414.219 2149.06 375 2223.75 375 2298.59 375 2352.03 414.219 2371.41 476.562H2076.09zM2040.78 78.125l-432.97 750-433.12-750h162.34l270.63 468.75 270.62-468.75h162.5zM577.344.0 1154.69 1e3H0L577.344.0zM3148.75 531.25C3148.75 625 3210 687.5 3305 687.5 3369.38 687.5 3417.66 658.281 3442.5 610.625L3562.5 679.844C3512.81 762.656 3419.69 812.5 3305 812.5c-172.66.0-296.87-112.5-296.87-281.25S3132.5 250 3305 250c114.69.0 207.66 49.844 257.5 132.656l-120 69.219C3417.66 404.219 3369.38 375 3305 375 3210.16 375 3148.75 437.5 3148.75 531.25zM4437.5 78.125v718.75H4296.88V78.125H4437.5zM3906.25 250c-172.5.0-296.87 112.5-296.87 281.25s140 281.25 312.5 281.25c104.21.0 196.09-41.25 252.96-110.781L4055.31 632.656C4023.75 667.188 3975.78 687.344 3921.88 687.344 3847.03 687.344 3783.44 648.281 3759.84 585.781h437.82C4201.09 568.281 4203.12 550.156 4203.12 531.094 4203.12 362.5 4078.91 250 3906.25 250zM3758.59 476.562C3778.13 414.219 3831.41 375 3906.25 375s128.28 39.219 147.66 101.562H3758.59zM2961.25 265.625V417.031C2945.63 412.5 2929.06 409.375 2911.25 409.375 2820.47 409.375 2755 471.875 2755 565.625v231.25H2614.38V265.625H2755v143.75C2755 330 2847.34 265.625 2961.25 265.625z" fill="currentcolor"></path></svg>
+</a>
+</span>
+</p>
+</div>
+</div>
+</footer>
+<script type="module" src="./Repositories _ Documentation _ Poetry - Python dependency management and packaging made easy_files/app.832c9ab312fdf367c5fc9e258801465a7476c6db8a105d0192646ef055ce77e8.js.download" integrity="sha256-gyyasxL982fF/J4liAFGWnR2xtuKEF0BkmRu8FXOd+g="></script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
