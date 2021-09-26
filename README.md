@@ -1,7 +1,7 @@
 [![Documentation Status](https://readthedocs.org/projects/clickupython/badge/?version=latest)](https://clickupython.readthedocs.io/en/latest/?badge=latest)
 [![CodeFactor](https://www.codefactor.io/repository/github/imzachjohnson/clickupython/badge)](https://www.codefactor.io/repository/github/imzachjohnson/clickupython)
 [![Build Status](https://app.travis-ci.com/Imzachjohnson/clickupython.svg?branch=main)](https://app.travis-ci.com/Imzachjohnson/clickupython)
-[![Coverage Status](https://coveralls.io/repos/github/Imzachjohnson/clickupython/badge.svg?branch=dev)](https://coveralls.io/github/Imzachjohnson/clickupython?branch=dev)
+[![Coverage Status](https://coveralls.io/repos/github/Imzachjohnson/clickupython/badge.svg?branch=main)](https://coveralls.io/github/Imzachjohnson/clickupython?branch=main)
 [![Code style:black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # clickupython
