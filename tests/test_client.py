@@ -342,7 +342,36 @@ class TestSharedHierarchy:
 
     @pytest.mark.timetracking
     def test_get_single_time_entry(self):
-        c = client.ClickUpClient("pk_6341704_8OV9MRRLXIK2VO3XV3FNKKLY9IMQAXB3")
+        c = client.ClickUpClient(API_KEY)
         result = c.get_single_time_entry("18027888", "2626816009272585830")
         assert isinstance(result, models.TimeTrackingDataSingle)
         assert result.data.id == "2626816009272585830"
+
+    class TestTags:
+        @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+        @pytest.mark.tag
+        def test_get_space_tags(self):
+            c = client.ClickUpClient(API_KEY)
+            result = c.get_space_tags("space_id")
+            assert result.tags[0].name == "Tag name"
+
+        @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+        @pytest.mark.tag
+        def test_create_space_tag(self):
+            c = client.ClickUpClient(API_KEY)
+            result = c.create_space_tag("512", name="test")
+            assert result
+
+        @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+        @pytest.mark.tag
+        def test_tag_task(self):
+            c = client.ClickUpClient(API_KEY)
+            result = c.tag_task("512", "Updated Tag")
+            assert result
+
+        @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+        @pytest.mark.tag
+        def test_untag_task(self):
+            c = client.ClickUpClient(API_KEY)
+            result = c.untag_task("512", "Updated Tag")
+            assert result

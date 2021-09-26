@@ -1246,25 +1246,26 @@ class ClickUpClient:
         created_tag = self.__post_request(
             model, final_tag, None, False, space_id, "tag"
         )
+        print(created_tag)
 
-        if created_tag:
-            return models.Tags.build_tags(created_tag)
+        return True
 
-    # // TODO #34 Finalize update_tag function
+    # // TODO #34 Finalize update_tag function. API endpoint doesn't seem to do anything?
 
-    def update_tag(
-        self,
-        space_id: str,
-        name: str,
-        new_name: str,
-    ):
+    # def update_tag(
+    #     self,
+    #     space_id: str,
+    #     tag_name: str,
+    #     new_name: str,
+    # ):
 
-        final_dict = {"tag_name": new_name}
+    #     final_dict = {"tag_name": new_name}
 
-        model = "goal/"
-        updated_goal = self.__put_request(model, final_dict, name)
-        if updated_goal:
-            return models.Goals.build_goals(updated_goal)
+    #     model = "space/"
+    #     updated_tag = self.__put_request(model, None, space_id, "tag", tag_name)
+    #     if updated_tag:
+    #         return models.Tags.build_tags(updated_tag)
+    #     return None
 
     def tag_task(
         self,
@@ -1313,7 +1314,7 @@ class ClickUpClient:
         created_space = self.__post_request(
             model, final_dict, None, False, team_id, "space"
         )
-
+        print(created_space)
         if created_space:
             return models.Space.build_space(created_space)
 
