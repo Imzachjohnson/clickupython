@@ -2,6 +2,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/imzachjohnson/clickupy/badge)](https://www.codefactor.io/repository/github/imzachjohnson/clickupy)
 [![Build Status](https://app.travis-ci.com/Imzachjohnson/clickupy.svg?branch=main)](https://app.travis-ci.com/Imzachjohnson/clickupy)
 [![Coverage Status](https://coveralls.io/repos/github/Imzachjohnson/clickupy/badge.svg?branch=dev)](https://coveralls.io/github/Imzachjohnson/clickupy?branch=dev)
+[![Code style:black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # clickupy
 
