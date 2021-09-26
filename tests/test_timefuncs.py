@@ -1,7 +1,7 @@
-from clickupy.helpers import timefuncs
+from clickupython.helpers import timefuncs
 import pytest
 from datetime import datetime
-from clickupy import exceptions
+from clickupython import exceptions
 
 
 class TestTimeFuncs:

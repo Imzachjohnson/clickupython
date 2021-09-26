@@ -17,18 +17,18 @@ def _parse_requirements(filename: str) -> List[str]:
 
 
 setuptools.setup(
-    name="clickupy",
+    name="clickupython",
     author="Zach Johnson & Robert Mullis",
     author_email="imzachjohnson@gmail.com",
-    description="Clickupy: A Python client for the ClickUp API",
-    keywords="clickup, clickup api, python, clickupy",
+    description="clickupython: A Python client for the ClickUp API",
+    keywords="clickup, clickup api, python, clickupython",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Imzachjohnson/clickupy",
+    url="https://github.com/Imzachjohnson/clickupython",
     project_urls={
-        "Documentation": "https://clickupy.readthedocs.io/en/latest/",
-        "Bug Reports": "https://github.com/Imzachjohnson/clickupy/issues",
-        "Source Code": "https://github.com/Imzachjohnson/clickupy",
+        "Documentation": "https://clickupython.readthedocs.io/en/latest/",
+        "Bug Reports": "https://github.com/Imzachjohnson/clickupython/issues",
+        "Source Code": "https://github.com/Imzachjohnson/clickupython",
         # 'Funding': '',
         # 'Say Thanks!': '',
     },

@@ -16,7 +16,7 @@ install:
 script:
   - pytest 
 
-script: pytest --cov=clickupy tests/
+script: pytest --cov=clickupython tests/
 
 after_success:
   - coveralls

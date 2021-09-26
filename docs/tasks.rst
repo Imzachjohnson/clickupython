@@ -1,7 +1,7 @@
 Tasks
 ====================================
 
-.. autoclass:: clickupy.models.Task
+.. autoclass:: clickupython.models.Task
     :members:
     :undoc-members:
     :show-inheritance:
@@ -114,7 +114,7 @@ Task Methods
 
 get_tasks()
 ++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.get_tasks
+.. automethod:: clickupython.client.ClickUpClient.get_tasks
 |
 |
 
@@ -123,7 +123,7 @@ get_tasks()
    <hr>
 get_task()
 ++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.get_task
+.. automethod:: clickupython.client.ClickUpClient.get_task
 |
 
 .. raw:: html
@@ -131,7 +131,7 @@ get_task()
    <hr>
 create_task()
 ++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.create_task
+.. automethod:: clickupython.client.ClickUpClient.create_task
 |
 |
 .. raw:: html
@@ -139,7 +139,7 @@ create_task()
    <hr>
 update_task()
 ++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.update_task
+.. automethod:: clickupython.client.ClickUpClient.update_task
 |
 |
 .. raw:: html
@@ -148,7 +148,7 @@ update_task()
 
 delete_task()
 ++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.delete_task
+.. automethod:: clickupython.client.ClickUpClient.delete_task
 |
 |
 .. raw:: html
@@ -157,7 +157,7 @@ delete_task()
 
 get_task_comments()
 ++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.get_task_comments
+.. automethod:: clickupython.client.ClickUpClient.get_task_comments
 |
 |
 .. raw:: html

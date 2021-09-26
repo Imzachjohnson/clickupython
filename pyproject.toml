@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "clickupy"
+name = "clickupython"
 version = "1.0.0"
 description = "A client for working with the ClickUp API V2 in Python"
 authors = ["imzachjohnson <imzachjohnson@gmail.com>"]

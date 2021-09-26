@@ -1,7 +1,7 @@
 Lists
 ====================================
 
-.. autoclass:: clickupy.models.SingleList
+.. autoclass:: clickupython.models.SingleList
     :members:
     :undoc-members:
     :show-inheritance:
@@ -115,7 +115,7 @@ List Methods
 
 get_list()
 ++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.get_list
+.. automethod:: clickupython.client.ClickUpClient.get_list
 |
 |
 .. raw:: html
@@ -123,7 +123,7 @@ get_list()
    <hr>
 get_lists()
 ++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.get_lists
+.. automethod:: clickupython.client.ClickUpClient.get_lists
 |
 |
 .. raw:: html
@@ -131,7 +131,7 @@ get_lists()
    <hr>
 create_list()
 ++++++++++++
-.. automethod:: clickupy.client.ClickUpClient.create_list
+.. automethod:: clickupython.client.ClickUpClient.create_list
 |
 |
 .. raw:: html

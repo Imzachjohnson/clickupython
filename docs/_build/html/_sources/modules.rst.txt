@@ -1,7 +1,7 @@
-Clickupy Overview
+clickupython Overview
 ========
 
 .. toctree::
    :maxdepth: 4
 
-   clickupy
+   clickupython

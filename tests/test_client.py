@@ -1,6 +1,6 @@
 # tests/tests_clickup.py
 from unittest import mock
-from clickupy.models import (
+from clickupython.models import (
     AllLists,
     AssignedBy,
     Asssignee,
@@ -14,11 +14,11 @@ from clickupy.models import (
 )
 import pytest
 
-from clickupy import client
-from clickupy import models
+from clickupython import client
+from clickupython import models
 import os
 import sys
-from clickupy import exceptions
+from clickupython import exceptions
 
 API_KEY = "pk_6341704_8OV9MRRLXIK2VO3XV3FNKKLY9IMQAXB3"
 MOCK_API_URL = "https://private-anon-3a942619a6-clickup20.apiary-mock.com/api/v2/"
@@ -73,7 +73,7 @@ class TestClientLists:
         assert type(result) == SingleList
         assert result.id == "132237389"
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     def test_get_lists(self):
 
         c = client.ClickUpClient(API_KEY)
@@ -81,7 +81,7 @@ class TestClientLists:
 
         assert isinstance(result, models.AllLists)
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     def test_create_list(self):
 
         c = client.ClickUpClient(API_KEY)
@@ -100,7 +100,7 @@ class TestClientLists:
 
 
 class TestClientFolders:
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
     def test_get_folder(self):
 
@@ -120,7 +120,7 @@ class TestClientFolders:
         assert result.folders[0].id == "78070294"
         assert isinstance(result, models.Folders)
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
     def test_create_folder(self):
 
@@ -134,7 +134,7 @@ class TestClientFolders:
         assert result.task_count == 0
         assert isinstance(result, models.Folder)
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
     def test_update_folder(self):
 
@@ -148,7 +148,7 @@ class TestClientFolders:
         assert result.task_count == 0
         assert isinstance(result, models.Folder)
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
     def test_delete_folder(self):
 
@@ -157,7 +157,7 @@ class TestClientFolders:
 
         assert result
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
     def test_create_folderless_list(self):
 
@@ -170,7 +170,7 @@ class TestClientFolders:
         assert result.statuses[0].status == "to do"
         assert result.folder.id == "457"
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.folders
     def test_update_list(self):
 
@@ -186,7 +186,7 @@ class TestClientFolders:
         with pytest.raises(exceptions.ClickupClientError):
             t = c.update_list("789", "List Name", priority=6)
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     def test_delete_list(self):
 
         c = client.ClickUpClient(API_KEY)
@@ -195,7 +195,7 @@ class TestClientFolders:
 
 
 class TestClientTasks:
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.tasks
     def test_upload_attachment(self):
 
@@ -260,7 +260,7 @@ class TestClientTasks:
         with pytest.raises(exceptions.ClickupClientError):
             result = c.update_task("task id", priority=6)
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.tasks
     def test_add_task_to_list(self):
 
@@ -268,7 +268,7 @@ class TestClientTasks:
         result = c.add_task_to_list("1hpx6uk", "123")
         assert result
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.tasks
     def test_remove_task_from_list(self):
 
@@ -284,7 +284,7 @@ class TestClientTasks:
         assert isinstance(result, models.Task)
         assert result.name == "test task"
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.tasks
     def test_get_team_tasks(self):
 
@@ -313,14 +313,14 @@ class TestClientComments:
         for c in result:
             assert c.user.id == "6341704"
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.comments
     def test_update_comment(self):
         c = client.ClickUpClient(API_KEY)
         result = c.update_comment("1hpx6uk")
         assert result
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.comments
     def test_create_task_comment(self):
         c = client.ClickUpClient(API_KEY)
@@ -330,7 +330,7 @@ class TestClientComments:
         assert result.hist_id == "26508"
         assert result.date == "1568036964079"
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.comments
     def test_get_chat_comments(self):
         c = client.ClickUpClient(API_KEY)
@@ -383,7 +383,7 @@ class TestClientChecklists:
 
 
 class TestClientMembers:
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.members
     def test_get_task_members(self):
         c = client.ClickUpClient("apikey")
@@ -393,7 +393,7 @@ class TestClientMembers:
         assert result.members[0].id == "812"
         assert result.members[0].username == "John Doe"
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.members
     def test_get_list_members(self):
         c = client.ClickUpClient("apikey")
@@ -403,7 +403,7 @@ class TestClientMembers:
         assert result.members[0].id == "812"
         assert result.members[0].username == "John Doe"
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.members
     def test_get_list_comments(self):
         c = client.ClickUpClient("apikey")
@@ -418,7 +418,7 @@ class TestClientMembers:
 
 
 class TestClientGoals:
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.goals
     def test_create_goal(self):
         c = client.ClickUpClient("apikey")
@@ -429,7 +429,7 @@ class TestClientGoals:
         assert result.owners[0].id == "183"
         assert result.pretty_url == "https://app.clickup.com/512/goals/6"
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.goals
     def test_update_goal(self):
         c = client.ClickUpClient("apikey")
@@ -440,14 +440,14 @@ class TestClientGoals:
         assert result.owners[0].id == "182"
         assert result.pretty_url == "https://app.clickup.com/512/goals/6"
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.goals
     def test_delete_goal(self):
         c = client.ClickUpClient("apikey")
         result = c.delete_goal("12345")
         assert result
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.goals
     def test_get_goals(self):
         c = client.ClickUpClient("apikey")
@@ -456,7 +456,7 @@ class TestClientGoals:
         assert result.goals[0].owners[0].id == "182"
         assert result.folders[0].id == "05921253-7737-44af-a1aa-36fd11244e6f"
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.goals
     def test_get_goal(self):
         c = client.ClickUpClient("apikey")
@@ -466,7 +466,7 @@ class TestClientGoals:
 
 
 class TestSharedHierarchy:
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.shared
     def test_get_shared_hierarchy(self):
         c = client.ClickUpClient("apikey")
@@ -476,7 +476,7 @@ class TestSharedHierarchy:
         assert result.shared.folders[0].id == "1058"
 
     # class TestTimeTracking:
-    #     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    #     @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     #     @pytest.mark.timetracking
     #     def test_get_time_entries_in_range(self):
     #         c = client.ClickUpClient("apikey")
@@ -486,7 +486,7 @@ class TestSharedHierarchy:
     #         assert result.data[0].task.id == "1vwwavv"
     #         assert result.data[0].wid == "300702"
     #         assert result.data[0].user.username == "first_name last_name" @ mock.patch(
-    #             "clickupy.client.API_URL", MOCK_API_URL
+    #             "clickupython.client.API_URL", MOCK_API_URL
     #         )
 
     @pytest.mark.timetracking
@@ -497,28 +497,28 @@ class TestSharedHierarchy:
         assert result.data.id == "2626816009272585830"
 
     class TestTags:
-        @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+        @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
         @pytest.mark.tag
         def test_get_space_tags(self):
             c = client.ClickUpClient(API_KEY)
             result = c.get_space_tags("space_id")
             assert result.tags[0].name == "Tag name"
 
-        @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+        @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
         @pytest.mark.tag
         def test_create_space_tag(self):
             c = client.ClickUpClient(API_KEY)
             result = c.create_space_tag("512", name="test")
             assert result
 
-        @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+        @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
         @pytest.mark.tag
         def test_tag_task(self):
             c = client.ClickUpClient(API_KEY)
             result = c.tag_task("512", "Updated Tag")
             assert result
 
-        @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+        @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
         @pytest.mark.tag
         def test_untag_task(self):
             c = client.ClickUpClient(API_KEY)
@@ -527,7 +527,7 @@ class TestSharedHierarchy:
 
 
 class TestTeams:
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.tag
     def test_get_teams(self):
         c = client.ClickUpClient(API_KEY)
@@ -537,7 +537,7 @@ class TestTeams:
 
 
 class TestSpaces:
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.space
     def test_create_space(self):
 
@@ -548,14 +548,14 @@ class TestSpaces:
         assert result.features.due_dates.enabled
         assert result.statuses[0].status == "to do"
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.space
     def test_delete_space(self):
         c = client.ClickUpClient(API_KEY)
         result = c.delete_space("457")
         assert result
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.space
     def test_get_spaces(self):
         c = client.ClickUpClient(API_KEY)
@@ -565,7 +565,7 @@ class TestSpaces:
         assert result.spaces[0].features.due_dates.enabled is False
         assert result.spaces[0].features.time_tracking.enabled is False
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.space
     def test_get_space(self):
         c = client.ClickUpClient(API_KEY)
@@ -577,7 +577,7 @@ class TestSpaces:
 
 
 class TesttimeTracking:
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.space
     def test_get_time_entries_in_range(self):
         c = client.ClickUpClient(API_KEY)
@@ -592,7 +592,7 @@ class TesttimeTracking:
         assert result.data[0].user.id == "1"
         assert result.data[0].billable is False
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.space
     def test_start_timer(self):
         c = client.ClickUpClient(API_KEY)
@@ -603,7 +603,7 @@ class TesttimeTracking:
         assert result.data.user.id == "1"
         assert result.data.billable is False
 
-    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
     @pytest.mark.space
     def test_stop_timer(self):
         c = client.ClickUpClient(API_KEY)
