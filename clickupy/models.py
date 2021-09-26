@@ -596,7 +596,7 @@ class Task(BaseModel):
 
     creator: Creator = None
 
-    assignees: List[Asssignee]
+    assignees: List[Asssignee] = None
 
     task_checklists: List[Any] = Field(None, alias="checklists")
 
