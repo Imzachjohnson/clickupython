@@ -10,6 +10,7 @@ from clickupy.models import (
     SingleList,
     Task,
     Tasks,
+    SpaceFeatures,
 )
 import pytest
 
@@ -80,7 +81,6 @@ class TestClientLists:
 
         assert isinstance(result, models.AllLists)
 
-    # Work on this test
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     def test_create_list(self):
 
@@ -130,7 +130,7 @@ class TestClientFolders:
         assert result.id == "457"
         assert result.name == "New Folder Name"
         assert result.hidden == False
-        assert result.space.id == 789
+        assert result.space.id == "789"
         assert result.task_count == 0
         assert isinstance(result, models.Folder)
 
@@ -144,7 +144,7 @@ class TestClientFolders:
         assert result.id == "457"
         assert result.name == "Updated Folder Name"
         assert result.hidden == False
-        assert result.space.id == 789
+        assert result.space.id == "789"
         assert result.task_count == 0
         assert isinstance(result, models.Folder)
 
@@ -239,7 +239,9 @@ class TestClientTasks:
     def test_get_tasks(self):
 
         c = client.ClickUpClient(API_KEY)
-        result = c.get_tasks("138166377")
+        result = c.get_tasks(
+            "138166377", archived=True, assignees=["123"], due_date_gt="march 2 2021"
+        )
         assert isinstance(result, models.Tasks)
 
         with pytest.raises(exceptions.ClickupClientError):
@@ -287,7 +289,13 @@ class TestClientTasks:
     def test_get_team_tasks(self):
 
         c = client.ClickUpClient(API_KEY)
-        result = c.get_team_tasks("team id")
+        result = c.get_team_tasks(
+            "team id",
+            page=0,
+            order_by="created",
+            assignees=["123"],
+            due_date_lt="august 3 2021",
+        )
         assert isinstance(result, models.Tasks)
         assert result.tasks[0].name == "My First Task"
         assert result.tasks[0].assignees[0].username == "John Doe"
@@ -321,6 +329,14 @@ class TestClientComments:
         assert result.id == "458"
         assert result.hist_id == "26508"
         assert result.date == "1568036964079"
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.comments
+    def test_get_chat_comments(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.get_chat_comments("chat_id")
+        assert result.comments[0].id == "459"
+        assert result.comments[0].user.id == "183"
 
 
 class TestClientChecklists:
@@ -440,6 +456,14 @@ class TestClientGoals:
         assert result.goals[0].owners[0].id == "182"
         assert result.folders[0].id == "05921253-7737-44af-a1aa-36fd11244e6f"
 
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.goals
+    def test_get_goal(self):
+        c = client.ClickUpClient("apikey")
+        result = c.get_goal("team_id")
+        assert result.id == "e53a033c-900e-462d-a849-4a216b06d930"
+        assert result.owners[0].id == "182"
+
 
 class TestSharedHierarchy:
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
@@ -510,3 +534,82 @@ class TestTeams:
         result = c.get_teams()
         assert result.teams[0].id == "1234"
         assert result.teams[0].members[0].user.id == "123"
+
+
+class TestSpaces:
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_create_space(self):
+
+        features = SpaceFeatures(due_dates=True, start_date=True)
+        c = client.ClickUpClient(API_KEY)
+        result = c.create_space("457", "name", features)
+        assert result.id == "790"
+        assert result.features.due_dates.enabled
+        assert result.statuses[0].status == "to do"
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_delete_space(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.delete_space("457")
+        assert result
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_get_spaces(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.get_spaces("457", archived=True)
+        assert result.spaces[0].id == "790"
+        assert result.spaces[0].statuses[0].status == "to do"
+        assert result.spaces[0].features.due_dates.enabled is False
+        assert result.spaces[0].features.time_tracking.enabled is False
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_get_space(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.get_space("457")
+        assert result.id == "790"
+        assert result.statuses[0].status == "to do"
+        assert result.features.due_dates.enabled is False
+        assert result.features.time_tracking.enabled is False
+
+
+class TesttimeTracking:
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_get_time_entries_in_range(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.get_time_entries_in_range(
+            "457",
+            start_date="august 1 2020",
+            end_date="august 1 2021",
+            assignees=["123"],
+        )
+        assert result.data[0].id == "1963465985517105840"
+        assert result.data[0].task.id == "1vwwavv"
+        assert result.data[0].user.id == "1"
+        assert result.data[0].billable is False
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_start_timer(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.start_timer("457", "timer_id")
+        assert result
+        assert result.data.id == "timer_id"
+        assert result.data.task.id == "task_id"
+        assert result.data.user.id == "1"
+        assert result.data.billable is False
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_stop_timer(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.stop_timer("457")
+        assert result
+        assert result.data.id == "timer_id"
+        assert result.data.task.id == "task_id"
+        assert result.data.user.id == "1"
+        assert result.data.billable is False
