@@ -10,6 +10,7 @@ from clickupy.models import (
     SingleList,
     Task,
     Tasks,
+    SpaceFeatures,
 )
 import pytest
 
@@ -80,7 +81,6 @@ class TestClientLists:
 
         assert isinstance(result, models.AllLists)
 
-    # Work on this test
     @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
     def test_create_list(self):
 
@@ -510,3 +510,77 @@ class TestTeams:
         result = c.get_teams()
         assert result.teams[0].id == "1234"
         assert result.teams[0].members[0].user.id == "123"
+
+
+class TestSpaces:
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_create_space(self):
+
+        features = SpaceFeatures(due_dates=True, start_date=True)
+        c = client.ClickUpClient(API_KEY)
+        result = c.create_space("457", "name", features)
+        assert result.id == "790"
+        assert result.features.due_dates.enabled
+        assert result.statuses[0].status == "to do"
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_delete_space(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.delete_space("457")
+        assert result
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_get_spaces(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.get_spaces("457")
+        assert result.spaces[0].id == "790"
+        assert result.spaces[0].statuses[0].status == "to do"
+        assert result.spaces[0].features.due_dates.enabled is False
+        assert result.spaces[0].features.time_tracking.enabled is False
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_get_space(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.get_space("457")
+        assert result.id == "790"
+        assert result.statuses[0].status == "to do"
+        assert result.features.due_dates.enabled is False
+        assert result.features.time_tracking.enabled is False
+
+
+class TesttimeTracking:
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_get_time_entries_in_range(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.get_time_entries_in_range("457")
+        assert result.data[0].id == "1963465985517105840"
+        assert result.data[0].task.id == "1vwwavv"
+        assert result.data[0].user.id == "1"
+        assert result.data[0].billable is False
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_start_timer(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.start_timer("457", "timer_id")
+        assert result
+        assert result.data.id == "timer_id"
+        assert result.data.task.id == "task_id"
+        assert result.data.user.id == "1"
+        assert result.data.billable is False
+
+    @mock.patch("clickupy.client.API_URL", MOCK_API_URL)
+    @pytest.mark.space
+    def test_stop_timer(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.stop_timer("457")
+        assert result
+        assert result.data.id == "timer_id"
+        assert result.data.task.id == "task_id"
+        assert result.data.user.id == "1"
+        assert result.data.billable is False

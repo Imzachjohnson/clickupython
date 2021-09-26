@@ -353,6 +353,16 @@ class RemapDependenciesStatus(BaseModel):
     enabled: bool = False
 
 
+class ChecklistsStatus(BaseModel):
+
+    enabled: bool = False
+
+
+class PortfoliosStatus(BaseModel):
+
+    enabled: bool = False
+
+
 class Features(BaseModel):
 
     due_dates: DueDates = None
@@ -373,7 +383,7 @@ class Features(BaseModel):
 
     time_estimates: Optional[TimeEstimateStatus]
 
-    checklists: bool = False
+    checklists: Optional[ChecklistsStatus]
 
     custom_fields: Optional[CustomFieldsStatus]
 
@@ -381,7 +391,7 @@ class Features(BaseModel):
 
     dependency_warning: DependencyWarning = None
 
-    portfolios: bool = False
+    portfolios: Optional[PortfoliosStatus]
 
     points: Points = None
 
@@ -414,8 +424,15 @@ class Features(BaseModel):
 
     @validator("multiple_assignees", pre=True, always=True)
     def set_ma(cls, multiple_assignees):
-
         return multiple_assignees or {"enabled": False}
+
+    @validator("checklists", pre=True, always=True)
+    def set_checklists(cls, checklists):
+        return checklists or {"enabled": False}
+
+    @validator("portfolios", pre=True, always=True)
+    def set_portfolios(cls, portfolios):
+        return portfolios or {"enabled": False}
 
 
 class SpaceFeatures(BaseModel):
@@ -480,7 +497,7 @@ class SpaceFeatures(BaseModel):
 
 class Space(BaseModel):
 
-    id: Optional[int] = None
+    id: Optional[str] = None
 
     name: Optional[str] = None
 
