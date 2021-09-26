@@ -1,21 +1,21 @@
-clickupy.helpers package
+clickupython.helpers package
 ========================
 
 Submodules
 ----------
 
-clickupy.helpers.formatting module
+clickupython.helpers.formatting module
 ----------------------------------
 
-.. automodule:: clickupy.helpers.formatting
+.. automodule:: clickupython.helpers.formatting
    :members:
    :undoc-members:
    :show-inheritance:
 
-clickupy.helpers.timefuncs module
+clickupython.helpers.timefuncs module
 ---------------------------------
 
-.. automodule:: clickupy.helpers.timefuncs
+.. automodule:: clickupython.helpers.timefuncs
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ clickupy.helpers.timefuncs module
 Module contents
 ---------------
 
-.. automodule:: clickupy.helpers
+.. automodule:: clickupython.helpers
    :members:
    :undoc-members:
    :show-inheritance:

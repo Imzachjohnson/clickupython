@@ -8,10 +8,10 @@ import ntpath
 from typing import List, Optional
 
 
-from clickupy.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
-from clickupy.helpers import formatting
-from clickupy import models
-from clickupy import exceptions
+from clickupython.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
+from clickupython.helpers import formatting
+from clickupython import models
+from clickupython import exceptions
 
 
 API_URL = "https://api.clickup.com/api/v2/"

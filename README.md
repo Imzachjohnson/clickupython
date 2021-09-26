@@ -1,9 +1,10 @@
-[![Documentation Status](https://readthedocs.org/projects/clickupy/badge/?version=latest)](https://clickupy.readthedocs.io/en/latest/?badge=latest)
-[![CodeFactor](https://www.codefactor.io/repository/github/imzachjohnson/clickupy/badge)](https://www.codefactor.io/repository/github/imzachjohnson/clickupy)
-[![Build Status](https://app.travis-ci.com/Imzachjohnson/clickupy.svg?branch=main)](https://app.travis-ci.com/Imzachjohnson/clickupy)
-[![Coverage Status](https://coveralls.io/repos/github/Imzachjohnson/clickupy/badge.svg?branch=dev)](https://coveralls.io/github/Imzachjohnson/clickupy?branch=dev)
+[![Documentation Status](https://readthedocs.org/projects/clickupython/badge/?version=latest)](https://clickupython.readthedocs.io/en/latest/?badge=latest)
+[![CodeFactor](https://www.codefactor.io/repository/github/imzachjohnson/clickupython/badge)](https://www.codefactor.io/repository/github/imzachjohnson/clickupython)
+[![Build Status](https://app.travis-ci.com/Imzachjohnson/clickupython.svg?branch=main)](https://app.travis-ci.com/Imzachjohnson/clickupython)
+[![Coverage Status](https://coveralls.io/repos/github/Imzachjohnson/clickupython/badge.svg?branch=dev)](https://coveralls.io/github/Imzachjohnson/clickupython?branch=dev)
+[![Code style:black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-# clickupy
+# clickupython
 
 A client for working with the ClickUp API V2. It can be used to interact with the ClickUp API in your projects.
 
@@ -11,23 +12,23 @@ There are two ways to authenticate with ClickUp API 2.0, with a personal token o
 
 IMPORTANT - If you are creating an application for other's to use, it is highly recommended that you use the OAuth2 flow.
 
-Documentation: Full documentation and examples can be found here: [clickupy documentation](https://clickupy.readthedocs.io/en/latest/)
+Documentation: Full documentation and examples can be found here: [clickupython documentation](https://clickupython.readthedocs.io/en/latest/)
 
 ## Instructions
 
 ### 1) Installing
 
-`pip install clickupy`
+`pip install clickupython`
 
 ### 2) Library Usage
 
-Using clickupy in your application takes just a couple quick steps.
+Using clickupython in your application takes just a couple quick steps.
 
 To use the client for a personal account context (no actions on behalf of another user)
 
 ```python
 
-from clickupy import ClickUpClient
+from clickupython import ClickUpClient
 
 API_KEY = 'YOUR API KEY'
 
@@ -41,7 +42,7 @@ print(t.name)
 
 ```
 
-_For more examples, please refer to the [Documentation](https://clickupy.readthedocs.io/en/latest/)_
+_For more examples, please refer to the [Documentation](https://clickupython.readthedocs.io/en/latest/)_
 
 ## Current ClickUpClient Functions
 
