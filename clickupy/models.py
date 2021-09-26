@@ -30,12 +30,12 @@ class StatusElement(BaseModel):
 
 
 class Asssignee(BaseModel):
-    id: str
-    color: str
-    username: str
-    initials: str
+    id: str = None
+    color: str = None
+    username: str = None
+    initials: str = None
 
-    profilePicture: str
+    profilePicture: str = None
 
 
 class ListFolder(BaseModel):
@@ -218,6 +218,7 @@ class Comment(BaseModel):
 
     reactions: List[Any] = None
     date: str = None
+    hist_id: str = None
 
     def build_comment(self):
 
@@ -596,14 +597,14 @@ class Task(BaseModel):
 
     creator: Creator = None
 
-    task_assignees: List[Any] = Field(None, alias="assignees")
+    assignees: List[Asssignee] = None
 
     task_checklists: List[Any] = Field(None, alias="checklists")
 
     task_tags: List[Any] = Field(None, alias="tags")
     parent: str = None
 
-    priority: Optional[Priority]
+    priority: int = None
     due_date: str = None
     start_date: str = None
     time_estimate: str = None
@@ -810,6 +811,7 @@ class Goals(BaseModel):
 class GoalsList(BaseModel):
 
     goals: List[Goal] = None
+    folders: List[Folder] = None
 
     def __iter__(self):
 

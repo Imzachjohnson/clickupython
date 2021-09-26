@@ -120,7 +120,12 @@ class ClickUpClient:
         path = formatting.url_join(API_URL, model, *additionalpath)
         response = requests.delete(path, headers=self.__headers())
         self.request_count += 1
-        response_json = response.json()
+        try:
+            response_json = response.json()
+        except:
+            raise exceptions.ClickupClientError(
+                "Invalid Json response", response.status_code
+            )
         if response.ok:
             return response.status_code
         else:
@@ -279,8 +284,7 @@ class ClickUpClient:
         model = "list/"
         task = self.__post_request(model, None, None, False, list_id, "task", task_id)
 
-        if task:
-            return models.Task.build_task(task)
+        return True
 
     def remove_task_from_list(
         self,
@@ -298,9 +302,7 @@ class ClickUpClient:
         """
         model = "list/"
         task = self.__delete_request(model, list_id, "task", task_id)
-
-        if task:
-            return True
+        return True
 
     # Folders
 
@@ -445,7 +447,34 @@ class ClickUpClient:
         date_updated_gt: str = None,
         date_updated_lt: str = None,
     ) -> models.Tasks:
+        """Gets filtered tasks for a team.
 
+        Args:
+            :team_Id (str): The id of the team to get tasks for.
+            :page (int, optional): The starting page number. Defaults to 0.
+            :order_by (str, optional):  Order by field, defaults to "created". Options: id, created, updated, due_date.
+            :reverse (bool, optional): [description]. Defaults to False.
+            :subtasks (bool, optional): [description]. Defaults to False.
+            :space_ids (List[str], optional): [description]. Defaults to None.
+            :project_ids (List[str], optional): [description]. Defaults to None.
+            :list_ids (List[str], optional): [description]. Defaults to None.
+            :statuses (List[str], optional): [description]. Defaults to None.
+            :include_closed (bool, optional): [description]. Defaults to False.
+            :assignees (List[str], optional): [description]. Defaults to None.
+            :tags (List[str], optional): [description]. Defaults to None.
+            :due_date_gt (str, optional): [description]. Defaults to None.
+            :due_date_lt (str, optional): [description]. Defaults to None.
+            :date_created_gt (str, optional): [description]. Defaults to None.
+            :date_created_lt (str, optional): [description]. Defaults to None.
+            :date_updated_gt (str, optional): [description]. Defaults to None.
+            :date_updated_lt (str, optional): [description]. Defaults to None.
+
+        Raises:
+            exceptions.ClickupClientError: [description]
+
+        Returns:
+            models.Tasks: [description]
+        """
         if order_by not in ["id", "created", "updated", "due_date"]:
             raise exceptions.ClickupClientError(
                 "Options are: id, created, updated, due_date", "Invalid order_by value"
@@ -804,8 +833,8 @@ class ClickUpClient:
         final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
 
         updated_comment = self.__put_request(model, final_dict, comment_id)
-        if updated_comment:
-            return True
+
+        return True
 
     def delete_comment(self, comment_id: str) -> bool:
         """Deletes a comment via a given comment id.
@@ -864,7 +893,7 @@ class ClickUpClient:
         Returns:
              :models.Teams: Returns an object of type Teams.
         """
-        model = "team/"
+        model = "team"
         fetched_teams = self.__get_request(model)
         final_teams = models.Teams.build_teams(fetched_teams)
         if final_teams:
@@ -1214,25 +1243,26 @@ class ClickUpClient:
         created_tag = self.__post_request(
             model, final_tag, None, False, space_id, "tag"
         )
+        print(created_tag)
 
-        if created_tag:
-            return models.Tags.build_tags(created_tag)
+        return True
 
-    # // TODO #34 Finalize update_tag function
+    # // TODO #34 Finalize update_tag function. API endpoint doesn't seem to do anything?
 
-    def update_tag(
-        self,
-        space_id: str,
-        name: str,
-        new_name: str,
-    ):
+    # def update_tag(
+    #     self,
+    #     space_id: str,
+    #     tag_name: str,
+    #     new_name: str,
+    # ):
 
-        final_dict = {"tag_name": new_name}
+    #     final_dict = {"tag_name": new_name}
 
-        model = "goal/"
-        updated_goal = self.__put_request(model, final_dict, name)
-        if updated_goal:
-            return models.Goals.build_goals(updated_goal)
+    #     model = "space/"
+    #     updated_tag = self.__put_request(model, None, space_id, "tag", tag_name)
+    #     if updated_tag:
+    #         return models.Tags.build_tags(updated_tag)
+    #     return None
 
     def tag_task(
         self,
@@ -1281,7 +1311,7 @@ class ClickUpClient:
         created_space = self.__post_request(
             model, final_dict, None, False, team_id, "space"
         )
-
+        print(created_space)
         if created_space:
             return models.Space.build_space(created_space)
 
