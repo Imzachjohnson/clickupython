@@ -75,3 +75,5 @@ pyvenv.cfg
 Include
 Scripts
 preflight.py
+build
+.vscode
