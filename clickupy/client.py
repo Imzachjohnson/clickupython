@@ -284,8 +284,7 @@ class ClickUpClient:
         model = "list/"
         task = self.__post_request(model, None, None, False, list_id, "task", task_id)
 
-        if task:
-            return models.Task.build_task(task)
+        return True
 
     def remove_task_from_list(
         self,
@@ -304,8 +303,7 @@ class ClickUpClient:
         model = "list/"
         task = self.__delete_request(model, list_id, "task", task_id)
 
-        if task:
-            return True
+        return True
 
     # Folders
 
