@@ -41,6 +41,7 @@ setuptools.setup(
         "timefhuman==0.0.5",
         "pendulum==2.1.2",
         "typing-extensions==3.10.0.2",
+        "setuptools",
     ],
     # extras_require='requirements.txt',
     # entry_points={
