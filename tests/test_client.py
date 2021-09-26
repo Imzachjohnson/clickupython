@@ -130,7 +130,7 @@ class TestClientFolders:
         assert result.id == "457"
         assert result.name == "New Folder Name"
         assert result.hidden == False
-        assert result.space.id == 789
+        assert result.space.id == "789"
         assert result.task_count == 0
         assert isinstance(result, models.Folder)
 
@@ -144,7 +144,7 @@ class TestClientFolders:
         assert result.id == "457"
         assert result.name == "Updated Folder Name"
         assert result.hidden == False
-        assert result.space.id == 789
+        assert result.space.id == "789"
         assert result.task_count == 0
         assert isinstance(result, models.Folder)
 
