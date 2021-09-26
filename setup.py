@@ -33,7 +33,7 @@ setuptools.setup(
         # 'Say Thanks!': '',
     },
     packages=setuptools.find_packages(),
-    python_requires=">=3.9",
+    python_requires=">=3.6",
     install_requires=[
         "pydantic==1.8.2",
         "typing-extensions==3.10.0.2",
