@@ -218,6 +218,7 @@ class Comment(BaseModel):
 
     reactions: List[Any] = None
     date: str = None
+    hist_id: str = None
 
     def build_comment(self):
 
@@ -810,6 +811,7 @@ class Goals(BaseModel):
 class GoalsList(BaseModel):
 
     goals: List[Goal] = None
+    folders: List[Folder] = None
 
     def __iter__(self):
 

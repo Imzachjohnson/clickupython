@@ -302,7 +302,6 @@ class ClickUpClient:
         """
         model = "list/"
         task = self.__delete_request(model, list_id, "task", task_id)
-
         return True
 
     # Folders
@@ -834,8 +833,8 @@ class ClickUpClient:
         final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
 
         updated_comment = self.__put_request(model, final_dict, comment_id)
-        if updated_comment:
-            return True
+
+        return True
 
     def delete_comment(self, comment_id: str) -> bool:
         """Deletes a comment via a given comment id.
@@ -894,7 +893,7 @@ class ClickUpClient:
         Returns:
              :models.Teams: Returns an object of type Teams.
         """
-        model = "team/"
+        model = "team"
         fetched_teams = self.__get_request(model)
         final_teams = models.Teams.build_teams(fetched_teams)
         if final_teams:
