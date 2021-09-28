@@ -338,6 +338,16 @@ class TestClientComments:
         assert result.comments[0].id == "459"
         assert result.comments[0].user.id == "183"
 
+    @mock.patch("clickupython.client.API_URL", MOCK_API_URL)
+    @pytest.mark.comments
+    def test_create_chat_comment(self):
+        c = client.ClickUpClient(API_KEY)
+        result = c.create_chat_comment("1hpx6uk", "text")
+
+        assert result.id == "459"
+        assert result.hist_id == "0a45e16e-4e2f-4a9e-99ec-3cf520b87eae"
+        assert result.date == "1568037065216"
+
 
 class TestClientChecklists:
     @pytest.mark.checklists

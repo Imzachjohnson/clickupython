@@ -885,6 +885,40 @@ class ClickUpClient:
         if final_comment:
             return final_comment
 
+    def create_chat_comment(
+        self,
+        view_id: str,
+        comment_text: str,
+        notify_all: bool = True,
+    ) -> models.Comment:
+        """Create a comment on a chat via a given chat view id.
+
+        Args:
+            :view_id (str): The id of the chat to comment on.
+            :comment_text (str): The text of the comment.
+            :notify_all (bool, optional): Notify all valid users of the comment's creation. Defaults to True.
+
+        Returns:
+            :models.Comment: Returns an object of type Comment.
+        """
+        arguments = {}
+        arguments.update(vars())
+        arguments.pop("self", None)
+        arguments.pop("arguments", None)
+        arguments.pop("view_id", None)
+
+        model = "view/"
+
+        final_dict = json.dumps({k: v for k, v in arguments.items() if v is not None})
+
+        created_comment = self.__post_request(
+            model, final_dict, None, False, view_id, "comment"
+        )
+
+        final_comment = models.Comment.build_comment(created_comment)
+        if final_comment:
+            return final_comment
+
     # Teams
     def get_teams(self) -> models.Teams:
         """Get all teams from a workspace. Teams is the legacy term for what are now called Workspaces in ClickUp. For compatibility,
