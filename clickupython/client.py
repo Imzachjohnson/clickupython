@@ -896,7 +896,7 @@ class ClickUpClient:
         Args:
             :view_id (str): The id of the chat to comment on.
             :comment_text (str): The text of the comment.
-            :notify_all (bool, optional): Notify all valid users of the comment's creation. Defaults to True.
+            :notify_all (bool, optional): Notify all valid users of the comment's creation. Default to True.
 
         Returns:
             :models.Comment: Returns an object of type Comment.
