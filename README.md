@@ -24,14 +24,13 @@ To use the client for a personal account context (no actions on behalf of anothe
 
 ```python
 
-from clickupython import ClickUpClient
+from clickupython import client
 
 API_KEY = 'YOUR API KEY'
 
-client = ClickUpClient(API_KEY)
+c = client.ClickUpClient(API_KEY)
 
 # Example request
-c = client.ClickUpClient(API_KEY)
 t = c.create_task("list_id", name="Test task", due_date="march 2 2021")
 
 print(t.name)
