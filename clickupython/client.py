@@ -784,7 +784,7 @@ class ClickUpClient:
             :models.Comments: Returns an object of type Comments.
         """
         model = "list/"
-        fetched_comments = self.__get_request(model, list_id, "comment")
+        fetched_comments = self.__get_request(model, list_id, "comment/")
         final_comments = models.Comments.build_comments(fetched_comments)
         if final_comments:
             return final_comments
@@ -799,7 +799,8 @@ class ClickUpClient:
             :models.Comments: Returns an object of type Comments.
         """
         model = "view/"
-        fetched_comments = self.__get_request(model, view_id, "comment")
+        fetched_comments = self.__get_request(model, view_id, "comment/")
+        print(fetched_comments)
         final_comments = models.Comments.build_comments(fetched_comments)
         if final_comments:
             return final_comments

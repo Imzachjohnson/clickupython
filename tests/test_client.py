@@ -334,7 +334,7 @@ class TestClientComments:
     @pytest.mark.comments
     def test_get_chat_comments(self):
         c = client.ClickUpClient(API_KEY)
-        result = c.get_chat_comments("chat_id")
+        result = c.get_chat_comments("3c")
         assert result.comments[0].id == "459"
         assert result.comments[0].user.id == "183"
 

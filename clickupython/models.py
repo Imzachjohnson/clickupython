@@ -269,19 +269,19 @@ class DueDates(BaseModel):
 
 
 class CustomField(BaseModel):
-    id: str
-    name: str
+    id: str = None
+    name: str = None
 
-    type: str
+    type: str = None
 
-    type_config: TypeConfig
-    date_created: str
+    type_config: TypeConfig = None
+    date_created: str = None
 
-    hide_from_guests: bool
+    hide_from_guests: bool = None
 
-    value: Optional[str]
+    value: Optional[Any] = None
 
-    required: bool
+    required: bool = None
 
 
 class TimeTracking(BaseModel):
@@ -628,8 +628,7 @@ class Task(BaseModel):
 
     time_spent: Optional[str] = None
 
-    custom_fields: List[CustomField] = None
-
+    custom_fields: Optional[List[CustomField]]
     list: ClickupList = None
 
     folder: Folder = None
