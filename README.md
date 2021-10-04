@@ -31,10 +31,8 @@ API_KEY = 'YOUR API KEY'
 c = client.ClickUpClient(API_KEY)
 
 # Example request
-<<<<<<< HEAD
+
 c = client.ClickUpClient(API_KEY)
-=======
->>>>>>> c242702ce58f983c0fa42b1f24e7dcb772fe97ea
 t = c.create_task("list_id", name="Test task", due_date="march 2 2021")
 
 print(t.name)
