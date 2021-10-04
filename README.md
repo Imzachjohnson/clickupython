@@ -8,11 +8,7 @@
 
 A client for working with the ClickUp API V2. It can be used to interact with the ClickUp API in your projects.
 
-There are two ways to authenticate with ClickUp API 2.0, with a personal token or creating an application and authenticating with an OAuth2 flow.
-
-IMPORTANT - If you are creating an application for other's to use, it is highly recommended that you use the OAuth2 flow.
-
-Documentation: Full documentation and examples can be found here: [clickupython documentation](https://clickupython.readthedocs.io/en/latest/)
+Documentation (WIP) and examples can be found here: [clickupython documentation](https://clickupython.readthedocs.io/en/latest/)
 
 ## Instructions
 
@@ -28,14 +24,17 @@ To use the client for a personal account context (no actions on behalf of anothe
 
 ```python
 
-from clickupython import ClickUpClient
+from clickupython import client
 
 API_KEY = 'YOUR API KEY'
 
-client = ClickUpClient(API_KEY)
+c = client.ClickUpClient(API_KEY)
 
 # Example request
+<<<<<<< HEAD
 c = client.ClickUpClient(API_KEY)
+=======
+>>>>>>> c242702ce58f983c0fa42b1f24e7dcb772fe97ea
 t = c.create_task("list_id", name="Test task", due_date="march 2 2021")
 
 print(t.name)
