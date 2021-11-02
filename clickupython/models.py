@@ -31,11 +31,24 @@ class StatusElement(BaseModel):
 
 class Assignee(BaseModel):
     id: str = None
-    color: str = None
     username: str = None
     initials: str = None
+    email: str = None
+    color: str = None
 
     profilePicture: str = None
+
+    initials: Optional[str] = None
+
+    role: Optional[int] = None
+
+    custom_role: Optional[None] = None
+
+    last_active: Optional[str] = None
+
+    date_joined: Optional[str] = None
+
+    date_invited: Optional[str] = None
 
 
 class ListFolder(BaseModel):
