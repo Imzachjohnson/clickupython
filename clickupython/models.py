@@ -29,7 +29,7 @@ class StatusElement(BaseModel):
     type: str
 
 
-class Asssignee(BaseModel):
+class Assignee(BaseModel):
     id: str = None
     color: str = None
     username: str = None
@@ -61,7 +61,7 @@ class SingleList(BaseModel):
 
     priority: Optional[Priority] = None
 
-    assignee: Asssignee = None
+    assignee: Assignee = None
     due_date: str = None
     start_date: str = None
 
@@ -109,7 +109,7 @@ class ChecklistItem(BaseModel):
 
     orderindex: int = None
 
-    assignee: Optional[Asssignee]
+    assignee: Optional[Assignee]
 
 
 class Checklist(BaseModel):
@@ -614,7 +614,7 @@ class Task(BaseModel):
 
     creator: Creator = None
 
-    assignees: List[Asssignee] = None
+    assignees: List[Assignee] = None
 
     task_checklists: List[Any] = Field(None, alias="checklists")
 
