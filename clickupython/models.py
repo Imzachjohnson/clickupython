@@ -29,13 +29,26 @@ class StatusElement(BaseModel):
     type: str
 
 
-class Asssignee(BaseModel):
+class Assignee(BaseModel):
     id: str = None
-    color: str = None
     username: str = None
     initials: str = None
+    email: str = None
+    color: str = None
 
     profilePicture: str = None
+
+    initials: Optional[str] = None
+
+    role: Optional[int] = None
+
+    custom_role: Optional[None] = None
+
+    last_active: Optional[str] = None
+
+    date_joined: Optional[str] = None
+
+    date_invited: Optional[str] = None
 
 
 class ListFolder(BaseModel):
@@ -61,7 +74,7 @@ class SingleList(BaseModel):
 
     priority: Optional[Priority] = None
 
-    assignee: Asssignee = None
+    assignee: Assignee = None
     due_date: str = None
     start_date: str = None
 
@@ -109,7 +122,7 @@ class ChecklistItem(BaseModel):
 
     orderindex: int = None
 
-    assignee: Optional[Asssignee]
+    assignee: Optional[Assignee]
 
 
 class Checklist(BaseModel):
@@ -614,7 +627,7 @@ class Task(BaseModel):
 
     creator: Creator = None
 
-    assignees: List[Asssignee] = None
+    assignees: List[Assignee] = None
 
     task_checklists: List[Any] = Field(None, alias="checklists")
 

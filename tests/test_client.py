@@ -3,7 +3,7 @@ from unittest import mock
 from clickupython.models import (
     AllLists,
     AssignedBy,
-    Asssignee,
+    Assignee,
     Comment,
     Folders,
     Goal,
