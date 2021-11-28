@@ -148,6 +148,21 @@ class ClickUpClient:
 
         return models.SingleList.build_list(fetched_list)
 
+    
+    def get_folderless_lists(self, space_id: str) -> models.AllLists:
+        """Fetches all folderless lists from a given space id and returns a list of List objects.
+
+        Args:
+            :space_id (str): The ID of the ClickUp space to be returned.
+
+        Returns:
+            :list.AllLists: Returns a list of type AllLists.
+        """
+        model = "space/"
+        fetched_lists = self.__get_request(model, space_id, "list")
+        return models.AllLists.build_lists(fetched_lists)
+    
+    
     def get_lists(self, folder_id: str) -> models.AllLists:
         """Fetches all lists from a given folder id and returns a list of List objects.
 
