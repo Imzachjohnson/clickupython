@@ -621,7 +621,7 @@ class Task(BaseModel):
     task_tags: List[Any] = Field(None, alias="tags")
     parent: str = None
 
-    priority: int = None
+    priority: Optional[Priority] = None
     due_date: str = None
     start_date: str = None
     time_estimate: str = None
