@@ -6,7 +6,8 @@ import os
 import json
 import ntpath
 from typing import List, Optional
-
+from time import sleep
+from datetime import datetime
 
 from clickupython.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
 from clickupython.helpers import formatting
@@ -25,6 +26,10 @@ class ClickUpClient:
         default_space: str = None,
         default_list: str = None,
         default_task: str = None,
+        retry_rate_limited_requests: bool = False,
+        rate_limit_buffer_wait_time: int = 5,
+        start_rate_limit_remaining: int = 100,
+        start_rate_limit_reset: float = datetime.now().timestamp()
     ):
         self.api_url = api_url
         self.accesstoken = accesstoken
@@ -32,6 +37,23 @@ class ClickUpClient:
         self.default_space = default_space
         self.default_list = default_list
         self.default_task = default_task
+        self.rate_limit_remaining = start_rate_limit_remaining
+        self.rate_limit_reset = start_rate_limit_reset
+        self.rate_limit_buffer_wait_time = rate_limit_buffer_wait_time
+        self.retry_rate_limited_requests= retry_rate_limited_requests
+
+    def __parse_response_rate_limit_headers(self, response : requests.Response):
+        self.rate_limit_remaining = int(response.headers.get("x-ratelimit-remaining"))
+        self.rate_limit_reset = float(response.headers.get("x-ratelimit-reset"))
+
+    def __check_rate_limit(self):
+        if self.rate_limit_remaining <= 1:
+            resume_time = datetime.fromtimestamp(
+                self.rate_limit_reset + self.rate_limit_buffer_wait_time
+            )
+            seconds = (resume_time - datetime.now()).total_seconds()
+            print(f"Waiting for rate limit to reset for {seconds} seconds.")
+            sleep(seconds)
 
     # Generates headers for use in GET, POST, DELETE, PUT requests
 
@@ -54,10 +76,18 @@ class ClickUpClient:
     def __get_request(self, model, *additionalpath) -> json:
         """Performs a Get request to the ClickUp API"""
         path = formatting.url_join(API_URL, model, *additionalpath)
+
+        self.__check_rate_limit()
+
         response = requests.get(path, headers=self.__headers())
         self.request_count += 1
         response_json = response.json()
+
+        self.__parse_response_rate_limit_headers(response)
+
         if response.status_code == 429:
+            if self.retry_rate_limited_requests:
+                return self.__get_request(model, *additionalpath)
             raise exceptions.ClickupClientError(
                 "Rate limit exceeded", response.status_code
             )
