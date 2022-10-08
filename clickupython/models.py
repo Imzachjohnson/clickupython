@@ -7,7 +7,7 @@ import json
 
 class Priority(BaseModel):
 
-    priority: str
+    priority: Any
     color: str
 
 
@@ -570,7 +570,7 @@ class Folders(BaseModel):
 class Priority(BaseModel):
     id: int = None
 
-    priority: str = None
+    priority: Any = None
     color: str = None
 
     orderindex: str = None
@@ -621,7 +621,7 @@ class Task(BaseModel):
     task_tags: List[Any] = Field(None, alias="tags")
     parent: str = None
 
-    priority: Optional[Priority] = None
+    priority: Any = None
     due_date: str = None
     start_date: str = None
     time_estimate: str = None
@@ -654,7 +654,7 @@ class Task(BaseModel):
         name: str = None,
         description: str = None,
         status: str = None,
-        priority: int = None,
+        priority: Any = None,
         time_estimate: int = None,
         archived: bool = None,
         add_assignees: List[str] = None,
