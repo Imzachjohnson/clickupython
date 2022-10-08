@@ -36,7 +36,7 @@ There you will see a an API token. Copy this and save it. You will use this to a
 
 ::
 
-    $ from clickupython import ClickUpClient
+    $ from clickupython import client
 
       API_KEY = 'YOUR API KEY'
       client = ClickUpClient(API_KEY)
