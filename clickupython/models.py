@@ -245,7 +245,25 @@ class Creator(BaseModel):
     profile_picture: str = None
 
 
+class Option(BaseModel):
+
+    id: Optional[str]
+
+    name: Optional[str]
+
+    color: Optional[str]
+
+    order_index: Optional[int]
+
 class TypeConfig(BaseModel):
+
+    default: Optional[int]
+
+    placeholder: Optional[str]
+
+    new_drop_down: Optional[bool]
+
+    options: Optional[List[Option]]
 
     include_guests: Optional[bool]
 
