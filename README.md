@@ -1,3 +1,5 @@
+Update: I just want to clarify that I do not activley maintain this code and am not associated with Clickup. Things may change over time but this should cover all the main endpoints. Feel free to clone and change this code in any way, shape or form.
+
 [![Documentation Status](https://readthedocs.org/projects/clickupython/badge/?version=latest)](https://clickupython.readthedocs.io/en/latest/?badge=latest)
 [![CodeFactor](https://www.codefactor.io/repository/github/imzachjohnson/clickupython/badge)](https://www.codefactor.io/repository/github/imzachjohnson/clickupython)
 [![Build Status](https://app.travis-ci.com/Imzachjohnson/clickupython.svg?branch=main)](https://app.travis-ci.com/Imzachjohnson/clickupython)
