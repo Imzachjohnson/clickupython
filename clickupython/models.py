@@ -6,7 +6,6 @@ import json
 
 
 class Priority(BaseModel):
-
     priority: Any
     color: str
 
@@ -19,7 +18,6 @@ class Status(BaseModel):
 
 
 class StatusElement(BaseModel):
-
     id: Optional[str]
     status: str
 
@@ -88,18 +86,15 @@ class SingleList(BaseModel):
     # return a single list
 
     def build_list(self):
-
         return SingleList(**self)
 
 
 class AllLists(BaseModel):
-
     lists: List[SingleList] = None
 
     # return a list of lists
 
     def build_lists(self):
-
         return AllLists(**self)
 
 
@@ -113,7 +108,6 @@ class ChecklistItem(BaseModel):
 
 
 class Checklist(BaseModel):
-
     id: Optional[str]
 
     task_id: str = None
@@ -128,25 +122,21 @@ class Checklist(BaseModel):
     items: List[ChecklistItem] = None
 
     def add_item(self, client_instance, name: str, assignee: str = None):
-
         return client_instance.create_checklist_item(
             self.id, name=name, assignee=assignee
         )
 
 
 class Checklists(BaseModel):
-
     checklist: Checklist
 
     def build_checklist(self):
-
         final_checklist = Checklists(**self)
 
         return final_checklist.checklist
 
 
 class Attachment(BaseModel):
-
     id: str
 
     version: int
@@ -161,7 +151,6 @@ class Attachment(BaseModel):
     url: str
 
     def build_attachment(self):
-
         return Attachment(**self)
 
 
@@ -197,7 +186,6 @@ class AssignedBy(BaseModel):
 
 
 class CommentComment(BaseModel):
-
     text: str = None
 
 
@@ -221,20 +209,16 @@ class Comment(BaseModel):
     hist_id: str = None
 
     def build_comment(self):
-
         return Comment(**self)
 
 
 class Comments(BaseModel):
-
     comments: List[Comment] = None
 
     def __iter__(self):
-
         return iter(self.comments)
 
     def build_comments(self):
-
         return Comments(**self)
 
 
@@ -246,7 +230,6 @@ class Creator(BaseModel):
 
 
 class Option(BaseModel):
-
     id: Optional[str]
 
     name: Optional[str]
@@ -255,8 +238,8 @@ class Option(BaseModel):
 
     order_index: Optional[int]
 
-class TypeConfig(BaseModel):
 
+class TypeConfig(BaseModel):
     default: Optional[int]
 
     placeholder: Optional[str]
@@ -271,12 +254,10 @@ class TypeConfig(BaseModel):
 
 
 class CustomItems:
-
     enabled: bool = None
 
 
 class DueDates(BaseModel):
-
     enabled: bool = None
 
     start_date: bool = None
@@ -303,7 +284,6 @@ class CustomField(BaseModel):
 
 
 class TimeTracking(BaseModel):
-
     enabled: bool = False
 
     harvest: bool = False
@@ -312,77 +292,62 @@ class TimeTracking(BaseModel):
 
 
 class Sprints(BaseModel):
-
     enabled: bool = False
 
 
 class Points(BaseModel):
-
     enabled: bool = False
 
 
 class Zoom(BaseModel):
-
     enabled: bool = False
 
 
 class Milestones(BaseModel):
-
     enabled: bool = False
 
 
 class Emails(BaseModel):
-
     enabled: bool = False
 
 
 class CustomItems(BaseModel):
-
     enabled: bool = False
 
 
 class MultipleAssignees(BaseModel):
-
     enabled: bool = False
 
 
 class TagsStatus(BaseModel):
-
     enabled: bool = False
 
 
 class CustomFieldsStatus(BaseModel):
-
     enabled: bool = False
 
 
 class DependencyWarning(BaseModel):
-
     enabled: bool = False
 
 
 class TimeEstimateStatus(BaseModel):
-
     enabled: bool = False
 
 
 class RemapDependenciesStatus(BaseModel):
-
     enabled: bool = False
 
 
 class ChecklistsStatus(BaseModel):
-
     enabled: bool = False
 
 
 class PortfoliosStatus(BaseModel):
-
     enabled: bool = False
 
 
 class Features(BaseModel):
-
     due_dates: DueDates = None
 
     multiple_assignees: MultipleAssignees = None
@@ -422,22 +387,18 @@ class Features(BaseModel):
     emails: Emails = None
 
     class Config:
-
         validate_assignment = True
 
     @validator("time_tracking", pre=True, always=True)
     def set_tt(cls, time_tracking):
-
         return time_tracking or {"enabled": False}
 
     @validator("custom_fields", pre=True, always=True)
     def set_cf(cls, custom_fields):
-
         return custom_fields or {"enabled": False}
 
     @validator("tags", pre=True, always=True)
     def set_tags(cls, tags):
-
         return tags or {"enabled": False}
 
     @validator("multiple_assignees", pre=True, always=True)
@@ -454,7 +415,6 @@ class Features(BaseModel):
 
 
 class SpaceFeatures(BaseModel):
-
     due_dates: bool = False
 
     multiple_assignees: bool = False
@@ -493,7 +453,6 @@ class SpaceFeatures(BaseModel):
 
     @property
     def all_features(self):
-
         return {
             "due_dates": {
                 "enabled": self.due_dates,
@@ -514,7 +473,6 @@ class SpaceFeatures(BaseModel):
 
 
 class Space(BaseModel):
-
     id: Optional[str] = None
 
     name: Optional[str] = None
@@ -532,20 +490,16 @@ class Space(BaseModel):
     archived: Optional[bool] = None
 
     def build_space(self):
-
         return Space(**self)
 
 
 class Spaces(BaseModel):
-
     spaces: List[Space] = None
 
     def __iter__(self):
-
         return iter(self.spaces)
 
     def build_spaces(self):
-
         return Spaces(**self)
 
 
@@ -566,22 +520,18 @@ class Folder(BaseModel):
     lists: List[SingleList] = []
 
     def build_folder(self):
-
         return Folder(**self)
 
     def delete(self, client_instance):
-
         model = "folder/"
 
         deleted_folder_status = client_instance._delete_request(model, self.id)
 
 
 class Folders(BaseModel):
-
     folders: List[Folder] = None
 
     def build_folders(self):
-
         return Folders(**self)
 
 
@@ -595,7 +545,6 @@ class Priority(BaseModel):
 
 
 class Status(BaseModel):
-
     id: Optional[str] = None
     status: str = None
     color: str = None
@@ -615,55 +564,51 @@ class ClickupList(BaseModel):
 
 
 class Task(BaseModel):
+    id: Optional[str] = None
+    custom_id: Optional[str] = None
+    name: Optional[str] = None
 
-    id: str = None
-    custom_id: str = None
-    name: str = None
+    text_content: Optional[str] = None
+    description: Optional[str] = None
 
-    text_content: str = None
-    description: str = None
+    status: Optional[Status] = None
 
-    status: Status = None
+    orderindex: Optional[str] = None
+    date_created: Optional[str] = None
+    date_updated: Optional[str] = None
+    date_closed: Optional[str] = None
 
-    orderindex: str = None
-    date_created: str = None
-    date_updated: str = None
-    date_closed: str = None
+    creator: Optional[Creator] = None
 
-    creator: Creator = None
+    assignees: Optional[List[Asssignee]] = None
 
-    assignees: List[Asssignee] = None
+    task_checklists: Optional[List[Any]] = Field(None, alias="checklists")
 
-    task_checklists: List[Any] = Field(None, alias="checklists")
+    task_tags: Optional[List[Any]] = Field(None, alias="tags")
+    parent: Optional[str] = None
 
-    task_tags: List[Any] = Field(None, alias="tags")
-    parent: str = None
-
-    priority: Any = None
-    due_date: str = None
-    start_date: str = None
-    time_estimate: str = None
+    priority: Optional[Any] = None
+    due_date: Optional[str] = None
+    start_date: Optional[str] = None
+    time_estimate: Optional[str] = None
 
     time_spent: Optional[str] = None
 
-    custom_fields: Optional[List[CustomField]]
-    list: ClickupList = None
+    custom_fields: Optional[List[CustomField]] = None
+    list: Optional[ClickupList] = None
 
-    folder: Folder = None
+    folder: Optional[Folder] = None
 
-    space: Folder = None
-    url: str = ""
+    space: Optional[Folder] = None
+    url: Optional[str] = ""
 
     def build_task(self):
-
         return Task(**self)
 
     def delete(self):
-
         client.ClickUpClient.delete_task(self, self.id)
 
     def upload_attachment(self, client_instance, file_path: str):
-
         return client_instance.upload_attachment(self.id, file_path)
 
     def update(
@@ -678,7 +623,6 @@ class Task(BaseModel):
         add_assignees: List[str] = None,
         remove_assignees: List[int] = None,
     ):
-
         return client_instance.update_task(
             self.id,
             name,
@@ -698,26 +642,21 @@ class Task(BaseModel):
         assignee: str = None,
         notify_all: bool = True,
     ):
-
         return client_instance.create_task_comment(
             self.id, comment_text, assignee, notify_all
         )
 
     def get_comments(self, client_instance):
-
         return client_instance.get_task_comments(self.id)
 
 
 class Tasks(BaseModel):
-
     tasks: List[Task] = None
 
     def __iter__(self):
-
         return iter(self.tasks)
 
     def build_tasks(self):
-
         return Tasks(**self)
 
 
@@ -753,22 +692,18 @@ class InvitedBy(BaseModel):
 
 
 class Member(BaseModel):
-
     user: User
 
     invited_by: Optional[InvitedBy] = None
 
 
 class Members(BaseModel):
-
     members: List[User] = None
 
     def __iter__(self):
-
         return iter(self.members)
 
     def build_members(self):
-
         return Members(**self)
 
 
@@ -783,15 +718,12 @@ class Team(BaseModel):
 
 
 class Teams(BaseModel):
-
     teams: List[Team] = None
 
     def __iter__(self):
-
         return iter(self.teams)
 
     def build_teams(self):
-
         return Teams(**self)
 
 
@@ -827,32 +759,26 @@ class Goal(BaseModel):
     pretty_url: str = None
 
     def build_goal(self):
-
         return Goal(**self)
 
 
 class Goals(BaseModel):
-
     goal: Goal
 
     def build_goals(self):
-
         built_goal = Goals(**self)
 
         return built_goal.goal
 
 
 class GoalsList(BaseModel):
-
     goals: List[Goal] = None
     folders: List[Folder] = None
 
     def __iter__(self):
-
         return iter(self.goals)
 
     def build_goals(self):
-
         return GoalsList(**self)
 
 
@@ -864,25 +790,20 @@ class Tag(BaseModel):
     tag_bg: str = None
 
     def build_tag(self):
-
         return Tag(**self)
 
 
 class Tags(BaseModel):
-
     tags: List[Tag] = None
 
     def __iter__(self):
-
         return iter(self.tags)
 
     def build_tags(self):
-
         return Tags(**self)
 
 
 class Shared(BaseModel):
-
     tasks: Optional[List[Tasks]]
 
     lists: Optional[List[SingleList]]
