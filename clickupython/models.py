@@ -145,9 +145,9 @@ class Attachment(BaseModel):
 
     extension: str
 
-    thumbnail_small: str
+    thumbnail_small: Optional[str] = ""
 
-    thumbnail_large: str
+    thumbnail_large: Optional[str] = ""
     url: str
 
     def build_attachment(self):
